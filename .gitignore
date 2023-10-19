@@ -1,0 +1,10 @@
+/target
+!target/.gitkeep
+/vendor
+/vendor.orig
+.idea
+.cache/*
+!.cache/.gitkeep
+/tools
+.phpactor.json
+composer.lock

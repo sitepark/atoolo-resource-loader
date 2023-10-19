@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd"
+		colors="true"
+		bootstrap="vendor/autoload.php"
+		executionOrder="random"
+		cacheResultFile=".cache/.phpunit.result.cache"
+		cacheDirectory=".cache/.phpunit.cache">
+
+	<coverage>
+		<report>
+			<clover outputFile="target/clover/clover.xml"/>
+			<html outputDirectory="target/clover"/>
+		</report>
+	</coverage>
+
+	<testsuite name="atoolo-resource-loader">
+		<directory>test/</directory>
+	</testsuite>
+
+	<php>
+		<server name="APP_ENV" value="test"/>
+		<server name="TEST_BASEDIR" value="./"/>
+		<ini name="memory_limit" value="512M"/>
+	</php>
+
+	<logging>
+		<junit outputFile="target/surefire-reports/surefire-report.xml"/>
+	</logging>
+
+	<source>
+		<include>
+			<directory>src/</directory>
+		</include>
+	</source>
+</phpunit>
