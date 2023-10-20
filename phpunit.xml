@@ -4,13 +4,13 @@
 		colors="true"
 		bootstrap="vendor/autoload.php"
 		executionOrder="random"
-		cacheResultFile=".cache/.phpunit.result.cache"
-		cacheDirectory=".cache/.phpunit.cache">
+		cacheResultFile="var/cache/.phpunit.result.cache"
+		cacheDirectory="var/cache/.phpunit.cache">
 
 	<coverage>
 		<report>
-			<clover outputFile="target/clover/clover.xml"/>
-			<html outputDirectory="target/clover"/>
+			<clover outputFile="var/log/clover/clover.xml"/>
+			<html outputDirectory="var/log/clover"/>
 		</report>
 	</coverage>
 
@@ -25,7 +25,7 @@
 	</php>
 
 	<logging>
-		<junit outputFile="target/surefire-reports/surefire-report.xml"/>
+		<junit outputFile="var/log/surefire-reports/surefire-report.xml"/>
 	</logging>
 
 	<source>

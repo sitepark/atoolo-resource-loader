@@ -6,9 +6,9 @@
 		]
 	},
 	"logs": {
-		"text": "target/infection.log"
+		"text": "var/log/infection.log"
 	},
-	"tmpDir": ".cache",
+	"tmpDir": "var/cache",
 	"phpUnit": {
 		"customPath": "./tools/phpunit.phar"
 	},

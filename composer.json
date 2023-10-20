@@ -52,7 +52,7 @@
             "@report:phpstan"
         ],
         "report:phpcs": "./vendor/bin/phpcs || exit 0",
-        "report:phpstan": "./tools/phpstan analyse --no-progress --no-ansi --no-interaction --error-format=checkstyle > ./target/phpstan-report.xml || exit 0",
+        "report:phpstan": "./tools/phpstan analyse --no-progress --no-ansi --no-interaction --error-format=checkstyle > ./var/log/phpstan-report.xml || exit 0",
         "test": [
             "@test:phpunit"
         ],
