@@ -22,5 +22,20 @@ class ResourceTest extends TestCase
             $resource->getLocation(),
             'unexpected location'
         );
+        $this->assertEquals(
+            '123',
+            $resource->getId(),
+            'unexpected id'
+        );
+        $this->assertEquals(
+            'Content-Page',
+            $resource->getName(),
+            'unexpected name'
+        );
+        $this->assertEquals(
+            'content',
+            $resource->getObjectType(),
+            'unexpected content'
+        );
     }
 }
