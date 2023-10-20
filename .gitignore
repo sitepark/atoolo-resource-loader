@@ -5,6 +5,10 @@
 .idea
 .cache/*
 !.cache/.gitkeep
+/var/cache/*
+!var/cache/.gitkeep
+/var/log/*
+!var/log/.gitkeep
 /tools
 .phpactor.json
 composer.lock
