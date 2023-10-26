@@ -1,4 +1,5 @@
 <?php
+
 /* Bootstrap */
 if (!isset($context)) {
         $context = include(__DIR__ . '/./WEB-IES/sitekit-module/php/bootstrapper.php');
@@ -23,19 +24,28 @@ $resource = $lifecycle->init([
         "name" => "Startseite",
         "anchor" => "internetwebsite.home",
 ]);
-if ($lifecycle->finish($resource)) { return $resource; }
+if ($lifecycle->finish($resource)) {
+    return $resource;
+}
 
-if ($lifecycle->process("base", $resource)) { $resource->process("base", [
+if ($lifecycle->process("base", $resource)) {
+    $resource->process("base", [
         "date" => 1571988240
-]); }
+    ]);
+}
 
-if ($lifecycle->finish($resource)) { return $resource; }
+if ($lifecycle->finish($resource)) {
+    return $resource;
+}
 
-if ($lifecycle->process("metadata", $resource)) { $resource->process("metadata", [
+if ($lifecycle->process("metadata", $resource)) {
+    $resource->process("metadata", [
         "description" => "Der neue Webauftritt mit aktuellen Informationen."
-]); }
+    ]);
+}
 
-if ($lifecycle->process("content", $resource)) { $resource->process("content", [
+if ($lifecycle->process("content", $resource)) {
+    $resource->process("content", [
         "type" => "ROOT",
         "id" => "ROOT",
         "items" => [[
@@ -44,7 +54,10 @@ if ($lifecycle->process("content", $resource)) { $resource->process("content", [
                 "items" => [[
                 ]]
         ]]
-]); }
-if ($lifecycle->finish($resource)) { return $resource; }
+    ]);
+}
+if ($lifecycle->finish($resource)) {
+    return $resource;
+}
 
 return $lifecycle->service($resource);

@@ -1,4 +1,5 @@
 <?php
+
 /* Bootstrap */
 if (!isset($context)) {
         $context = include(__DIR__ . '/./WEB-IES/sitekit-module/php/bootstrapper.php');
