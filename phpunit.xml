@@ -14,7 +14,7 @@
 		</report>
 	</coverage>
 
-	<testsuite name="atoolo-resource-loader">
+	<testsuite name="atoolo-resource">
 		<directory>test/</directory>
 	</testsuite>
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\ResourceLoader;
+namespace Atoolo\Resource;
 
 interface ResourceLoader
 {
