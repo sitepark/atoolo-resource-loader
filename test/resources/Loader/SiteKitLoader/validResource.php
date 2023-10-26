@@ -2,7 +2,10 @@
 
 /* Bootstrap */
 if (!isset($context)) {
-        $context = include(__DIR__ . '/./WEB-IES/sitekit-module/php/bootstrapper.php');
+        $context = include(
+            __DIR__ .
+            '/./WEB-IES/sitekit-module/php/bootstrapper.php'
+        );
 }
 if (!isset($lifecycle)) {
         $lifecycle = $context->getAttribute('lifecycle');
