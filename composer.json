@@ -1,6 +1,6 @@
 {
-    "name": "atoolo/resource-loader",
-    "description": "Loading of pre-produced data",
+    "name": "atoolo/resource",
+    "description": "Handle pre-produced data",
     "license": "MIT",
     "type": "library",
     "authors": [{
@@ -9,12 +9,12 @@
     }],
     "autoload": {
         "psr-4": {
-            "Atoolo\\ResourceLoader\\": "src"
+            "Atoolo\\Resource\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Atoolo\\ResourceLoader\\Test\\": "test"
+            "Atoolo\\Resource\\Test\\": "test"
         }
     },
     "minimum-stability": "dev",
