@@ -72,13 +72,13 @@ class SiteKitLoader implements ResourceLoader
     {
         $init = $data['init'];
 
-        if (!isset($init['id'])) {
+        if (!isset($init['id'])) { // @phpstan-ignore-line
             throw new InvalidResource($location, 'id field missing');
         }
-        if (!isset($init['name'])) {
+        if (!isset($init['name'])) { // @phpstan-ignore-line
             throw new InvalidResource($location, 'name field missing');
         }
-        if (!isset($init['objectType'])) {
+        if (!isset($init['objectType'])) { // @phpstan-ignore-line
             throw new InvalidResource($location, 'objectType field missing');
         }
     }
