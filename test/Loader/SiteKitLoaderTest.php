@@ -60,6 +60,12 @@ class SiteKitLoaderTest extends TestCase
         $this->loader->load('initNotAnArrayResource.php');
     }
 
+    public function testLoadWithNonIntId(): void
+    {
+        $this->expectException(InvalidResource::class);
+        $this->loader->load('nonIntIdResource.php');
+    }
+
     public function testLoadWithMissingId(): void
     {
         $this->expectException(InvalidResource::class);
@@ -72,9 +78,21 @@ class SiteKitLoaderTest extends TestCase
         $this->loader->load('missingNameResource.php');
     }
 
+    public function testLoadWithNonStringName(): void
+    {
+        $this->expectException(InvalidResource::class);
+        $this->loader->load('nonStringNameResource.php');
+    }
+
     public function testLoadWithMissingObjectType(): void
     {
         $this->expectException(InvalidResource::class);
         $this->loader->load('missingObjectTypeResource.php');
+    }
+
+    public function testLoadWithNonStringObjectType(): void
+    {
+        $this->expectException(InvalidResource::class);
+        $this->loader->load('nonStringObjectTypeResource.php');
     }
 }

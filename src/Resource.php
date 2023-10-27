@@ -42,6 +42,23 @@ class Resource
         return $this->objectType;
     }
 
+    /**
+     * @param string $name Name of the value that can be returned from the
+     * data object. The name can contain dots (`.`) in case of a nested
+     * structure and define the corresponding levels.
+     *
+     * Example:
+     * [
+     *   'foo' : [
+     *     'bar' : 'value'
+     *   ]
+     * ]
+     *
+     * For the above structure, `value` can be retrieved using the following
+     * `$name`: `boo.bar`
+     *
+     * @return mixed
+     */
     public function getData(string $name): mixed
     {
         return $this->findData($this->data, $name);
