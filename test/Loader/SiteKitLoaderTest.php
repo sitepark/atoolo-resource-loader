@@ -42,6 +42,24 @@ class SiteKitLoaderTest extends TestCase
         $this->loader->load('compileError.php');
     }
 
+    public function testLoadResourceWithCommonError(): void
+    {
+        $this->expectException(InvalidResource::class);
+        $this->loader->load('commonError.php');
+    }
+
+    public function testLoadWithMissingInit(): void
+    {
+        $this->expectException(InvalidResource::class);
+        $this->loader->load('missingInitResource.php');
+    }
+
+    public function testLoadWithInitNotAnArray(): void
+    {
+        $this->expectException(InvalidResource::class);
+        $this->loader->load('initNotAnArrayResource.php');
+    }
+
     public function testLoadWithMissingId(): void
     {
         $this->expectException(InvalidResource::class);

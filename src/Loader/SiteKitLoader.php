@@ -71,9 +71,6 @@ class SiteKitLoader implements ResourceLoader
     private function validateData(string $location, array $data): void
     {
         $init = $data['init'];
-        if (!is_array($init)) {
-            throw new InvalidResource($location, 'missing init array');
-        }
 
         if (!isset($init['id'])) {
             throw new InvalidResource($location, 'id field missing');
