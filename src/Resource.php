@@ -4,8 +4,15 @@ declare(strict_types=1);
 
 namespace Atoolo\Resource;
 
+/**
+ * In the Atoolo context, resources are aggregated data from
+ * IES (Sitepark's content management system).
+ */
 class Resource
 {
+    /**
+     * @param array<string, mixed> $data
+     */
     public function __construct(
         private readonly string $location,
         private readonly string $id,
@@ -40,11 +47,14 @@ class Resource
         return $this->findData($this->data, $name);
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     private function findData(array $data, string $name): mixed
     {
         $names = explode('.', $name);
         foreach ($names as $n) {
-            if (isset($data[$n])) {
+            if (is_array($data) && isset($data[$n])) {
                 $data = $data[$n];
             } else {
                 return null;

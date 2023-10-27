@@ -11,13 +11,13 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(Resource::class)]
 class ResourceTest extends TestCase
 {
-    public function testConstructor(): void
+    public function testGetLocation(): void
     {
         $resource = new Resource(
             'path',
-            '123',
-            'Content-Page',
-            'content',
+            '',
+            '',
+            '',
             []
         );
         $this->assertEquals(
@@ -25,15 +25,48 @@ class ResourceTest extends TestCase
             $resource->getLocation(),
             'unexpected location'
         );
+    }
+
+    public function testGetId(): void
+    {
+        $resource = new Resource(
+            '',
+            '123',
+            '',
+            '',
+            []
+        );
         $this->assertEquals(
             '123',
             $resource->getId(),
             'unexpected id'
         );
+    }
+
+    public function testGetName(): void
+    {
+        $resource = new Resource(
+            '',
+            '',
+            'Content-Page',
+            '',
+            []
+        );
         $this->assertEquals(
             'Content-Page',
             $resource->getName(),
             'unexpected name'
+        );
+    }
+
+    public function testGetObjectType(): void
+    {
+        $resource = new Resource(
+            '',
+            '',
+            '',
+            'content',
+            []
         );
         $this->assertEquals(
             'content',

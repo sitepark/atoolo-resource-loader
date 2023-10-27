@@ -2,7 +2,8 @@
 
 namespace Atoolo\Resource\Test\Loader;
 
-use Atoolo\Resource\Exceptions\InvalidData;
+use Atoolo\Resource\Exceptions\InvalidResource;
+use Atoolo\Resource\Exceptions\ResourceNotFound;
 use Atoolo\Resource\Loader\SiteKitLoader;
 use Atoolo\Resource\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -19,7 +20,7 @@ class SiteKitLoaderTest extends TestCase
         $this->loader = new SiteKitLoader($base);
     }
 
-    public function testLoad(): void
+    public function testLoadValidResource(): void
     {
         $resource = $this->loader->load('validResource.php');
         $this->assertEquals(
@@ -29,21 +30,33 @@ class SiteKitLoaderTest extends TestCase
         );
     }
 
+    public function testLoadMissingLocation(): void
+    {
+        $this->expectException(ResourceNotFound::class);
+        $this->loader->load('notfound.php');
+    }
+
+    public function testLoadResourceWithCompileError(): void
+    {
+        $this->expectException(InvalidResource::class);
+        $this->loader->load('compileError.php');
+    }
+
     public function testLoadWithMissingId(): void
     {
-        $this->expectException(InvalidData::class);
+        $this->expectException(InvalidResource::class);
         $this->loader->load('missingIdResource.php');
     }
 
     public function testLoadWithMissingName(): void
     {
-        $this->expectException(InvalidData::class);
+        $this->expectException(InvalidResource::class);
         $this->loader->load('missingNameResource.php');
     }
 
     public function testLoadWithMissingObjectType(): void
     {
-        $this->expectException(InvalidData::class);
+        $this->expectException(InvalidResource::class);
         $this->loader->load('missingObjectTypeResource.php');
     }
 }
