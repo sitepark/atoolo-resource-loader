@@ -43,21 +43,26 @@ class Resource
     }
 
     /**
-     * @param string $name Name of the value that can be returned from the
-     * data object. The name can contain dots (`.`) in case of a nested
-     * structure and define the corresponding levels.
+     * Retrieves a value from this data structure by name.
+     *  The name can contain dots (`.`) in case of a nested structure and define
+     *  the corresponding levels.
      *
-     * Example:
-     * [
-     *   'foo' : [
-     *     'bar' : 'value'
-     *   ]
-     * ]
+     *  Example:
+     *  <pre>
+     *  [
+     *    'foo': [
+     *      'bar': 'value'
+     *    ]
+     *  ]
+     *  </pre>
      *
-     * For the above structure, `value` can be retrieved using the following
-     * `$name`: `boo.bar`
+     *  For the above structure, `value` can be retrieved using the following
+     *  `$name`: `'foo.bar'`
      *
-     * @return mixed
+     *  If the `$name` cannot be resolved to an existing value `null` is
+     *  returned instead.
+     *
+     * @param string $name name of the value to return from the data object
      */
     public function getData(string $name): mixed
     {
