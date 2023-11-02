@@ -2,8 +2,8 @@
 
 namespace Atoolo\Resource\Test\Loader;
 
-use Atoolo\Resource\Exceptions\InvalidResource;
-use Atoolo\Resource\Exceptions\ResourceNotFound;
+use Atoolo\Resource\Exception\InvalidResourceException;
+use Atoolo\Resource\Exception\ResourceNotFoundException;
 use Atoolo\Resource\Loader\SiteKitLoader;
 use Atoolo\Resource\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -32,67 +32,67 @@ class SiteKitLoaderTest extends TestCase
 
     public function testLoadMissingLocation(): void
     {
-        $this->expectException(ResourceNotFound::class);
+        $this->expectException(ResourceNotFoundException::class);
         $this->loader->load('notfound.php');
     }
 
     public function testLoadResourceWithCompileError(): void
     {
-        $this->expectException(InvalidResource::class);
+        $this->expectException(InvalidResourceException::class);
         $this->loader->load('compileError.php');
     }
 
     public function testLoadResourceWithCommonError(): void
     {
-        $this->expectException(InvalidResource::class);
+        $this->expectException(InvalidResourceException::class);
         $this->loader->load('commonError.php');
     }
 
     public function testLoadWithMissingInit(): void
     {
-        $this->expectException(InvalidResource::class);
+        $this->expectException(InvalidResourceException::class);
         $this->loader->load('missingInitResource.php');
     }
 
     public function testLoadWithInitNotAnArray(): void
     {
-        $this->expectException(InvalidResource::class);
+        $this->expectException(InvalidResourceException::class);
         $this->loader->load('initNotAnArrayResource.php');
     }
 
     public function testLoadWithNonIntId(): void
     {
-        $this->expectException(InvalidResource::class);
+        $this->expectException(InvalidResourceException::class);
         $this->loader->load('nonIntIdResource.php');
     }
 
     public function testLoadWithMissingId(): void
     {
-        $this->expectException(InvalidResource::class);
+        $this->expectException(InvalidResourceException::class);
         $this->loader->load('missingIdResource.php');
     }
 
     public function testLoadWithMissingName(): void
     {
-        $this->expectException(InvalidResource::class);
+        $this->expectException(InvalidResourceException::class);
         $this->loader->load('missingNameResource.php');
     }
 
     public function testLoadWithNonStringName(): void
     {
-        $this->expectException(InvalidResource::class);
+        $this->expectException(InvalidResourceException::class);
         $this->loader->load('nonStringNameResource.php');
     }
 
     public function testLoadWithMissingObjectType(): void
     {
-        $this->expectException(InvalidResource::class);
+        $this->expectException(InvalidResourceException::class);
         $this->loader->load('missingObjectTypeResource.php');
     }
 
     public function testLoadWithNonStringObjectType(): void
     {
-        $this->expectException(InvalidResource::class);
+        $this->expectException(InvalidResourceException::class);
         $this->loader->load('nonStringObjectTypeResource.php');
     }
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Atoolo\Resource\Loader;
 
-use Atoolo\Resource\Exceptions\InvalidResource;
-use Atoolo\Resource\Exceptions\ResourceNotFound;
+use Atoolo\Resource\Exception\InvalidResourceException;
+use Atoolo\Resource\Exception\ResourceNotFoundException;
 use Atoolo\Resource\Loader\SiteKit\ContextStub;
 use Atoolo\Resource\Loader\SiteKit\LifecylceStub;
 use Atoolo\Resource\Resource;
@@ -24,8 +24,8 @@ class SiteKitLoader implements ResourceLoader
     }
 
     /**
-     * @throws InvalidResource
-     * @throws ResourceNotFound
+     * @throws InvalidResourceException
+     * @throws ResourceNotFoundException
      */
     public function load(string $location): Resource
     {
@@ -65,12 +65,27 @@ class SiteKitLoader implements ResourceLoader
             error_reporting(E_ERROR | E_PARSE);
             return require $file;
         } catch (\ParseError $e) {
-            throw new InvalidResource($location, $e->getMessage(), 0, $e);
+            throw new InvalidResourceException(
+                $location,
+                $e->getMessage(),
+                0,
+                $e
+            );
         } catch (\Error $e) {
             if (!file_exists($file)) {
-                throw new ResourceNotFound($location, $e->getMessage(), 0, $e);
+                throw new ResourceNotFoundException(
+                    $location,
+                    $e->getMessage(),
+                    0,
+                    $e
+                );
             }
-            throw new InvalidResource($location, $e->getMessage(), 0, $e);
+            throw new InvalidResourceException(
+                $location,
+                $e->getMessage(),
+                0,
+                $e
+            );
         } finally {
             error_reporting($saveErrorReporting);
         }
@@ -90,44 +105,44 @@ class SiteKitLoader implements ResourceLoader
          */
         // @codeCoverageIgnoreStart
         if (!isset($data['init']) || !is_array($data['init'])) {
-            throw new InvalidResource($location, 'init field missing');
+            throw new InvalidResourceException($location, 'init field missing');
         }
         // @codeCoverageIgnoreEnd
 
         $init = $data['init'];
 
         if (!isset($init['id'])) {
-            throw new InvalidResource(
+            throw new InvalidResourceException(
                 $location,
                 'id field missing'
             );
         }
         if (!is_int($init['id'])) {
-            throw new InvalidResource(
+            throw new InvalidResourceException(
                 $location,
                 'id field not an int'
             );
         }
         if (!isset($init['name'])) {
-            throw new InvalidResource(
+            throw new InvalidResourceException(
                 $location,
                 'name field missing'
             );
         }
         if (!is_string($init['name'])) {
-            throw new InvalidResource(
+            throw new InvalidResourceException(
                 $location,
                 'name field not a string'
             );
         }
         if (!isset($init['objectType'])) {
-            throw new InvalidResource(
+            throw new InvalidResourceException(
                 $location,
                 'objectType field missing'
             );
         }
         if (!is_string($init['objectType'])) {
-            throw new InvalidResource(
+            throw new InvalidResourceException(
                 $location,
                 'objectType field not a string'
             );

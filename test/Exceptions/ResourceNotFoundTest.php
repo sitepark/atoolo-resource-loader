@@ -2,15 +2,15 @@
 
 namespace Atoolo\Resource\Test\Exceptions;
 
-use Atoolo\Resource\Exceptions\InvalidResource;
-use Atoolo\Resource\Exceptions\ResourceNotFound;
+use Atoolo\Resource\Exception\InvalidResourceException;
+use Atoolo\Resource\Exception\ResourceNotFoundException;
 use PHPUnit\Framework\TestCase;
 
 class ResourceNotFoundTest extends TestCase
 {
     public function testGetLocation(): void
     {
-        $e = new ResourceNotFound('abc');
+        $e = new ResourceNotFoundException('abc');
         $this->assertEquals(
             'abc',
             $e->getLocation(),

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\Resource\Exceptions;
+namespace Atoolo\Resource\Exception;
 
 /**
  * This exception is used when a resource is invalid. This can have the
@@ -11,7 +11,7 @@ namespace Atoolo\Resource\Exceptions;
  * - If the resource is syntactically incorrect.
  * - If the resource does not contain necessary data.
  */
-class InvalidResource extends \RuntimeException
+class InvalidResourceException extends \RuntimeException
 {
     public function __construct(
         private readonly string $location,

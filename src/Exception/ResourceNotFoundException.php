@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\Resource\Exceptions;
+namespace Atoolo\Resource\Exception;
 
 /**
  * This exception is used if no resource could be found via the specified
  * location.
  */
-class ResourceNotFound extends \RuntimeException
+class ResourceNotFoundException extends \RuntimeException
 {
     public function __construct(
         private readonly string $location,
