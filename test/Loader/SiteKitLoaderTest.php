@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Atoolo\Resource\Test\Loader;
 
 use Atoolo\Resource\Exception\InvalidResourceException;
