@@ -47,6 +47,20 @@ if ($lifecycle->process("metadata", $resource)) {
     ]);
 }
 
+if ($lifecycle->finish($resource)) {
+    return $resource;
+}
+
+if ($lifecycle->process("searchindexdata", $resource)) {
+    $resource->process("searchindexdata", [
+        "content" => "Der neue Webauftritt mit aktuellen Informationen."
+    ]);
+}
+
+if ($lifecycle->finish($resource)) {
+    return $resource;
+}
+
 if ($lifecycle->process("content", $resource)) {
     $resource->process("content", [
         "type" => "ROOT",
