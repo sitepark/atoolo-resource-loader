@@ -36,6 +36,12 @@ class SiteKitTreeLoader implements TreeLoader
         Resource $resource
     ): Resource {
         $parentLocation = $this->getPrimaryParentLocation($resource);
+        if ($parentLocation === null) {
+            throw new InvalidResourceException(
+                $resource->getLocation(),
+                'the resources should have a parent'
+            );
+        }
         return $this->resourceLoader->load($parentLocation);
     }
 

@@ -6,6 +6,7 @@ namespace Atoolo\Resource\Test\Tree;
 
 use Atoolo\Resource\Exception\InvalidResourceException;
 use Atoolo\Resource\Exception\ResourceNotFoundException;
+use Atoolo\Resource\Exception\RootMissingException;
 use Atoolo\Resource\Loader\SiteKitLoader;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceLoader;
@@ -47,6 +48,19 @@ class SiteKitTreeLoaderTest extends TestCase
             $method->invoke($this->treeLoader),
             'getResourceLoader should return the resource-loader'
         );
+    }
+
+    public function testLoadPrimaryParentResourceWithoutParent(): void
+    {
+        $location =
+            realpath(__DIR__ . '/../resources/Tree/SiteKitTreeLoader' .
+            '/a.php');
+        $resource = include $location;
+
+        $class = new \ReflectionClass(SiteKitTreeLoader::class);
+        $method = $class->getMethod('loadPrimaryParentResource');
+        $this->expectException(InvalidResourceException::class);
+        $method->invoke($this->treeLoader, $resource);
     }
 
     public function testLoadRootResource(): void
