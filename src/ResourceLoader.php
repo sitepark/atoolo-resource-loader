@@ -11,4 +11,6 @@ namespace Atoolo\Resource;
 interface ResourceLoader
 {
     public function load(string $location): Resource;
+
+    public function exists(string $location): bool;
 }

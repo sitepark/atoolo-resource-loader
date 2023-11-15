@@ -44,6 +44,11 @@ class SiteKitLoader implements ResourceLoader
         );
     }
 
+    public function exists(string $location): bool
+    {
+        return file_exists($this->basePath . DIRECTORY_SEPARATOR . $location);
+    }
+
     /**
      * @return array<string, mixed> $data
      */
