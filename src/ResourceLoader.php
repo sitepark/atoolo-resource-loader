@@ -2,8 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\ResourceLoader;
+namespace Atoolo\Resource;
 
+/**
+ * The ResourceLoader interface defines the method used to load resources from a
+ * given location.
+ */
 interface ResourceLoader
 {
     public function load(string $location): Resource;
