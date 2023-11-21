@@ -7,4 +7,3 @@
 !var/log/.gitkeep
 /tools
 .phpactor.json
-composer.lock
