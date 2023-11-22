@@ -2,28 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\Resource\Test\Tree;
+namespace Atoolo\Resource\Test\Loader;
 
 use Atoolo\Resource\Exception\InvalidResourceException;
-use Atoolo\Resource\Exception\ResourceNotFoundException;
-use Atoolo\Resource\Exception\RootMissingException;
-use Atoolo\Resource\Loader\SiteKitLoader;
-use Atoolo\Resource\Resource;
+use Atoolo\Resource\Loader\SiteKitResourceHierarchyLoader;
 use Atoolo\Resource\ResourceLoader;
-use Atoolo\Resource\Tree\SiteKitTreeLoader;
-use Atoolo\Resource\TreeLoader;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(SiteKitTreeLoader::class)]
-class SiteKitTreeLoaderTest extends TestCase
+#[CoversClass(SiteKitResourceHierarchyLoader::class)]
+class SiteKitResourceHierarchyLoaderTest extends TestCase
 {
-    private SiteKitTreeLoader $treeLoader;
+    private SiteKitResourceHierarchyLoader $treeLoader;
 
     public function setUp(): void
     {
-        $resourceBaseDir =
-            realpath(__DIR__ . '/../resources/Tree/SiteKitTreeLoader');
+        $resourceBaseDir = realpath(
+            __DIR__ . '/../resources/' .
+                'Loader/SiteKitResourceHierarchyLoader'
+        );
         $resourceLoader = $this->createStub(
             ResourceLoader::class
         );
@@ -34,7 +31,7 @@ class SiteKitTreeLoaderTest extends TestCase
                 return include $resourceBaseDir . $location;
             });
 
-        $this->treeLoader = new SiteKitTreeLoader(
+        $this->treeLoader = new SiteKitResourceHierarchyLoader(
             $resourceLoader,
             'category'
         );
@@ -42,7 +39,7 @@ class SiteKitTreeLoaderTest extends TestCase
 
     public function testGetResourceLoader(): void
     {
-        $class = new \ReflectionClass(SiteKitTreeLoader::class);
+        $class = new \ReflectionClass(SiteKitResourceHierarchyLoader::class);
         $method = $class->getMethod('getResourceLoader');
         $this->assertNotNull(
             $method->invoke($this->treeLoader),
@@ -52,12 +49,13 @@ class SiteKitTreeLoaderTest extends TestCase
 
     public function testLoadPrimaryParentResourceWithoutParent(): void
     {
-        $location =
-            realpath(__DIR__ . '/../resources/Tree/SiteKitTreeLoader' .
-            '/a.php');
+        $location = realpath(
+            __DIR__ . '/../resources/' .
+            'Loader/SiteKitResourceHierarchyLoader/a.php'
+        );
         $resource = include $location;
 
-        $class = new \ReflectionClass(SiteKitTreeLoader::class);
+        $class = new \ReflectionClass(SiteKitResourceHierarchyLoader::class);
         $method = $class->getMethod('loadPrimaryParentResource');
         $this->expectException(InvalidResourceException::class);
         $method->invoke($this->treeLoader, $resource);

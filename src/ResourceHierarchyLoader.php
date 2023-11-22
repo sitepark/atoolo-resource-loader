@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Atoolo\Resource;
 
 /**
- * The TreeLoader interface defines the method used to load resources or nodes
+ * The ResourceHierarchyLoader interface defines the method used to load resources or nodes
  * whose hierarchical structure is defined in the resources. For example, the
  * navigation tree.
  */
-interface TreeLoader
+interface ResourceHierarchyLoader
 {
     public function loadRootResource(string $location): Resource;
 }

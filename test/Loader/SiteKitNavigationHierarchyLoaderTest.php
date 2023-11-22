@@ -2,25 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\Resource\Test\Tree;
+namespace Atoolo\Resource\Test\Loader;
 
 use Atoolo\Resource\Exception\RootMissingException;
-use Atoolo\Resource\Resource;
+use Atoolo\Resource\Loader\SiteKitNavigationHierarchyLoader;
 use Atoolo\Resource\ResourceLoader;
-use Atoolo\Resource\Tree\SiteKitNavigationTreeLoader;
-use Atoolo\Resource\Tree\SiteKitTreeLoader;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(SiteKitNavigationTreeLoader::class)]
-class SiteKitNavigationTreeLoaderTest extends TestCase
+#[CoversClass(SiteKitNavigationHierarchyLoader::class)]
+class SiteKitNavigationHierarchyLoaderTest extends TestCase
 {
     public function testLoadRootResourceWithHomeFlag(): void
     {
         $treeLoader = $this->createTreeLoader(
             realpath(
-                __DIR__ .
-                '/../resources/Tree/SiteKitNavigationTreeLoader/withHomeFlag'
+                __DIR__ . '/../resources/' .
+                'Loader/SiteKitNavigationHierarchyLoader/withHomeFlag'
             )
         );
 
@@ -37,8 +35,8 @@ class SiteKitNavigationTreeLoaderTest extends TestCase
     {
         $treeLoader = $this->createTreeLoader(
             realpath(
-                __DIR__ .
-                '/../resources/Tree/SiteKitNavigationTreeLoader/withDefaultRoot'
+                __DIR__ . '/../resources/' .
+                'Loader/SiteKitNavigationHierarchyLoader/withDefaultRoot'
             )
         );
 
@@ -55,8 +53,8 @@ class SiteKitNavigationTreeLoaderTest extends TestCase
     {
         $treeLoader = $this->createTreeLoader(
             realpath(
-                __DIR__ .
-                '/../resources/Tree/SiteKitNavigationTreeLoader/withoutRoot'
+                __DIR__ . '/../resources/' .
+                'Loader/SiteKitNavigationHierarchyLoader/withoutRoot'
             )
         );
 
@@ -66,7 +64,7 @@ class SiteKitNavigationTreeLoaderTest extends TestCase
 
     private function createTreeLoader(
         string $resourceBaseDir
-    ): SiteKitNavigationTreeLoader {
+    ): SiteKitNavigationHierarchyLoader {
         $resourceLoader = $this->createStub(
             ResourceLoader::class
         );
@@ -82,7 +80,7 @@ class SiteKitNavigationTreeLoaderTest extends TestCase
             ) {
                 return file_exists($resourceBaseDir . $location);
             });
-        return new SiteKitNavigationTreeLoader(
+        return new SiteKitNavigationHierarchyLoader(
             $resourceLoader
         );
     }

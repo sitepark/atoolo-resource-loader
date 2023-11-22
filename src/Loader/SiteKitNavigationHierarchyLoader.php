@@ -2,16 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\Resource\Tree;
+namespace Atoolo\Resource\Loader;
 
-use Atoolo\Resource\Exception\InvalidResourceException;
-use Atoolo\Resource\Exception\ResourceNotFoundException;
 use Atoolo\Resource\Exception\RootMissingException;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceLoader;
-use Atoolo\Resource\TreeLoader;
 
-class SiteKitNavigationTreeLoader extends SiteKitTreeLoader
+class SiteKitNavigationHierarchyLoader extends SiteKitResourceHierarchyLoader
 {
     public function __construct(ResourceLoader $resourceLoader)
     {

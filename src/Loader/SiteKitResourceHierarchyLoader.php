@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Atoolo\Resource\Tree;
+namespace Atoolo\Resource\Loader;
 
 use Atoolo\Resource\Exception\InvalidResourceException;
 use Atoolo\Resource\Exception\ResourceNotFoundException;
 use Atoolo\Resource\Resource;
+use Atoolo\Resource\ResourceHierarchyLoader;
 use Atoolo\Resource\ResourceLoader;
-use Atoolo\Resource\TreeLoader;
 
-class SiteKitTreeLoader implements TreeLoader
+class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
 {
     public function __construct(
         private readonly ResourceLoader $resourceLoader,
