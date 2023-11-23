@@ -22,7 +22,7 @@ class SiteKitNavigationHierarchyLoaderTest extends TestCase
             )
         );
 
-        $root = $treeLoader->loadRootResource('/c.php');
+        $root = $treeLoader->loadRoot('/c.php');
 
         $this->assertEquals(
             'a',
@@ -40,7 +40,7 @@ class SiteKitNavigationHierarchyLoaderTest extends TestCase
             )
         );
 
-        $root = $treeLoader->loadRootResource('/dir/c.php');
+        $root = $treeLoader->loadRoot('/dir/c.php');
 
         $this->assertEquals(
             'root',
@@ -59,7 +59,7 @@ class SiteKitNavigationHierarchyLoaderTest extends TestCase
         );
 
         $this->expectException(RootMissingException::class);
-        $treeLoader->loadRootResource('/a.php');
+        $treeLoader->loadRoot('/a.php');
     }
 
     private function createTreeLoader(

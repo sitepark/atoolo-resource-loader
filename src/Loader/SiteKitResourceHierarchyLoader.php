@@ -22,7 +22,7 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
-    public function loadRootResource(string $location): Resource
+    public function loadRoot(string $location): Resource
     {
         $resource = $this->resourceLoader->load($location);
         while (!$this->isRoot($resource)) {
@@ -30,6 +30,49 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
         }
 
         return $resource;
+    }
+
+    public function loadParent(string $location): ?Resource
+    {
+        $resource = $this->resourceLoader->load($location);
+        if ($this->isRoot($resource)) {
+            return null;
+        }
+        return $this->loadPrimaryParentResource($resource);
+    }
+
+    /**
+     * @return Resource[]
+     */
+    public function loadPath(string $location): array
+    {
+        $resource = $this->resourceLoader->load($location);
+        $path = [$resource];
+        while (true) {
+            if ($this->isRoot($resource)) {
+                break;
+            }
+            $parent = $this->loadPrimaryParentResource($resource);
+            array_unshift($path, $parent);
+            $resource = $parent;
+        }
+        return $path;
+    }
+
+    /**
+     * @return Resource[]
+     */
+    public function loadChildren(string $location): array
+    {
+        $resource = $this->resourceLoader->load($location);
+
+        $children = [];
+        $childrenLocationList = $this->getChildrenLocationList($resource);
+        foreach ($childrenLocationList as $childLocation) {
+            $children[] = $this->resourceLoader->load($childLocation);
+        }
+
+        return $children;
     }
 
     protected function loadPrimaryParentResource(
@@ -58,7 +101,7 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
     protected function getPrimaryParentLocation(Resource $resource): ?string
     {
         $parentList = $resource->getData(
-            'base.tree.' . $this->treeName . '.parents'
+            'base.trees.' . $this->treeName . '.parents'
         );
 
         if (
@@ -81,5 +124,27 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
         }
 
         return $firstParent['url'];
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getChildrenLocationList(Resource $resource): array
+    {
+        $childrenList = $resource->getData(
+            'base.trees.' . $this->treeName . '.children'
+        );
+
+        if (
+            $childrenList === null ||
+            !is_array($childrenList) ||
+            count($childrenList) === 0
+        ) {
+            return [];
+        }
+
+        return array_map(function ($child) {
+            return $child['url'];
+        }, $childrenList);
     }
 }

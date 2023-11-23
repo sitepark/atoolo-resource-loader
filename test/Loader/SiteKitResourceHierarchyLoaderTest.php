@@ -13,13 +13,20 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(SiteKitResourceHierarchyLoader::class)]
 class SiteKitResourceHierarchyLoaderTest extends TestCase
 {
-    private SiteKitResourceHierarchyLoader $treeLoader;
+    private SiteKitResourceHierarchyLoader $hierarchyLoader;
 
     public function setUp(): void
     {
+        $this->hierarchyLoader = $this->createLoader(
+            SiteKitResourceHierarchyLoader::class
+        );
+    }
+
+    private function createLoader(string $className)
+    {
         $resourceBaseDir = realpath(
             __DIR__ . '/../resources/' .
-                'Loader/SiteKitResourceHierarchyLoader'
+            'Loader/SiteKitResourceHierarchyLoader'
         );
         $resourceLoader = $this->createStub(
             ResourceLoader::class
@@ -31,7 +38,7 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
                 return include $resourceBaseDir . $location;
             });
 
-        $this->treeLoader = new SiteKitResourceHierarchyLoader(
+        return new $className(
             $resourceLoader,
             'category'
         );
@@ -42,33 +49,87 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
         $class = new \ReflectionClass(SiteKitResourceHierarchyLoader::class);
         $method = $class->getMethod('getResourceLoader');
         $this->assertNotNull(
-            $method->invoke($this->treeLoader),
+            $method->invoke($this->hierarchyLoader),
             'getResourceLoader should return the resource-loader'
         );
     }
 
     public function testLoadPrimaryParentResourceWithoutParent(): void
     {
-        $location = realpath(
-            __DIR__ . '/../resources/' .
-            'Loader/SiteKitResourceHierarchyLoader/a.php'
-        );
-        $resource = include $location;
 
-        $class = new \ReflectionClass(SiteKitResourceHierarchyLoader::class);
-        $method = $class->getMethod('loadPrimaryParentResource');
+        $loader = $this->createLoader(
+            TestSiteKitResourceHierarchyLoader::class
+        );
         $this->expectException(InvalidResourceException::class);
-        $method->invoke($this->treeLoader, $resource);
+        $loader->loadRoot('/a.php');
     }
 
-    public function testLoadRootResource(): void
+    public function testLoadRoot(): void
     {
-        $root = $this->treeLoader->loadRootResource('/c.php');
+        $root = $this->hierarchyLoader->loadRoot('/c.php');
 
         $this->assertEquals(
             'a',
             $root->getId(),
             'unexpected root'
         );
+    }
+
+    public function testLoadParent(): void
+    {
+        $parent = $this->hierarchyLoader->loadParent('/c.php');
+
+        $this->assertEquals(
+            'b',
+            $parent->getId(),
+            'unexpected parent'
+        );
+    }
+
+    public function testLoadChildren(): void
+    {
+        $children = $this->hierarchyLoader->loadChildren('/b.php');
+
+        $childrenIdList = array_map(function ($child) {
+            return $child->getId();
+        }, $children);
+
+        $this->assertEquals(
+            ['c'],
+            $childrenIdList,
+            'unexpected children'
+        );
+    }
+
+    public function testLoadWithoutChildren(): void
+    {
+        $children = $this->hierarchyLoader->loadChildren('/c.php');
+
+        $this->assertCount(
+            0,
+            $children,
+            'children should be empty'
+        );
+    }
+
+    public function testLoadPath(): void
+    {
+        $path = $this->hierarchyLoader->loadPath('/c.php');
+
+        $pathIdList = array_map(function ($resource) {
+            return $resource->getId();
+        }, $path);
+
+        $this->assertEquals(
+            ['a', 'b', 'c'],
+            $pathIdList,
+            'unexpected path'
+        );
+    }
+
+    public function testLoadParentWithoutParent(): void
+    {
+        $parent = $this->hierarchyLoader->loadParent('/a.php');
+        $this->assertNull($parent, 'parent should be null');
     }
 }

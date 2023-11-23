@@ -11,5 +11,17 @@ namespace Atoolo\Resource;
  */
 interface ResourceHierarchyLoader
 {
-    public function loadRootResource(string $location): Resource;
+    public function loadRoot(string $location): Resource;
+
+    public function loadParent(string $location): ?Resource;
+
+    /**
+     * @return Resource[]
+     */
+    public function loadPath(string $location): array;
+
+    /**
+     * @return Resource[]
+     */
+    public function loadChildren(string $location): array;
 }
