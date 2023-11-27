@@ -5,7 +5,7 @@ namespace Atoolo\Resource\Test\Loader;
 use Atoolo\Resource\Loader\SiteKitLoaderFactory;
 use PHPUnit\Framework\TestCase;
 
-class SitekitLoaderFactoryTest extends TestCase
+class SiteKitLoaderFactoryTest extends TestCase
 {
     public function testCreate(): void
     {
