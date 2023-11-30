@@ -132,4 +132,29 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
         $parent = $this->hierarchyLoader->loadParent('/a.php');
         $this->assertNull($parent, 'parent should be null');
     }
+
+    public function testLoadRootResourcePrimaryParentWithoutUrl(): void
+    {
+        $this->expectException(InvalidResourceException::class);
+        $this->hierarchyLoader->loadParent('/primaryParentWithoutUrl.php');
+    }
+
+    public function testLoadRootResourcePrimaryParentWithNonStringUrl(): void
+    {
+        $this->expectException(InvalidResourceException::class);
+        $this->hierarchyLoader->loadParent('/primaryParentWithNonStringUrl.php');
+    }
+
+    public function testLoadRootResourceFirstParentWithoutUrl(): void
+    {
+        $this->expectException(InvalidResourceException::class);
+        $this->hierarchyLoader->loadParent('/firstParentWithoutUrl.php');
+    }
+
+    public function testLoadRootResourceFirstParentWithNonStringUrl(): void
+    {
+        $this->expectException(InvalidResourceException::class);
+        $this->hierarchyLoader->loadParent('/firstParentWithNonStringUrl.php');
+    }
+
 }

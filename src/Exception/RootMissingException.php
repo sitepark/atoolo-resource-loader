@@ -5,11 +5,8 @@ declare(strict_types=1);
 namespace Atoolo\Resource\Exception;
 
 /**
- * This exception is used when a resource is invalid. This can have the
- * following reasons:
- *
- * - If the resource is syntactically incorrect.
- * - If the resource does not contain necessary data.
+ * Is used by the ResourceHierarchyLoader to indicate that the requested
+ * data could not be determined because no root element can be resolved.
  */
 class RootMissingException extends \RuntimeException
 {

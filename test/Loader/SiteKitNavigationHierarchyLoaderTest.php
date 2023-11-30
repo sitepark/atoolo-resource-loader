@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\Resource\Test\Loader;
 
+use Atoolo\Resource\Exception\InvalidResourceException;
 use Atoolo\Resource\Exception\RootMissingException;
 use Atoolo\Resource\Loader\SiteKitNavigationHierarchyLoader;
 use Atoolo\Resource\ResourceLoader;

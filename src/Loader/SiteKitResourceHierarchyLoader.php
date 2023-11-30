@@ -43,15 +43,14 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
 
     /**
      * @return Resource[]
+     * @throws InvalidResourceException if an encountered Resource has no
+     * parent but is not considered a root.
      */
     public function loadPath(string $location): array
     {
         $resource = $this->resourceLoader->load($location);
         $path = [$resource];
-        while (true) {
-            if ($this->isRoot($resource)) {
-                break;
-            }
+        while (!$this->isRoot($resource)) {
             $parent = $this->loadPrimaryParentResource($resource);
             array_unshift($path, $parent);
             $resource = $parent;
@@ -75,6 +74,9 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
         return $children;
     }
 
+    /**
+     * @throws InvalidResourceException if no primary parent can be found
+     */
     protected function loadPrimaryParentResource(
         Resource $resource
     ): Resource {
@@ -114,13 +116,45 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
 
         $firstParent = null;
         foreach ($parentList as $parent) {
-            if ($firstParent === null) {
-                $firstParent = $parent;
-            }
+            $firstParent ??= $parent;
             $isPrimary = $parent['isPrimary'] ?? false;
-            if ($isPrimary) {
+            if ($isPrimary === true) {
+                if (!isset($parent['url'])) {
+                    throw new InvalidResourceException(
+                        $resource->getLocation(),
+                        'primary parent in ' .
+                            'base.trees.' . $this->treeName . '.parents ' .
+                            'as no url'
+                    );
+                }
+                if (!is_string($parent['url'])) {
+                    throw new InvalidResourceException(
+                        $resource->getLocation(),
+                        'url of primary parent in ' .
+                             'base.trees.' . $this->treeName . '.parents ' .
+                             'is not a string'
+                    );
+                }
                 return $parent['url'];
             }
+        }
+
+        if (!isset($firstParent['url'])) {
+            throw new InvalidResourceException(
+                $resource->getLocation(),
+                'first parent in ' .
+                    'base.trees.' . $this->treeName . '.parents ' .
+                    'has no url'
+            );
+        }
+
+        if (!is_string($firstParent['url'])) {
+            throw new InvalidResourceException(
+                $resource->getLocation(),
+                'url of first parent in ' .
+                    'base.trees.' . $this->treeName . '.parents ' .
+                    'is not a string'
+            );
         }
 
         return $firstParent['url'];
