@@ -1,6 +1,5 @@
 <?php
 
-
 return new \Atoolo\Resource\Resource(
     '/primaryParentWithoutUrl.php',
     'primaryParentWithoutUrl',
