@@ -56,6 +56,8 @@ class SiteKitLoader implements ResourceLoader
 
     /**
      * @return array<string, mixed> $data
+     * @throws InvalidResourceException
+     * @throws ResourceNotFoundException
      */
     private function loadRaw(string $location): array
     {
@@ -104,6 +106,7 @@ class SiteKitLoader implements ResourceLoader
     /**
      * @param array<string, mixed> $data
      * @return ($data is ResourceData ? void : never)
+     * @throws InvalidResourceException
      */
     private function validateData(string $location, array $data): void
     {

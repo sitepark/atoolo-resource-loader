@@ -7,6 +7,7 @@ namespace Atoolo\Resource\Test\Loader;
 use Atoolo\Resource\Exception\InvalidResourceException;
 use Atoolo\Resource\Exception\ResourceNotFoundException;
 use Atoolo\Resource\Loader\SiteKitLoader;
+use Atoolo\Resource\Loader\StaticResourceBaseLocator;
 use Atoolo\Resource\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +20,9 @@ class SiteKitLoaderTest extends TestCase
     protected function setUp(): void
     {
         $base = realpath(__DIR__ . '/../resources/Loader/SiteKitLoader');
-        $this->loader = new SiteKitLoader($base);
+        $this->loader = new SiteKitLoader(
+            new StaticResourceBaseLocator($base)
+        );
     }
 
     public function testExists(): void

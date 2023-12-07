@@ -32,6 +32,10 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
         return $resource;
     }
 
+    /**
+     * @throws InvalidResourceException
+     * @throws ResourceNotFoundException
+     */
     public function loadParent(string $location): ?Resource
     {
         $resource = $this->resourceLoader->load($location);
@@ -45,6 +49,7 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
      * @return Resource[]
      * @throws InvalidResourceException if an encountered Resource has no
      * parent but is not considered a root.
+     * @throws ResourceNotFoundException
      */
     public function loadPath(string $location): array
     {
@@ -60,6 +65,9 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
 
     /**
      * @return Resource[]
+     *
+     * @throws InvalidResourceException
+     * @throws ResourceNotFoundException
      */
     public function loadChildren(string $location): array
     {
@@ -76,6 +84,7 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
 
     /**
      * @throws InvalidResourceException if no primary parent can be found
+     * @throws ResourceNotFoundException
      */
     protected function loadPrimaryParentResource(
         Resource $resource
@@ -100,6 +109,11 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
         return $this->getPrimaryParentLocation($resource) === null;
     }
 
+    /**
+     * @param Resource $resource
+     * @return string|null
+     * @throws InvalidResourceException
+     */
     protected function getPrimaryParentLocation(Resource $resource): ?string
     {
         $parentList = $resource->getData(

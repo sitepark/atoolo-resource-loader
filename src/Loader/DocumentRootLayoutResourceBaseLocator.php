@@ -10,6 +10,11 @@ class DocumentRootLayoutResourceBaseLocator implements ResourceBaseLocator
 {
     public function locate(): string
     {
+        if (empty($_SERVER['DOCUMENT_ROOT'])) {
+            throw new \RuntimeException(
+                'missing server variable DOCUMENT_ROOT'
+            );
+        }
         return $_SERVER['DOCUMENT_ROOT'];
     }
 }
