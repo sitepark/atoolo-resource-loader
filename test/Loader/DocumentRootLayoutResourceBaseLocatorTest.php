@@ -17,20 +17,30 @@ use RuntimeException;
 #[CoversClass(DocumentRootLayoutResourceBaseLocator::class)]
 class DocumentRootLayoutResourceBaseLocatorTest extends TestCase
 {
+    /**
+     * @var array<string,string>
+     */
+    private array $saveServerState;
+
+    public function setUp(): void
+    {
+        $this->saveServerState = $_SERVER;
+    }
+
+    public function tearDown(): void
+    {
+        $_SERVER = $this->saveServerState;
+    }
+
     public function testConstruct(): void
     {
-        $saveServerState = $_SERVER;
-        try {
-            $_SERVER['DOCUMENT_ROOT'] = 'abc';
-            $locator = new DocumentRootLayoutResourceBaseLocator();
-            $this->assertEquals(
-                'abc',
-                $locator->locate(),
-                'unexpected resource base'
-            );
-        } finally {
-            $_SERVER = $saveServerState;
-        }
+        $_SERVER['DOCUMENT_ROOT'] = 'abc';
+        $locator = new DocumentRootLayoutResourceBaseLocator();
+        $this->assertEquals(
+            'abc',
+            $locator->locate(),
+            'unexpected resource base'
+        );
     }
 
     public function testWithMissingSeverVariable(): void
