@@ -22,6 +22,12 @@ class SiteKitLoaderTest extends TestCase
         $this->loader = new SiteKitLoader($base);
     }
 
+    public function testExists(): void
+    {
+        $exists = $this->loader->exists('validResource.php');
+        $this->assertTrue($exists, 'resource should exist');
+    }
+
     public function testLoadValidResource(): void
     {
         $resource = $this->loader->load('validResource.php');

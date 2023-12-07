@@ -44,8 +44,15 @@ class SiteKitLoader implements ResourceLoader
         );
     }
 
+    public function exists(string $location): bool
+    {
+        return file_exists($this->basePath . DIRECTORY_SEPARATOR . $location);
+    }
+
     /**
      * @return array<string, mixed> $data
+     * @throws InvalidResourceException
+     * @throws ResourceNotFoundException
      */
     private function loadRaw(string $location): array
     {
@@ -94,6 +101,7 @@ class SiteKitLoader implements ResourceLoader
     /**
      * @param array<string, mixed> $data
      * @return ($data is ResourceData ? void : never)
+     * @throws InvalidResourceException
      */
     private function validateData(string $location, array $data): void
     {
