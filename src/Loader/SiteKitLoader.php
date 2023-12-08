@@ -47,9 +47,11 @@ class SiteKitLoader implements ResourceLoader
 
     public function exists(string $location): bool
     {
-        return file_exists($this->baseLocator->locate()
-            . DIRECTORY_SEPARATOR
-            . $location);
+        return file_exists(
+            $this->baseLocator->locate()
+                . DIRECTORY_SEPARATOR
+                . $location
+        );
     }
 
     /**
