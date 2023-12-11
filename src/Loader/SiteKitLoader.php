@@ -9,6 +9,7 @@ use Atoolo\Resource\Exception\ResourceNotFoundException;
 use Atoolo\Resource\Loader\SiteKit\ContextStub;
 use Atoolo\Resource\Loader\SiteKit\LifecylceStub;
 use Atoolo\Resource\Resource;
+use Atoolo\Resource\ResourceBaseLocator;
 use Atoolo\Resource\ResourceLoader;
 
 /**
@@ -19,7 +20,7 @@ use Atoolo\Resource\ResourceLoader;
 class SiteKitLoader implements ResourceLoader
 {
     public function __construct(
-        private readonly string $basePath
+        private readonly ResourceBaseLocator $baseLocator
     ) {
     }
 
@@ -46,7 +47,11 @@ class SiteKitLoader implements ResourceLoader
 
     public function exists(string $location): bool
     {
-        return file_exists($this->basePath . DIRECTORY_SEPARATOR . $location);
+        return file_exists(
+            $this->baseLocator->locate()
+                . DIRECTORY_SEPARATOR
+                . $location
+        );
     }
 
     /**
@@ -56,7 +61,7 @@ class SiteKitLoader implements ResourceLoader
      */
     private function loadRaw(string $location): array
     {
-        $file = $this->basePath . '/' . $location;
+        $file = $this->baseLocator->locate() . '/' . $location;
 
         /**
          * $context and $lifecycle must be defined here, because for the SiteKit
