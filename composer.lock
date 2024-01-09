@@ -1121,18 +1121,6 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-<<<<<<< HEAD
-            "version": "10.1.10",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "599109c8ca6bae97b23482d557d2874c25a65e59"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/599109c8ca6bae97b23482d557d2874c25a65e59",
-                "reference": "599109c8ca6bae97b23482d557d2874c25a65e59",
-=======
             "version": "10.1.11",
             "source": {
                 "type": "git",
@@ -1143,7 +1131,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/78c3b7625965c2513ee96569a4dbb62601784145",
                 "reference": "78c3b7625965c2513ee96569a4dbb62601784145",
->>>>>>> 5809396 (chore: composer update)
                 "shasum": ""
             },
             "require": {
@@ -1200,11 +1187,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-<<<<<<< HEAD
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/10.1.10"
-=======
                 "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/10.1.11"
->>>>>>> 5809396 (chore: composer update)
             },
             "funding": [
                 {
@@ -1212,11 +1195,7 @@
                     "type": "github"
                 }
             ],
-<<<<<<< HEAD
-            "time": "2023-12-11T06:28:43+00:00"
-=======
             "time": "2023-12-21T15:38:30+00:00"
->>>>>>> 5809396 (chore: composer update)
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1463,18 +1442,6 @@
         },
         {
             "name": "phpunit/phpunit",
-<<<<<<< HEAD
-            "version": "10.5.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "6fce887c71076a73f32fd3e0774a6833fc5c7f19"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6fce887c71076a73f32fd3e0774a6833fc5c7f19",
-                "reference": "6fce887c71076a73f32fd3e0774a6833fc5c7f19",
-=======
             "version": "10.5.5",
             "source": {
                 "type": "git",
@@ -1485,7 +1452,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ed21115d505b4b4f7dc7b5651464e19a2c7f7856",
                 "reference": "ed21115d505b4b4f7dc7b5651464e19a2c7f7856",
->>>>>>> 5809396 (chore: composer update)
                 "shasum": ""
             },
             "require": {
@@ -1557,11 +1523,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-<<<<<<< HEAD
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.3"
-=======
                 "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.5"
->>>>>>> 5809396 (chore: composer update)
             },
             "funding": [
                 {
@@ -1577,11 +1539,7 @@
                     "type": "tidelift"
                 }
             ],
-<<<<<<< HEAD
-            "time": "2023-12-13T07:25:23+00:00"
-=======
             "time": "2023-12-27T15:13:52+00:00"
->>>>>>> 5809396 (chore: composer update)
         },
         {
             "name": "psr/container",
