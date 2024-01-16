@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Atoolo\Resource\Test;
 
 use Atoolo\Resource\DataBag;
@@ -59,6 +61,18 @@ class DataBagTest extends TestCase
             'default',
             $resource->getString('fieldx', 'default'),
             'unexpected value'
+        );
+    }
+
+    public function testGetDifferentType(): void
+    {
+        $resource = new DataBag(
+            ['field' => '123']
+        );
+        $this->assertEquals(
+            0,
+            $resource->getInt('field'),
+            'expected value to be fallback of zero'
         );
     }
 
