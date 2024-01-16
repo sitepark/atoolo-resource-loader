@@ -116,13 +116,11 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
      */
     protected function getPrimaryParentLocation(Resource $resource): ?string
     {
-        $parentList = $resource->getData(
+        $parentList = $resource->getData()->getAssociativeArray(
             'base.trees.' . $this->treeName . '.parents'
         );
 
         if (
-            $parentList === null ||
-            !is_array($parentList) ||
             count($parentList) === 0
         ) {
             return null;
@@ -179,13 +177,11 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
      */
     protected function getChildrenLocationList(Resource $resource): array
     {
-        $childrenList = $resource->getData(
+        $childrenList = $resource->getData()->getAssociativeArray(
             'base.trees.' . $this->treeName . '.children'
         );
 
         if (
-            $childrenList === null ||
-            !is_array($childrenList) ||
             count($childrenList) === 0
         ) {
             return [];

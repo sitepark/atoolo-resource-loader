@@ -10,6 +10,7 @@ namespace Atoolo\Resource;
  */
 class Resource
 {
+    private readonly DataBag $data;
     /**
      * @param array<string, mixed> $data
      */
@@ -18,8 +19,9 @@ class Resource
         private readonly string $id,
         private readonly string $name,
         private readonly string $objectType,
-        private readonly array $data,
+        array $data,
     ) {
+        $this->data = new DataBag($data);
     }
 
     public function getLocation(): string
@@ -42,46 +44,8 @@ class Resource
         return $this->objectType;
     }
 
-    /**
-     * Retrieves a value from this data structure by name.
-     *  The name can contain dots (`.`) in case of a nested structure and define
-     *  the corresponding levels.
-     *
-     *  Example:
-     *  <pre>
-     *  [
-     *    'foo': [
-     *      'bar': 'value'
-     *    ]
-     *  ]
-     *  </pre>
-     *
-     *  For the above structure, `value` can be retrieved using the following
-     *  `$name`: `'foo.bar'`
-     *
-     *  If the `$name` cannot be resolved to an existing value `null` is
-     *  returned instead.
-     *
-     * @param string $name name of the value to return from the data object
-     */
-    public function getData(string $name): mixed
+    public function getData(): DataBag
     {
-        return $this->findData($this->data, $name);
-    }
-
-    /**
-     * @param array<string, mixed> $data
-     */
-    private function findData(array $data, string $name): mixed
-    {
-        $names = explode('.', $name);
-        foreach ($names as $n) {
-            if (is_array($data) && isset($data[$n])) {
-                $data = $data[$n];
-            } else {
-                return null;
-            }
-        }
-        return $data;
+        return $this->data;
     }
 }
