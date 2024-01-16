@@ -101,6 +101,14 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
         );
     }
 
+    public function testLoadChildrenWithInvalidData(): void
+    {
+        $this->expectException(InvalidResourceException::class);
+        $children = $this->hierarchyLoader->loadChildren(
+            '/childrenWithInvalidData.php'
+        );
+    }
+
     public function testLoadWithoutChildren(): void
     {
         $children = $this->hierarchyLoader->loadChildren('/c.php');
@@ -137,6 +145,12 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
     {
         $this->expectException(InvalidResourceException::class);
         $this->hierarchyLoader->loadParent('/primaryParentWithoutUrl.php');
+    }
+
+    public function testLoadRootResourcePrimaryParentWithInvalidData(): void
+    {
+        $this->expectException(InvalidResourceException::class);
+        $this->hierarchyLoader->loadParent('/primaryParentWithInvalidData.php');
     }
 
     public function testLoadRootResourcePrimaryParentWithNonStringUrl(): void

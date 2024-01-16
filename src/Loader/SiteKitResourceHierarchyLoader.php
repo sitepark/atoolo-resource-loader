@@ -128,6 +128,14 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
 
         $firstParent = null;
         foreach ($parentList as $parent) {
+            if (!is_array($parent)) {
+                throw new InvalidResourceException(
+                    $resource->getLocation(),
+                    'primary parent in ' .
+                    'base.trees.' . $this->treeName . '.parents ' .
+                    'is invalid'
+                );
+            }
             $firstParent ??= $parent;
             $isPrimary = $parent['isPrimary'] ?? false;
             if ($isPrimary === true) {
@@ -187,7 +195,15 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
             return [];
         }
 
-        return array_map(function ($child) {
+        return array_map(function ($child) use ($resource) {
+            if (!is_array($child)) {
+                throw new InvalidResourceException(
+                    $resource->getLocation(),
+                    'children in ' .
+                    'base.trees.' . $this->treeName . '.children ' .
+                    'not an array'
+                );
+            }
             return $child['url'];
         }, $childrenList);
     }

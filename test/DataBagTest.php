@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(DataBag::class)]
 class DataBagTest extends TestCase
 {
-
     public function testGet(): void
     {
         $resource = new DataBag(
