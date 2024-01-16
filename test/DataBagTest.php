@@ -10,6 +10,19 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(DataBag::class)]
 class DataBagTest extends TestCase
 {
+
+    public function testGet(): void
+    {
+        $resource = new DataBag(
+            ['field' => 'value']
+        );
+        $this->assertEquals(
+            ['field' => 'value'],
+            $resource->get(),
+            'unexpected value'
+        );
+    }
+
     public function testGetString(): void
     {
         $resource = new DataBag(

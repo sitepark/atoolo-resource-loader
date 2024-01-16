@@ -37,6 +37,14 @@ class DataBag
     }
 
     /**
+     * @return array<string, mixed>
+     */
+    public function get(): array
+    {
+        return $this->data;
+    }
+
+    /**
      * @param array<mixed> $default
      * @return array<mixed>
      */
