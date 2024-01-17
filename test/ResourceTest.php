@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\Resource\Test;
 
+use Atoolo\Resource\DataBag;
 use Atoolo\Resource\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -86,41 +87,8 @@ class ResourceTest extends TestCase
         );
         $this->assertEquals(
             'value',
-            $resource->getData('field'),
-            'unexpected data'
-        );
-    }
-
-    public function testGetMissingData(): void
-    {
-        $resource = new Resource(
-            '',
-            '',
-            '',
-            '',
-            []
-        );
-        $this->assertNull(
-            $resource->getData('field'),
-            'null should be returned'
-        );
-    }
-
-    public function testGetNestedData(): void
-    {
-        $resource = new Resource(
-            '',
-            '',
-            '',
-            '',
-            data: ['field' => [
-                'values' => [1, 2, 3]
-            ]]
-        );
-        $this->assertEquals(
-            [1, 2, 3],
-            $resource->getData('field.values'),
-            'unexpected nested data'
+            $resource->getData()->getString('field'),
+            'unexpected data value'
         );
     }
 }

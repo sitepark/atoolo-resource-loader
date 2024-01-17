@@ -116,13 +116,11 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
      */
     protected function getPrimaryParentLocation(Resource $resource): ?string
     {
-        $parentList = $resource->getData(
+        $parentList = $resource->getData()->getAssociativeArray(
             'base.trees.' . $this->treeName . '.parents'
         );
 
         if (
-            $parentList === null ||
-            !is_array($parentList) ||
             count($parentList) === 0
         ) {
             return null;
@@ -130,6 +128,14 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
 
         $firstParent = null;
         foreach ($parentList as $parent) {
+            if (!is_array($parent)) {
+                throw new InvalidResourceException(
+                    $resource->getLocation(),
+                    'primary parent in ' .
+                    'base.trees.' . $this->treeName . '.parents ' .
+                    'is invalid'
+                );
+            }
             $firstParent ??= $parent;
             $isPrimary = $parent['isPrimary'] ?? false;
             if ($isPrimary === true) {
@@ -179,19 +185,25 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
      */
     protected function getChildrenLocationList(Resource $resource): array
     {
-        $childrenList = $resource->getData(
+        $childrenList = $resource->getData()->getAssociativeArray(
             'base.trees.' . $this->treeName . '.children'
         );
 
         if (
-            $childrenList === null ||
-            !is_array($childrenList) ||
             count($childrenList) === 0
         ) {
             return [];
         }
 
-        return array_map(function ($child) {
+        return array_map(function ($child) use ($resource) {
+            if (!is_array($child)) {
+                throw new InvalidResourceException(
+                    $resource->getLocation(),
+                    'children in ' .
+                    'base.trees.' . $this->treeName . '.children ' .
+                    'not an array'
+                );
+            }
             return $child['url'];
         }, $childrenList);
     }

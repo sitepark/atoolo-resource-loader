@@ -12,8 +12,7 @@ return new \Atoolo\Resource\Resource(
             'trees' => [
                 'category' => [
                     'parents' => [
-                        'a' => [
-                        ]
+                        'a' => 'invalid'
                     ]
                 ]
             ]
