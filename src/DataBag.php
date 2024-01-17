@@ -44,6 +44,11 @@ class DataBag
         return $this->data;
     }
 
+    public function has(string $name): bool
+    {
+        return $this->findData($this->data, $name) !== null;
+    }
+
     /**
      * @param array<mixed> $default
      * @return array<mixed>

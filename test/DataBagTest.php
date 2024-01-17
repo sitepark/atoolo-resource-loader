@@ -12,6 +12,28 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(DataBag::class)]
 class DataBagTest extends TestCase
 {
+    public function testHas(): void
+    {
+        $resource = new DataBag(
+            ['field' => 'value']
+        );
+        $this->assertTrue(
+            $resource->has('field'),
+            'should be found'
+        );
+    }
+
+    public function testHasNot(): void
+    {
+        $resource = new DataBag(
+            ['field' => 'value']
+        );
+        $this->assertFalse(
+            $resource->has('fieldx'),
+            'should\'t be found'
+        );
+    }
+
     public function testGet(): void
     {
         $resource = new DataBag(
