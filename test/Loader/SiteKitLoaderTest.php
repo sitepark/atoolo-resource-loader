@@ -112,5 +112,4 @@ class SiteKitLoaderTest extends TestCase
         $this->expectException(InvalidResourceException::class);
         $this->loader->load('nonArrayReturned.php');
     }
-
 }
