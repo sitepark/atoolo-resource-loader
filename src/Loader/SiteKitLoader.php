@@ -75,7 +75,15 @@ class SiteKitLoader implements ResourceLoader
 
         try {
             error_reporting(E_ERROR | E_PARSE);
-            return require $file;
+            ob_start();
+            $data = require $file;
+            if (!is_array($data)) {
+                    throw new InvalidResourceException(
+                        $location,
+                        'The resource should return an array'
+                    );
+            }
+            return $data;
         } catch (\ParseError $e) {
             throw new InvalidResourceException(
                 $location,
@@ -99,6 +107,7 @@ class SiteKitLoader implements ResourceLoader
                 $e
             );
         } finally {
+            ob_end_clean();
             error_reporting($saveErrorReporting);
         }
     }
