@@ -49,4 +49,28 @@ interface ResourceHierarchyLoader
      * @throws ResourceNotFoundException
      */
     public function loadChildren(string $location): array;
+
+    /**
+     * Walks the tree of resources starting from the given location and calls
+     * the given function for each resource. Returns the resource where the
+     * callable returns true.
+     *
+     * The callable function expects the following parameters:
+     * - array of Resource: the path to the current resource. Don't contains
+     *   the current resource.
+     * - Resource: the current resource
+     *
+     * The callable function should return true if the current resource is the
+     * one we are looking for.
+     *
+     * @param callable(Resource[], Resource): bool $fn
+     * @param Resource[] $parentPath
+     * @throws InvalidResourceException
+     * @throws ResourceNotFoundException
+     */
+    public function findRecursive(
+        string $location,
+        callable $fn,
+        array $parentPath = []
+    ): ?Resource;
 }

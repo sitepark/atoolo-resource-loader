@@ -7,5 +7,18 @@ return new \Atoolo\Resource\Resource(
     'a',
     'a',
     '',
-    []
+    [
+        'base' => [
+            'trees' => [
+                'category' => [
+                    'children' => [
+                        'b' => [
+                            'id' => 'b',
+                            'url' => '/b.php'
+                        ]
+                    ]
+                ]
+            ]
+        ]
+    ]
 );
