@@ -87,38 +87,32 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
      * the given function for each resource. Returns the resource where the
      * callable returns true.
      *
-     * The callable function expects the following parameters:
-     * - array of Resource: the path to the current resource. Don't contains
-     *   the current resource.
+     * The callable function expects the following parameter:
      * - Resource: the current resource
      *
      * The callable function should return true if the current resource is the
      * one we are looking for.
      *
-     * @param callable(Resource[], Resource): bool $fn
-     * @param Resource[] $parentPath
+     * @param callable(Resource): bool $fn
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
     public function findRecursive(
         string $location,
         callable $fn,
-        array $parentPath = []
     ): ?Resource {
 
         $resource = $this->resourceLoader->load($location);
 
-        if ($fn($parentPath, $resource) === true) {
+        if ($fn($resource) === true) {
             return $resource;
         }
 
         $childrenLocationList = $this->getChildrenLocationList($resource);
         foreach ($childrenLocationList as $childLocation) {
-            $parentPathForChild = array_merge($parentPath, [$resource]);
             $result = $this->findRecursive(
                 $childLocation,
-                $fn,
-                $parentPathForChild
+                $fn
             );
             if ($result !== null) {
                 return $result;
