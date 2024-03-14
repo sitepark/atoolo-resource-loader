@@ -88,8 +88,8 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
      * callable returns true.
      *
      * The callable function expects the following parameters:
-     * - array of Resource: the path to the current resource. Don't contains
-     *   the current resource.
+     * - array of Resource: the path to the current resource.
+     *   Does not contain the current resource
      * - Resource: the current resource
      *
      * The callable function should return true if the current resource is the
