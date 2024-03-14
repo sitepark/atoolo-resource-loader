@@ -96,14 +96,23 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
      * one we are looking for.
      *
      * @param callable(Resource[], Resource): bool $fn
-     * @param Resource[] $parentPath
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
     public function findRecursive(
         string $location,
         callable $fn,
-        array $parentPath = []
+    ): ?Resource {
+        return $this->findRecursiveInternal($location, $fn, []);
+    }
+
+    /**
+     * @param Resource[] $parentPath
+     */
+    private function findRecursiveInternal(
+        string $location,
+        callable $fn,
+        array $parentPath
     ): ?Resource {
 
         $resource = $this->resourceLoader->load($location);
@@ -115,7 +124,7 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
         $childrenLocationList = $this->getChildrenLocationList($resource);
         foreach ($childrenLocationList as $childLocation) {
             $parentPathForChild = array_merge($parentPath, [$resource]);
-            $result = $this->findRecursive(
+            $result = $this->findRecursiveInternal(
                 $childLocation,
                 $fn,
                 $parentPathForChild

@@ -70,7 +70,6 @@ interface ResourceHierarchyLoader
      */
     public function findRecursive(
         string $location,
-        callable $fn,
-        array $parentPath = []
+        callable $fn
     ): ?Resource;
 }
