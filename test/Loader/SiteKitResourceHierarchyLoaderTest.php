@@ -177,7 +177,7 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
     {
         $resource = $this->hierarchyLoader->findRecursive(
             '/a.php',
-            static function ($path, $resource) {
+            static function ($resource) {
                 return $resource->getId() === 'c';
             }
         );
@@ -193,7 +193,7 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
     {
         $resource = $this->hierarchyLoader->findRecursive(
             '/a.php',
-            static function ($path, $resource) {
+            static function ($resource) {
                 return $resource->getId() === 'not-existing';
             }
         );
