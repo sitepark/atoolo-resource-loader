@@ -7,6 +7,7 @@ return new \Atoolo\Resource\Resource(
     'b',
     'b',
     '',
+    'en',
     [
         'base' => [
             'trees' => [

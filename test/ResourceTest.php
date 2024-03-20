@@ -19,6 +19,7 @@ class ResourceTest extends TestCase
             '',
             '',
             '',
+            '',
             []
         );
         $this->assertEquals(
@@ -33,6 +34,7 @@ class ResourceTest extends TestCase
         $resource = new Resource(
             '',
             '123',
+            '',
             '',
             '',
             []
@@ -51,6 +53,7 @@ class ResourceTest extends TestCase
             '',
             'Content-Page',
             '',
+            '',
             []
         );
         $this->assertEquals(
@@ -67,6 +70,7 @@ class ResourceTest extends TestCase
             '',
             '',
             'content',
+            '',
             []
         );
         $this->assertEquals(
@@ -76,9 +80,27 @@ class ResourceTest extends TestCase
         );
     }
 
+    public function testGetLang(): void
+    {
+        $resource = new Resource(
+            '',
+            '',
+            '',
+            'content',
+            'en',
+            []
+        );
+        $this->assertEquals(
+            'en',
+            $resource->getLang(),
+            'unexpected lang'
+        );
+    }
+
     public function testGetData(): void
     {
         $resource = new Resource(
+            '',
             '',
             '',
             '',

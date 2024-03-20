@@ -28,22 +28,29 @@ class CachedResourceLoader implements ResourceLoader
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
-    public function load(string $location): Resource
+    public function load(string $location, string $lang = ''): Resource
     {
-        if (isset($this->cache[$location])) {
-            return $this->cache[$location];
+        $key = $this->getKey($location, $lang);
+        if (isset($this->cache[$key])) {
+            return $this->cache[$key];
         }
 
-        $resource = $this->resourceLoader->load($location);
-        $this->cache[$location] = $resource;
+        $resource = $this->resourceLoader->load($location, $lang);
+        $this->cache[$key] = $resource;
         return $resource;
     }
 
-    public function exists(string $location): bool
+    public function exists(string $location, string $lang = ''): bool
     {
-        if (isset($this->cache[$location])) {
+        $key = $this->getKey($location, $lang);
+        if (isset($this->cache[$key])) {
             return true;
         }
-        return $this->resourceLoader->exists($location);
+        return $this->resourceLoader->exists($location, $lang);
+    }
+
+    private function getKey(string $location, string $lang): string
+    {
+        return $lang . ':' . $location;
     }
 }

@@ -5,6 +5,7 @@ return new \Atoolo\Resource\Resource(
     'root',
     'root',
     '',
+    'de_DE',
     [
         'init' => [
             'home' => true

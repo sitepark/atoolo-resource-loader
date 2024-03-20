@@ -19,6 +19,7 @@ class Resource
         private readonly string $id,
         private readonly string $name,
         private readonly string $objectType,
+        private readonly string $lang,
         array $data,
     ) {
         $this->data = new DataBag($data);
@@ -42,6 +43,11 @@ class Resource
     public function getObjectType(): string
     {
         return $this->objectType;
+    }
+
+    public function getLang(): string
+    {
+        return $this->lang;
     }
 
     public function getData(): DataBag

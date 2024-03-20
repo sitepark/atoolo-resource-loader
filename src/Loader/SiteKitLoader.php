@@ -10,17 +10,32 @@ use Atoolo\Resource\Loader\SiteKit\ContextStub;
 use Atoolo\Resource\Loader\SiteKit\LifecylceStub;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceBaseLocator;
+use Atoolo\Resource\ResourceChannelFactory;
 use Atoolo\Resource\ResourceLoader;
+use Error;
+use Locale;
+use ParseError;
 
 /**
  * ResourceLoader that loads resources created with SiteKit aggregators.
- * @phpstan-type InitData array{id: int, name: string, objectType: string}
+ * @phpstan-type InitData array{
+ *     id: int,
+ *     name: string,
+ *     objectType: string,
+ *     locale: string
+ * }
  * @phpstan-type ResourceData array{init: InitData}
  */
 class SiteKitLoader implements ResourceLoader
 {
+    /**
+     * @var array<string, string>|null
+     */
+    private ?array $langLocaleMap = null;
+
     public function __construct(
-        private readonly ResourceBaseLocator $baseLocator
+        private readonly ResourceBaseLocator $baseLocator,
+        private readonly ResourceChannelFactory $resourceChannel,
     ) {
     }
 
@@ -28,40 +43,54 @@ class SiteKitLoader implements ResourceLoader
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
-    public function load(string $location): Resource
+    public function load(string $location, string $lang = ''): Resource
     {
-        $data = $this->loadRaw($location);
+        $data = $this->loadRaw($location, $lang);
 
-        $this->validateData($location, $data);
+        $data = $this->validateData($location, $data);
 
         $init = $data['init'];
+
+        $locale = $init['locale'];
+        $resourceLang = substr($locale, 0, 2);
 
         return new Resource(
             $location,
             (string)$init['id'],
             $init['name'],
             $init['objectType'],
+            $resourceLang,
             $data
         );
     }
 
-    public function exists(string $location): bool
+
+    public function exists(string $location, string $lang = ''): bool
     {
         return file_exists(
-            $this->baseLocator->locate()
-                . DIRECTORY_SEPARATOR
-                . $location
+            $this->locationToFile($location, $lang)
         );
     }
 
+    private function locationToFile(string $location, string $lang): string
+    {
+        $file = $this->baseLocator->locate() . '/' . $location;
+        $locale = $this->langToLocale($lang);
+        if (empty($locale)) {
+            return $file;
+        }
+
+        return $file . '.translations/' . $locale . '.php';
+    }
+
     /**
-     * @return array<string, mixed> $data
+     * @return array<string,mixed>
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
-    private function loadRaw(string $location): array
+    private function loadRaw(string $location, string $lang): array
     {
-        $file = $this->baseLocator->locate() . '/' . $location;
+        $file = $this->locationToFile($location, $lang);
 
         /**
          * $context and $lifecycle must be defined here, because for the SiteKit
@@ -83,15 +112,16 @@ class SiteKitLoader implements ResourceLoader
                         'The resource should return an array'
                     );
             }
+            /* @var ResourceData $data */
             return $data;
-        } catch (\ParseError $e) {
+        } catch (ParseError $e) {
             throw new InvalidResourceException(
                 $location,
                 $e->getMessage(),
                 0,
                 $e
             );
-        } catch (\Error $e) {
+        } catch (Error $e) {
             if (!file_exists($file)) {
                 throw new ResourceNotFoundException(
                     $location,
@@ -112,12 +142,41 @@ class SiteKitLoader implements ResourceLoader
         }
     }
 
+    private function langToLocale(string $lang): string
+    {
+        if (empty($lang)) {
+            return $lang;
+        }
+
+        if ($this->langLocaleMap === null) {
+            $this->langLocaleMap = $this->createLangLocaleMap();
+        }
+
+        return $this->langLocaleMap[$lang] ?? '';
+    }
+
     /**
-     * @param array<string, mixed> $data
-     * @return ($data is ResourceData ? void : never)
+     * @return array<string, string>
+     */
+    private function createLangLocaleMap(): array
+    {
+        $map = [];
+        $resourceChannel = $this->resourceChannel->create();
+        foreach (
+            $resourceChannel->translationLocales as $availableLocale
+        ) {
+            $primaryLang = Locale::getPrimaryLanguage($availableLocale);
+            $map[$primaryLang] = $availableLocale;
+        }
+        return $map;
+    }
+
+    /**
+     * @param array<string,mixed> $data
+     * @return ResourceData
      * @throws InvalidResourceException
      */
-    private function validateData(string $location, array $data): void
+    private function validateData(string $location, array $data): array
     {
 
         /*
@@ -169,5 +228,20 @@ class SiteKitLoader implements ResourceLoader
                 'objectType field not a string'
             );
         }
+        if (!isset($init['locale'])) {
+            throw new InvalidResourceException(
+                $location,
+                'locale field missing'
+            );
+        }
+        if (!is_string($init['locale'])) {
+            throw new InvalidResourceException(
+                $location,
+                'locale field not a string'
+            );
+        }
+
+        /** @var ResourceData $data */
+        return $data;
     }
 }

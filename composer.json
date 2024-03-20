@@ -10,8 +10,9 @@
         }
     ],
     "require": {
-        "php": ">=8.1 <8.4.0"
-    },
+        "php": ">=8.1 <8.4.0",
+		"ext-intl": "*"
+	},
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
         "infection/infection": "^0.27.6",
@@ -45,7 +46,8 @@
     },
     "extra": {
         "branch-alias": {
-            "feature/find-in-hierarchy": "dev-main"
+            "feature/find-in-hierarchy": "dev-main",
+	    "feature/resource-channel" : "dev-main"
         }
     },
     "scripts": {

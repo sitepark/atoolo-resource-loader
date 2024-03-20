@@ -5,5 +5,6 @@ return new \Atoolo\Resource\Resource(
     'a',
     'a',
     '',
+    'de_DE',
     []
 );

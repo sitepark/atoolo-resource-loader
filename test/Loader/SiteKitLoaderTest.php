@@ -9,6 +9,8 @@ use Atoolo\Resource\Exception\ResourceNotFoundException;
 use Atoolo\Resource\Loader\SiteKitLoader;
 use Atoolo\Resource\Loader\StaticResourceBaseLocator;
 use Atoolo\Resource\Resource;
+use Atoolo\Resource\ResourceChannel;
+use Atoolo\Resource\ResourceChannelFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -20,8 +22,23 @@ class SiteKitLoaderTest extends TestCase
     protected function setUp(): void
     {
         $base = realpath(__DIR__ . '/../resources/Loader/SiteKitLoader');
+        $channel = new ResourceChannel(
+            '1',
+            'Test Channel',
+            'test-www',
+            'test-server',
+            false,
+            'internet',
+            'de_DE',
+            'UTF-8',
+            'test-www',
+            ['en_US']
+        );
+        $channelFactory = $this->createStub(ResourceChannelFactory::class);
+        $channelFactory->method('create')->willReturn($channel);
         $this->loader = new SiteKitLoader(
-            new StaticResourceBaseLocator($base)
+            new StaticResourceBaseLocator($base),
+            $channelFactory
         );
     }
 
@@ -31,9 +48,25 @@ class SiteKitLoaderTest extends TestCase
         $this->assertTrue($exists, 'resource should exist');
     }
 
+    public function testExistsWithLang(): void
+    {
+        $exists = $this->loader->exists('validResource.php', 'en');
+        $this->assertTrue($exists, 'resource should exist');
+    }
+
     public function testLoadValidResource(): void
     {
         $resource = $this->loader->load('validResource.php');
+        $this->assertEquals(
+            '1118',
+            $resource->getId(),
+            'unexpected id'
+        );
+    }
+
+    public function testLoadValidResourceWithLang(): void
+    {
+        $resource = $this->loader->load('validResource.php', 'en');
         $this->assertEquals(
             '1118',
             $resource->getId(),
@@ -105,6 +138,18 @@ class SiteKitLoaderTest extends TestCase
     {
         $this->expectException(InvalidResourceException::class);
         $this->loader->load('nonStringObjectTypeResource.php');
+    }
+
+    public function testLoadWithMissingLocale(): void
+    {
+        $this->expectException(InvalidResourceException::class);
+        $this->loader->load('missingLocaleResource.php');
+    }
+
+    public function testLoadWithNonStringLocale(): void
+    {
+        $this->expectException(InvalidResourceException::class);
+        $this->loader->load('nonStringLocaleResource.php');
     }
 
     public function testLoadWithNonArrayReturned(): void

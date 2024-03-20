@@ -63,8 +63,7 @@ interface ResourceHierarchyLoader
      * The callable function should return true if the current resource is the
      * one we are looking for.
      *
-     * @param callable(Resource[], Resource): bool $fn
-     * @param Resource[] $parentPath
+     * @param callable(Resource): bool $fn
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */

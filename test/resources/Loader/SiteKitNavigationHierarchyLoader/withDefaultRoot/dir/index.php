@@ -5,5 +5,6 @@ return new \Atoolo\Resource\Resource(
     'dir-index',
     'dir-index',
     '',
+    'de_DE',
     []
 );

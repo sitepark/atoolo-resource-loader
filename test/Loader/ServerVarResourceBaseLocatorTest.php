@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Atoolo\Resource\Test\Loader;
 
-use Atoolo\Resource\Loader\ResourceLayoutResourceBaseLocator;
 use Atoolo\Resource\Loader\ServerVarResourceBaseLocator;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -28,29 +27,51 @@ class ServerVarResourceBaseLocatorTest extends TestCase
         $_SERVER = $this->saveServerState;
     }
 
-    public function testWithoutSubDirectory(): void
+    public function testWithDocumentRootLayout(): void
     {
-        $_SERVER['RESOURCE_ROOT'] = 'abc';
+        $baseLocation =
+            __DIR__ .
+            '/../resources/Loader/ServerVarResourceBaseLocator' .
+            '/documentRootLayout';
+        $_SERVER['RESOURCE_ROOT'] = $baseLocation;
+
         $locator = new ServerVarResourceBaseLocator('RESOURCE_ROOT');
         $this->assertEquals(
-            'abc',
+            $baseLocation,
             $locator->locate(),
             'unexpected resource base'
         );
     }
 
-    public function testWithSubDirectory(): void
+    public function testWithResourceLayout(): void
     {
-        $_SERVER['RESOURCE_ROOT'] = 'abc';
+        $baseLocation =
+            __DIR__ .
+            '/../resources/Loader/ServerVarResourceBaseLocator' .
+            '/resourceLayout';
+        $_SERVER['RESOURCE_ROOT'] = $baseLocation;
         $locator = new ServerVarResourceBaseLocator(
-            'RESOURCE_ROOT',
-            'objects'
+            'RESOURCE_ROOT'
         );
         $this->assertEquals(
-            'abc/objects',
+            $baseLocation . '/object',
             $locator->locate(),
             'unexpected resource base'
         );
+    }
+
+    public function testWithInvalidDirectory(): void
+    {
+        $baseLocation =
+            __DIR__ .
+            '/../resources/Loader/ServerVarResourceBaseLocator' .
+            '/invalid';
+        $_SERVER['RESOURCE_ROOT'] = $baseLocation;
+        $locator = new ServerVarResourceBaseLocator(
+            'RESOURCE_ROOT'
+        );
+        $this->expectException(RuntimeException::class);
+        $locator->locate();
     }
 
     public function testWithMissingSeverVariable(): void
@@ -59,5 +80,23 @@ class ServerVarResourceBaseLocatorTest extends TestCase
 
         $this->expectException(RuntimeException::class);
         $locator->locate();
+    }
+
+    public function testUseCache(): void
+    {
+        $baseLocation =
+            __DIR__ .
+            '/../resources/Loader/ServerVarResourceBaseLocator' .
+            '/documentRootLayout';
+        $_SERVER['RESOURCE_ROOT'] = $baseLocation;
+
+        $locator = new ServerVarResourceBaseLocator('RESOURCE_ROOT');
+        $locator->locate();
+
+        $this->assertEquals(
+            $baseLocation,
+            $locator->locate(),
+            'unexpected resource base'
+        );
     }
 }

@@ -7,6 +7,7 @@ return new \Atoolo\Resource\Resource(
     'primaryParentWithoutUrl',
     'primaryParentWithoutUrl',
     '',
+    'en',
     [
         'base' => [
             'trees' => [

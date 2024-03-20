@@ -17,7 +17,7 @@ interface ResourceLoader
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
-    public function load(string $location): Resource;
+    public function load(string $location, string $lang = ''): Resource;
 
-    public function exists(string $location): bool;
+    public function exists(string $location, string $lang = ''): bool;
 }
