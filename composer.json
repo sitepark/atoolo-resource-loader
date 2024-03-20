@@ -11,8 +11,8 @@
     ],
     "require": {
         "php": ">=8.1 <8.4.0",
-		"ext-intl": "*"
-	},
+        "ext-intl": "*"
+    },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
         "infection/infection": "^0.27.6",
@@ -43,12 +43,6 @@
             "*": "dist"
         },
         "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "feature/find-in-hierarchy": "dev-main",
-	    "feature/resource-channel" : "dev-main"
-        }
     },
     "scripts": {
         "post-install-cmd": "phive --no-progress install --force-accept-unsigned --trust-gpg-keys C00543248C87FB13,4AA394086372C20A,CF1A108D0E7AE720,51C67305FFC2E5C0",
