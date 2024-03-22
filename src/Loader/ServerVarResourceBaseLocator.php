@@ -28,7 +28,8 @@ class ServerVarResourceBaseLocator implements ResourceBaseLocator
             );
         }
 
-        $resourceLayoutResourceBase = $_SERVER[$this->variableName] . '/object';
+        $resourceLayoutResourceBase = $_SERVER[$this->variableName] .
+            '/objects';
         if (is_dir($resourceLayoutResourceBase)) {
             $this->resourceBase = $resourceLayoutResourceBase;
             return $resourceLayoutResourceBase;

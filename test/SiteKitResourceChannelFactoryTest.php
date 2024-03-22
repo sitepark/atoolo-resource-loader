@@ -20,9 +20,9 @@ class SiteKitResourceChannelFactoryTest extends TestCase
         );
         $resourceDir = __DIR__ .
             '/resources/SiteKitResourceChannelFactory' .
-            '/resourceLayout/object';
+            '/resourceLayout';
         $resourceBaseLocator->method('locate')
-            ->willReturn($resourceDir);
+            ->willReturn($resourceDir . '/objects');
 
         $factory = new SiteKitResourceChannelFactory($resourceBaseLocator);
         $channel = $factory->create();
@@ -53,11 +53,11 @@ class SiteKitResourceChannelFactoryTest extends TestCase
         );
         $resourceDir = __DIR__ .
             '/resources/SiteKitResourceChannelFactory' .
-            '/resourceLayout/object';
+            '/resourceLayout';
         $resourceBaseLocator
             ->expects($this->once())
             ->method('locate')
-            ->willReturn($resourceDir);
+            ->willReturn($resourceDir . '/objects');
 
         $factory = new SiteKitResourceChannelFactory($resourceBaseLocator);
         $factory->create();
@@ -121,9 +121,9 @@ class SiteKitResourceChannelFactoryTest extends TestCase
         );
         $resourceDir = __DIR__ .
             '/resources/SiteKitResourceChannelFactory' .
-            '/invalid/object';
+            '/invalid';
         $resourceBaseLocator->method('locate')
-            ->willReturn($resourceDir);
+            ->willReturn($resourceDir . '/objects');
 
         $factory = new SiteKitResourceChannelFactory($resourceBaseLocator);
 

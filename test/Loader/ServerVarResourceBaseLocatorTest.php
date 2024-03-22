@@ -54,7 +54,7 @@ class ServerVarResourceBaseLocatorTest extends TestCase
             'RESOURCE_ROOT'
         );
         $this->assertEquals(
-            $baseLocation . '/object',
+            $baseLocation . '/objects',
             $locator->locate(),
             'unexpected resource base'
         );
