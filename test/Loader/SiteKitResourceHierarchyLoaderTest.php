@@ -297,35 +297,4 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
             'parent should be null'
         );
     }
-
-    public function testFindRecursive(): void
-    {
-        $resource = $this->hierarchyLoader->findRecursive(
-            '/a.php',
-            static function ($resource) {
-                return $resource->getId() === 'c';
-            }
-        );
-
-        $this->assertEquals(
-            'c',
-            $resource->getId(),
-            'unexpected resource'
-        );
-    }
-
-    public function testFindRecursiveNotFound(): void
-    {
-        $resource = $this->hierarchyLoader->findRecursive(
-            '/a.php',
-            static function ($resource) {
-                return $resource->getId() === 'not-existing';
-            }
-        );
-
-        $this->assertNull(
-            $resource,
-            'resource should be null'
-        );
-    }
 }
