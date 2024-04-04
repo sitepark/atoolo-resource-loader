@@ -22,6 +22,19 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
+    public function load(string $location): Resource
+    {
+        return $this->resourceLoader->load($location);
+    }
+
+    public function exists(string $location): bool
+    {
+        return $this->resourceLoader->exists($location);
+    }
+    /**
+     * @throws InvalidResourceException
+     * @throws ResourceNotFoundException
+     */
     public function loadRoot(string $location): Resource
     {
         $resource = $this->resourceLoader->load($location);
@@ -121,11 +134,6 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
             return null;
         }
         return $this->resourceLoader->load($parentLocation);
-    }
-
-    public function getResourceLoader(): ResourceLoader
-    {
-        return $this->resourceLoader;
     }
 
     public function isRoot(Resource $resource): bool

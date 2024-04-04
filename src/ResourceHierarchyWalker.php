@@ -430,6 +430,6 @@ class ResourceHierarchyWalker
 
     private function load(string $location): Resource
     {
-        return $this->hierarchyLoader->getResourceLoader()->load($location);
+        return $this->hierarchyLoader->load($location);
     }
 }

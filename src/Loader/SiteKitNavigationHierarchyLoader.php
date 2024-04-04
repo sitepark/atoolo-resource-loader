@@ -32,7 +32,7 @@ class SiteKitNavigationHierarchyLoader extends SiteKitResourceHierarchyLoader
         if ($parentLocation === null) {
             return $this->loadDefaultRootResource($resource);
         }
-        return $this->getResourceLoader()->load($parentLocation);
+        return $this->load($parentLocation);
     }
 
     /**
@@ -53,8 +53,8 @@ class SiteKitNavigationHierarchyLoader extends SiteKitResourceHierarchyLoader
             } else {
                 $location = $dir . '/index.php';
             }
-            if ($this->getResourceLoader()->exists($location)) {
-                $root = $this->getResourceLoader()->load($location);
+            if ($this->exists($location)) {
+                $root = $this->load($location);
                 if ($this->isRoot($root)) {
                     return $root;
                 }

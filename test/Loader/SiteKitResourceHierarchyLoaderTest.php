@@ -9,6 +9,7 @@ use Atoolo\Resource\Loader\SiteKitResourceHierarchyLoader;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceLoader;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(SiteKitResourceHierarchyLoader::class)]
@@ -45,14 +46,38 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
         );
     }
 
-    public function testGetResourceLoader(): void
+    /**
+     * @throws Exception
+     */
+    public function testLoad(): void
     {
-        $class = new \ReflectionClass(SiteKitResourceHierarchyLoader::class);
-        $method = $class->getMethod('getResourceLoader');
-        $this->assertNotNull(
-            $method->invoke($this->hierarchyLoader),
-            'getResourceLoader should return the resource-loader'
+        $resourceLoader = $this->createMock(ResourceLoader::class);
+        $hierarchyLoader = new SiteKitResourceHierarchyLoader(
+            $resourceLoader,
+            'category'
         );
+
+        $resourceLoader->expects($this->once())
+            ->method('load');
+
+        $hierarchyLoader->load('/a.php');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testExists(): void
+    {
+        $resourceLoader = $this->createMock(ResourceLoader::class);
+        $hierarchyLoader = new SiteKitResourceHierarchyLoader(
+            $resourceLoader,
+            'category'
+        );
+
+        $resourceLoader->expects($this->once())
+            ->method('exists');
+
+        $hierarchyLoader->exists('/a.php');
     }
 
     public function testLoadPrimaryParentResourceWithoutParent(): void

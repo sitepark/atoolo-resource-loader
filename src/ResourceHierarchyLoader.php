@@ -12,7 +12,7 @@ use Atoolo\Resource\Exception\ResourceNotFoundException;
  * resources or nodes whose hierarchical structure is defined in the resources.
  * For example, the navigation tree.
  */
-interface ResourceHierarchyLoader
+interface ResourceHierarchyLoader extends ResourceLoader
 {
     /**
      * Determines the root resource via the parent links contained in the
@@ -81,9 +81,4 @@ interface ResourceHierarchyLoader
         Resource $resource,
         string $parentId
     ): ?string;
-
-    /**
-     * Returns the `ResourceLoader` instance used to load resources.
-     */
-    public function getResourceLoader(): ResourceLoader;
 }
