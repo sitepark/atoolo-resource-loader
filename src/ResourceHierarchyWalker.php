@@ -6,6 +6,29 @@ namespace Atoolo\Resource;
 
 use LogicException;
 
+/**
+ * The `ResourceHierarchyWalker` class is used to traverse a hierarchy of
+ * resources.
+ *
+ * The walker needs a base resource to start with. This can be set with
+ * `init()`.
+ *
+ * The walker can then be moved up and down in the hierarchy
+ * with the help of methods like
+ * - `down()`
+ * - `child()`
+ * - `up()`
+ * - `nextSibling()`
+ * - `previousSibling()`
+ * - `next()`
+ *
+ * With these methods, the walker can only move below the base resource.
+ * To move above the base resource, the methods `primaryParent()`
+ * and `parent()` can be used.
+ *
+ * The walker can also be used to traverse the entire hierarchy
+ * with the help of the `walk()` method.
+ */
 class ResourceHierarchyWalker
 {
     private ?Resource $current = null;
