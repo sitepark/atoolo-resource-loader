@@ -17,7 +17,7 @@ class SiteKitNavigationHierarchyLoader extends SiteKitResourceHierarchyLoader
         parent::__construct($resourceLoader, 'navigation');
     }
 
-    protected function isRoot(Resource $resource): bool
+    public function isRoot(Resource $resource): bool
     {
         return $resource->getData()->getBool('init.home');
     }

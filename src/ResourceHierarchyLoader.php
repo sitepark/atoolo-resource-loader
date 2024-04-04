@@ -23,23 +23,23 @@ interface ResourceHierarchyLoader
     public function loadRoot(string $location): Resource;
 
     /**
-     * Determines the parent resource via the parent links contained in the
-     * resource data.
+     * Determines the primary parent resource via the parent links
+     * contained in the resource data.
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
-    public function loadParent(string $location): ?Resource;
+    public function loadPrimaryParent(string $location): ?Resource;
 
     /**
-     * Determines the path to the root resource via the parent links contained
-     * in the resource data.
+     * Determines the path to the root resource via the primary parent links
+     * contained in the resource data.
      * The array contains the resources starting with the root resource. The
      * last element of the array is the resource of the passed `$location`
      * @return Resource[]
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
-    public function loadPath(string $location): array;
+    public function loadPrimaryPath(string $location): array;
 
     /**
      * Determines the children resources via the children links contained in the
@@ -51,22 +51,39 @@ interface ResourceHierarchyLoader
     public function loadChildren(string $location): array;
 
     /**
-     * Walks the tree of resources starting from the given location and calls
-     * the given function for each resource. Returns the resource where the
-     * callable returns true.
+     * Indicates whether the passed resource is a root resource.
      *
-     * The callable function expects the following parameters:
-     * - Resource: the current resource
-     *
-     * The callable function should return true if the current resource is the
-     * one we are looking for.
-     *
-     * @param callable(Resource): bool $fn
-     * @throws InvalidResourceException
-     * @throws ResourceNotFoundException
+     * @param Resource $resource
+     * @return bool
      */
-    public function findRecursive(
-        string $location,
-        callable $fn
-    ): ?Resource;
+    public function isRoot(Resource $resource): bool;
+
+    /**
+     * Determines the children locations via the children links contained in the
+     * resource data.
+     *
+     * @return string[]
+     */
+    public function getChildrenLocations(Resource $resource): array;
+
+    /**
+     * Determines the primary parent location via the parent links contained in
+     * the resource data.
+     */
+    public function getPrimaryParentLocation(Resource $resource): ?string;
+
+    /**
+     * Determines the secondary parent location via the parent links contained
+     * in the resource data. A secondary parent is identified by the passed
+     * `$parentId`.
+     */
+    public function getParentLocation(
+        Resource $resource,
+        string $parentId
+    ): ?string;
+
+    /**
+     * Returns the `ResourceLoader` instance used to load resources.
+     */
+    public function getResourceLoader(): ResourceLoader;
 }
