@@ -251,6 +251,7 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
             '',
             '',
             '',
+            '',
             []
         );
         $parent = $this->hierarchyLoader->getParentLocation(
@@ -266,6 +267,7 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
     public function testGetParentLocationWithInvalidData(): void
     {
         $resource = new Resource(
+            '',
             '',
             '',
             '',
@@ -293,6 +295,7 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
     public function testGetParentLocationWithParentIdNotFound(): void
     {
         $resource = new Resource(
+            '',
             '',
             '',
             '',

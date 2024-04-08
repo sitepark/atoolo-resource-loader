@@ -22,14 +22,14 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
-    public function load(string $location): Resource
+    public function load(string $location, string $lang = ''): Resource
     {
-        return $this->resourceLoader->load($location);
+        return $this->resourceLoader->load($location, $lang);
     }
 
-    public function exists(string $location): bool
+    public function exists(string $location, string $lang = ''): bool
     {
-        return $this->resourceLoader->exists($location);
+        return $this->resourceLoader->exists($location, $lang);
     }
     /**
      * @throws InvalidResourceException

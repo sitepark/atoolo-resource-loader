@@ -428,8 +428,8 @@ class ResourceHierarchyWalker
         }
     }
 
-    private function load(string $location): Resource
+    private function load(string $location, string $lang = ''): Resource
     {
-        return $this->hierarchyLoader->load($location);
+        return $this->hierarchyLoader->load($location, $lang);
     }
 }
