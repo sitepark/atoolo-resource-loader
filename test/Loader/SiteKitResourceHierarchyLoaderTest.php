@@ -6,8 +6,10 @@ namespace Atoolo\Resource\Test\Loader;
 
 use Atoolo\Resource\Exception\InvalidResourceException;
 use Atoolo\Resource\Loader\SiteKitResourceHierarchyLoader;
+use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceLoader;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(SiteKitResourceHierarchyLoader::class)]
@@ -44,14 +46,38 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
         );
     }
 
-    public function testGetResourceLoader(): void
+    /**
+     * @throws Exception
+     */
+    public function testLoad(): void
     {
-        $class = new \ReflectionClass(SiteKitResourceHierarchyLoader::class);
-        $method = $class->getMethod('getResourceLoader');
-        $this->assertNotNull(
-            $method->invoke($this->hierarchyLoader),
-            'getResourceLoader should return the resource-loader'
+        $resourceLoader = $this->createMock(ResourceLoader::class);
+        $hierarchyLoader = new SiteKitResourceHierarchyLoader(
+            $resourceLoader,
+            'category'
         );
+
+        $resourceLoader->expects($this->once())
+            ->method('load');
+
+        $hierarchyLoader->load('/a.php');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testExists(): void
+    {
+        $resourceLoader = $this->createMock(ResourceLoader::class);
+        $hierarchyLoader = new SiteKitResourceHierarchyLoader(
+            $resourceLoader,
+            'category'
+        );
+
+        $resourceLoader->expects($this->once())
+            ->method('exists');
+
+        $hierarchyLoader->exists('/a.php');
     }
 
     public function testLoadPrimaryParentResourceWithoutParent(): void
@@ -75,9 +101,9 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
         );
     }
 
-    public function testLoadParent(): void
+    public function testLoadPrimaryParent(): void
     {
-        $parent = $this->hierarchyLoader->loadParent('/c.php');
+        $parent = $this->hierarchyLoader->loadPrimaryParent('/c.php');
 
         $this->assertEquals(
             'b',
@@ -120,9 +146,9 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
         );
     }
 
-    public function testLoadPath(): void
+    public function testLoadPrimaryPath(): void
     {
-        $path = $this->hierarchyLoader->loadPath('/c.php');
+        $path = $this->hierarchyLoader->loadPrimaryPath('/c.php');
 
         $pathIdList = array_map(function ($resource) {
             return $resource->getId();
@@ -135,28 +161,32 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
         );
     }
 
-    public function testLoadParentWithoutParent(): void
+    public function testLoadPrimaryParentWithoutParent(): void
     {
-        $parent = $this->hierarchyLoader->loadParent('/a.php');
+        $parent = $this->hierarchyLoader->loadPrimaryParent('/a.php');
         $this->assertNull($parent, 'parent should be null');
     }
 
     public function testLoadRootResourcePrimaryParentWithoutUrl(): void
     {
         $this->expectException(InvalidResourceException::class);
-        $this->hierarchyLoader->loadParent('/primaryParentWithoutUrl.php');
+        $this->hierarchyLoader->loadPrimaryParent(
+            '/primaryParentWithoutUrl.php'
+        );
     }
 
     public function testLoadRootResourcePrimaryParentWithInvalidData(): void
     {
         $this->expectException(InvalidResourceException::class);
-        $this->hierarchyLoader->loadParent('/primaryParentWithInvalidData.php');
+        $this->hierarchyLoader->loadPrimaryParent(
+            '/primaryParentWithInvalidData.php'
+        );
     }
 
     public function testLoadRootResourcePrimaryParentWithNonStringUrl(): void
     {
         $this->expectException(InvalidResourceException::class);
-        $this->hierarchyLoader->loadParent(
+        $this->hierarchyLoader->loadPrimaryParent(
             '/primaryParentWithNonStringUrl.php'
         );
     }
@@ -164,43 +194,132 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
     public function testLoadRootResourceFirstParentWithoutUrl(): void
     {
         $this->expectException(InvalidResourceException::class);
-        $this->hierarchyLoader->loadParent('/firstParentWithoutUrl.php');
+        $this->hierarchyLoader->loadPrimaryParent(
+            '/firstParentWithoutUrl.php'
+        );
     }
 
     public function testLoadRootResourceFirstParentWithNonStringUrl(): void
     {
         $this->expectException(InvalidResourceException::class);
-        $this->hierarchyLoader->loadParent('/firstParentWithNonStringUrl.php');
+        $this->hierarchyLoader->loadPrimaryParent(
+            '/firstParentWithNonStringUrl.php'
+        );
     }
 
-    public function testFindRecursive(): void
+    public function testLoadParent(): void
     {
-        $resource = $this->hierarchyLoader->findRecursive(
-            '/a.php',
-            static function ($resource) {
-                return $resource->getId() === 'c';
-            }
+        $parent = $this->hierarchyLoader->loadParent(
+            '/b.php',
+            'a'
         );
-
         $this->assertEquals(
-            'c',
-            $resource->getId(),
-            'unexpected resource'
+            'a',
+            $parent->getId(),
+            'unexpected parent'
         );
     }
 
-    public function testFindRecursiveNotFound(): void
+    public function testLoadParentIdNotFound(): void
     {
-        $resource = $this->hierarchyLoader->findRecursive(
+        $parent = $this->hierarchyLoader->loadParent(
+            '/b.php',
+            'x'
+        );
+        $this->assertNull(
+            $parent,
+            'parent should be null'
+        );
+    }
+
+    public function testLoadParentOfRoot(): void
+    {
+        $parent = $this->hierarchyLoader->loadParent(
             '/a.php',
-            static function ($resource) {
-                return $resource->getId() === 'not-existing';
-            }
+            'x'
+        );
+        $this->assertNull(
+            $parent,
+            'parent should be null'
+        );
+    }
+
+    public function testGetParentLocationWithoutParents(): void
+    {
+        $resource = new Resource(
+            '',
+            '',
+            '',
+            '',
+            []
+        );
+        $parent = $this->hierarchyLoader->getParentLocation(
+            $resource,
+            'x'
+        );
+        $this->assertNull(
+            $parent,
+            'parent should be null'
+        );
+    }
+
+    public function testGetParentLocationWithInvalidData(): void
+    {
+        $resource = new Resource(
+            '',
+            '',
+            '',
+            '',
+            [
+                'base' => [
+                    'trees' => [
+                        'category' => [
+                            'parents' => [
+                                'a' => 'invalid'
+                            ]
+                        ]
+                    ]
+                ]
+            ]
         );
 
-        $this->assertNull(
+        $this->expectException(InvalidResourceException::class);
+        $this->hierarchyLoader->getParentLocation(
             $resource,
-            'resource should be null'
+            'x'
+        );
+    }
+
+    public function testGetParentLocationWithParentIdNotFound(): void
+    {
+        $resource = new Resource(
+            '',
+            '',
+            '',
+            '',
+            [
+                'base' => [
+                    'trees' => [
+                        'category' => [
+                            'parents' => [
+                                'a' => [
+                                    'id' => 'a',
+                                    'url' => '/a.php'
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        );
+
+        $parent = $this->hierarchyLoader->getParentLocation(
+            $resource,
+            'x'
+        );
+        $this->assertNull(
+            $parent,
+            'parent should be null'
         );
     }
 }
