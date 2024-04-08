@@ -3,20 +3,19 @@
 declare(strict_types=1);
 
 return new \Atoolo\Resource\Resource(
-    '/a.php',
-    'a',
-    'a',
+    '/1-1-1-1.php',
+    '1-1-1-1',
+    '1-1-1-1',
     '',
     [
         'base' => [
             'trees' => [
                 'category' => [
-                    'children' => [
-                        'b' => [
-                            'id' => 'b',
-                            'url' => '/b.php'
+                    'parents' => [
+                        '1-1-1' => [
+                            'url' => '/1/1/1.php'
                         ]
-                    ]
+                    ],
                 ]
             ]
         ]
