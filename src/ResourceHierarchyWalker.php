@@ -414,12 +414,13 @@ class ResourceHierarchyWalker
      * In the method, `init($base)` is called, which resets the walker
      * if necessary. Here `next()` is used to traverse the hierarchy.
      *
-     * @param Resource $base The resource from which the hierarchy is to
-     *  be traversed.
+     * @param Resource|string $base The resource to be used initially.
+     * *  If `$base` is a string it is assumed that it is a location and
+     * *  the resource is loaded.
      * @param callable(Resource): void $fn The method to be called for each
      *  resource.
      */
-    public function walk(Resource $base, callable $fn): void
+    public function walk(Resource|string $base, callable $fn): void
     {
         $this->init($base);
         $fn($base);

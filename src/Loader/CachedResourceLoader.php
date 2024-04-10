@@ -12,6 +12,7 @@ use Atoolo\Resource\ResourceLoader;
 /**
  * The CachedResourceLoader class is used to load resources
  * from a given location and cache them for future use.
+ * The cache is stored in memory and is not persistent.
  */
 class CachedResourceLoader implements ResourceLoader
 {
