@@ -151,9 +151,7 @@ class SiteKitLoader implements ResourceLoader
             return $lang;
         }
 
-        if ($this->langLocaleMap === null) {
-            $this->langLocaleMap = $this->createLangLocaleMap();
-        }
+        $this->langLocaleMap ??= $this->createLangLocaleMap();
 
         return $this->langLocaleMap[$lang] ?? '';
     }
