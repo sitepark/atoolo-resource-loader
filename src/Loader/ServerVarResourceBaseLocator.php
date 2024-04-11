@@ -28,21 +28,16 @@ class ServerVarResourceBaseLocator implements ResourceBaseLocator
             );
         }
 
-        $resourceLayoutResourceBase = $_SERVER[$this->variableName] .
-            '/objects';
-        if (is_dir($resourceLayoutResourceBase)) {
-            $this->resourceBase = $resourceLayoutResourceBase;
-            return $resourceLayoutResourceBase;
+        $base = $_SERVER[$this->variableName];
+        $baseObjects = $base . DIRECTORY_SEPARATOR . 'objects';
+        if (is_dir($baseObjects)) {
+            return $this->resourceBase = $baseObjects;
         }
-
-        if (is_dir($_SERVER[$this->variableName])) {
-            $this->resourceBase = $_SERVER[$this->variableName];
-            return $_SERVER[$this->variableName];
+        if (is_dir($base)) {
+            return $this->resourceBase = $base;
         }
-
         throw new RuntimeException(
-            "Resource root directory not found: " .
-            $_SERVER[$this->variableName]
+            'Resource root directory not found: ' . $base
         );
     }
 }
