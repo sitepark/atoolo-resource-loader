@@ -23,7 +23,7 @@ class ResourceChannel
         public readonly string $name,
         public readonly string $anchor,
         public readonly string $serverName,
-        public readonly bool $preview,
+        public readonly bool $isPreview,
         public readonly string $nature,
         public readonly string $locale,
         public readonly string $encoding,
