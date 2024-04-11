@@ -67,7 +67,6 @@ class SiteKitLoader implements ResourceLoader
         );
     }
 
-
     public function exists(string $location, string $lang = ''): bool
     {
         return file_exists(

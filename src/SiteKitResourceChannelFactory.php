@@ -76,6 +76,7 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
         /** @var ContextPhp $context */
         return $context;
     }
+
     private function findContextPhpFile(): string
     {
         $resourceBase = $this->resourceBaseLocator->locate();
