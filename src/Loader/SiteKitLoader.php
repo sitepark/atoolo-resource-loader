@@ -35,7 +35,7 @@ class SiteKitLoader implements ResourceLoader
 
     public function __construct(
         private readonly ResourceBaseLocator $baseLocator,
-        private readonly ResourceChannelFactory $resourceChannel,
+        private readonly ResourceChannelFactory $resourceChannelFactory,
     ) {
     }
 
@@ -161,7 +161,7 @@ class SiteKitLoader implements ResourceLoader
     private function createLangLocaleMap(): array
     {
         $map = [];
-        $resourceChannel = $this->resourceChannel->create();
+        $resourceChannel = $this->resourceChannelFactory->create();
         foreach (
             $resourceChannel->translationLocales as $availableLocale
         ) {
