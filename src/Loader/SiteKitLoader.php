@@ -29,7 +29,7 @@ use ParseError;
 class SiteKitLoader implements ResourceLoader
 {
     /**
-     * @var array<string, string>|null
+     * @var ?array<string, string> $langLocaleMap
      */
     private ?array $langLocaleMap = null;
 
