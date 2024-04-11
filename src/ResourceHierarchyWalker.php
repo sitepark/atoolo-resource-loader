@@ -422,6 +422,9 @@ class ResourceHierarchyWalker
      */
     public function walk(Resource|string $base, callable $fn): void
     {
+        if (is_string($base)) {
+            $base = $this->load($base);
+        }
         $this->init($base);
         $fn($base);
         while ($current = $this->next()) {
