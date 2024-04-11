@@ -33,10 +33,13 @@ class SiteKitLoader implements ResourceLoader
      */
     private ?array $langLocaleMap = null;
 
+    private string $resourceBase;
+
     public function __construct(
         private readonly ResourceBaseLocator $baseLocator,
         private readonly ResourceChannelFactory $resourceChannelFactory,
     ) {
+        $this->resourceBase = $this->baseLocator->locate();
     }
 
     /**
@@ -74,7 +77,7 @@ class SiteKitLoader implements ResourceLoader
 
     private function locationToFile(string $location, string $lang): string
     {
-        $file = $this->baseLocator->locate() . '/' . $location;
+        $file = $this->resourceBase . '/' . $location;
         $locale = $this->langToLocale($lang);
         if (empty($locale)) {
             return $file;
