@@ -80,16 +80,22 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
     private function findContextPhpFile(): string
     {
         $resourceBase = $this->resourceBaseLocator->locate();
-        if (file_exists($resourceBase . '/../context.php')) {
-            $contextPhpFile = dirname($resourceBase) . '/context.php';
-        } else {
-            $contextPhpFile = $resourceBase . '/WEB-IES/context.php';
+        $resourceLayoutContextPhpFile = dirname($resourceBase) . '/context.php';
+
+        if (file_exists($resourceLayoutContextPhpFile)) {
+            return $resourceLayoutContextPhpFile;
         }
-        if (!file_exists($contextPhpFile)) {
+
+        $documentRootLayoutContextPhpFile =
+            $resourceBase . '/WEB-IES/context.php';
+
+        if (!file_exists($documentRootLayoutContextPhpFile)) {
             throw new RuntimeException(
-                'context.php does not exists: ' . $contextPhpFile
+                'context.php does not exists: ' .
+                $resourceLayoutContextPhpFile . ' or ' .
+                $documentRootLayoutContextPhpFile
             );
         }
-        return $contextPhpFile;
+        return $documentRootLayoutContextPhpFile;
     }
 }
