@@ -32,13 +32,10 @@ class CachedResourceLoader implements ResourceLoader
     public function load(string $location, string $lang = ''): Resource
     {
         $key = $this->getKey($location, $lang);
-        if (isset($this->cache[$key])) {
-            return $this->cache[$key];
-        }
-
-        $resource = $this->resourceLoader->load($location, $lang);
-        $this->cache[$key] = $resource;
-        return $resource;
+        return $this->cache[$key] ??= $this->resourceLoader->load(
+            $location,
+            $lang
+        );
     }
 
     public function exists(string $location, string $lang = ''): bool
