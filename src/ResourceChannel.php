@@ -10,7 +10,7 @@ namespace Atoolo\Resource;
  * website, but also a preview or intranet channel, for example.
  *
  * These channels have certain properties that are mapped in this class.
- * are mapped in this class.
+ *
  *@codeCoverageIgnore
  */
 class ResourceChannel
