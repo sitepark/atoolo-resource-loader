@@ -15,16 +15,12 @@ class SiteKitResourceChannelFactoryTest extends TestCase
 {
     public function testCreateWithResourceLayout(): void
     {
-        $resourceBaseLocator = $this->createStub(
-            ResourceBaseLocator::class
-        );
-        $resourceDir = __DIR__ .
+        $baseDir = __DIR__ .
             '/resources/SiteKitResourceChannelFactory' .
             '/resourceLayout';
-        $resourceBaseLocator->method('locate')
-            ->willReturn($resourceDir . '/objects');
+        $resourceDir = $baseDir . '/objects';
 
-        $factory = new SiteKitResourceChannelFactory($resourceBaseLocator);
+        $factory = new SiteKitResourceChannelFactory($baseDir);
         $channel = $factory->create();
 
         $expected = new ResourceChannel(
@@ -35,7 +31,8 @@ class SiteKitResourceChannelFactoryTest extends TestCase
             true,
             'internet',
             'de_DE',
-            'UTF-8',
+            $baseDir,
+            $resourceDir,
             'test',
             []
         );
@@ -46,36 +43,14 @@ class SiteKitResourceChannelFactoryTest extends TestCase
         );
     }
 
-    public function testCreateCache(): void
-    {
-        $resourceBaseLocator = $this->createMock(
-            ResourceBaseLocator::class
-        );
-        $resourceDir = __DIR__ .
-            '/resources/SiteKitResourceChannelFactory' .
-            '/resourceLayout';
-        $resourceBaseLocator
-            ->expects($this->once())
-            ->method('locate')
-            ->willReturn($resourceDir . '/objects');
-
-        $factory = new SiteKitResourceChannelFactory($resourceBaseLocator);
-        $factory->create();
-        $factory->create();
-    }
-
     public function testCreateWithDocumentRootLayout(): void
     {
-        $resourceBaseLocator = $this->createStub(
-            ResourceBaseLocator::class
-        );
-        $resourceDir = __DIR__ .
+        $baseDir = __DIR__ .
             '/resources/SiteKitResourceChannelFactory' .
             '/documentRootLayout';
-        $resourceBaseLocator->method('locate')
-            ->willReturn($resourceDir);
+        $resourceDir = $baseDir;
 
-        $factory = new SiteKitResourceChannelFactory($resourceBaseLocator);
+        $factory = new SiteKitResourceChannelFactory($baseDir);
         $channel = $factory->create();
 
         $expected = new ResourceChannel(
@@ -86,7 +61,8 @@ class SiteKitResourceChannelFactoryTest extends TestCase
             true,
             'internet',
             'de_DE',
-            'UTF-8',
+            $baseDir,
+            $resourceDir,
             'test',
             []
         );
@@ -99,16 +75,11 @@ class SiteKitResourceChannelFactoryTest extends TestCase
 
     public function testCreateNonExistsContextPhp(): void
     {
-        $resourceBaseLocator = $this->createStub(
-            ResourceBaseLocator::class
-        );
         $resourceDir = __DIR__ .
             '/resources/SiteKitResourceChannelFactory' .
             '/noexists';
-        $resourceBaseLocator->method('locate')
-            ->willReturn($resourceDir);
 
-        $factory = new SiteKitResourceChannelFactory($resourceBaseLocator);
+        $factory = new SiteKitResourceChannelFactory($resourceDir);
 
         $this->expectException(\RuntimeException::class);
         $factory->create();
@@ -116,16 +87,11 @@ class SiteKitResourceChannelFactoryTest extends TestCase
 
     public function testCreateWithInvalidContextPhp(): void
     {
-        $resourceBaseLocator = $this->createStub(
-            ResourceBaseLocator::class
-        );
         $resourceDir = __DIR__ .
             '/resources/SiteKitResourceChannelFactory' .
             '/invalid';
-        $resourceBaseLocator->method('locate')
-            ->willReturn($resourceDir . '/objects');
 
-        $factory = new SiteKitResourceChannelFactory($resourceBaseLocator);
+        $factory = new SiteKitResourceChannelFactory($resourceDir);
 
         $this->expectException(\RuntimeException::class);
         $factory->create();

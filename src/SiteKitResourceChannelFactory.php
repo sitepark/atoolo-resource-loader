@@ -23,19 +23,19 @@ use RuntimeException;
  */
 class SiteKitResourceChannelFactory implements ResourceChannelFactory
 {
-    private ?ResourceChannel $resourceChannel = null;
+    private string $contextPhpFile;
+
+    private string $resourceDir;
 
     public function __construct(
-        private readonly ResourceBaseLocator $resourceBaseLocator
+        private readonly string $baseDir
     ) {
     }
 
     public function create(): ResourceChannel
     {
 
-        if ($this->resourceChannel !== null) {
-            return $this->resourceChannel;
-        }
+        $this->determinePaths();
 
         $data = $this->loadContextPhpFile();
 
@@ -44,7 +44,7 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
             '-',
             $data['publisher']['anchor']
         );
-        $this->resourceChannel = new ResourceChannel(
+        return new ResourceChannel(
             (string)$data['publisher']['id'],
             $data['publisher']['name'],
             $data['publisher']['anchor'],
@@ -52,12 +52,11 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
             $data['publisher']['preview'],
             $data['publisher']['nature'],
             $data['publisher']['locale'] ?? 'de_DE',
-            $data['publisher']['encoding'] ?? 'UTF-8',
+            $this->baseDir,
+            $this->resourceDir,
             $searchIndex,
             $data['publisher']['translationLocales'] ?? [],
         );
-
-        return $this->resourceChannel;
     }
 
     /**
@@ -65,8 +64,7 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
      */
     private function loadContextPhpFile(): array
     {
-        $contextPhpFile = $this->findContextPhpFile();
-        $context = require $contextPhpFile;
+        $context = require $this->contextPhpFile;
         if (!is_array($context)) {
             throw new RuntimeException(
                 'context.php must return an array'
@@ -77,17 +75,18 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
         return $context;
     }
 
-    private function findContextPhpFile(): string
+    private function determinePaths(): void
     {
-        $resourceBase = $this->resourceBaseLocator->locate();
-        $resourceLayoutContextPhpFile = dirname($resourceBase) . '/context.php';
+        $resourceLayoutContextPhpFile = $this->baseDir . '/context.php';
 
         if (file_exists($resourceLayoutContextPhpFile)) {
-            return $resourceLayoutContextPhpFile;
+            $this->contextPhpFile = $resourceLayoutContextPhpFile;
+            $this->resourceDir = $this->baseDir . '/objects';
+            return;
         }
 
         $documentRootLayoutContextPhpFile =
-            $resourceBase . '/WEB-IES/context.php';
+            $this->baseDir . '/WEB-IES/context.php';
 
         if (!file_exists($documentRootLayoutContextPhpFile)) {
             throw new RuntimeException(
@@ -96,6 +95,8 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
                 $documentRootLayoutContextPhpFile
             );
         }
-        return $documentRootLayoutContextPhpFile;
+
+        $this->contextPhpFile = $documentRootLayoutContextPhpFile;
+        $this->resourceDir = $this->baseDir;
     }
 }

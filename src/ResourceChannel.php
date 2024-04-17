@@ -26,7 +26,8 @@ class ResourceChannel
         public readonly bool $isPreview,
         public readonly string $nature,
         public readonly string $locale,
-        public readonly string $encoding,
+        public readonly string $baseDir,
+        public readonly string $resourceDir,
         public readonly string $searchIndex,
         public readonly array $translationLocales
     ) {

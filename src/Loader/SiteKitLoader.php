@@ -10,6 +10,7 @@ use Atoolo\Resource\Loader\SiteKit\ContextStub;
 use Atoolo\Resource\Loader\SiteKit\LifecylceStub;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceBaseLocator;
+use Atoolo\Resource\ResourceChannel;
 use Atoolo\Resource\ResourceChannelFactory;
 use Atoolo\Resource\ResourceLoader;
 use Error;
@@ -33,13 +34,9 @@ class SiteKitLoader implements ResourceLoader
      */
     private ?array $langLocaleMap = null;
 
-    private string $resourceBase;
-
     public function __construct(
-        private readonly ResourceBaseLocator $baseLocator,
-        private readonly ResourceChannelFactory $resourceChannelFactory,
+        private readonly ResourceChannel $resourceChannel
     ) {
-        $this->resourceBase = $this->baseLocator->locate();
     }
 
     /**
@@ -76,7 +73,7 @@ class SiteKitLoader implements ResourceLoader
 
     private function locationToFile(string $location, string $lang): string
     {
-        $file = $this->resourceBase . '/' . $location;
+        $file = $this->resourceChannel->resourceDir . '/' . $location;
         $locale = $this->langToLocale($lang);
         if (empty($locale)) {
             return $file;
@@ -161,9 +158,8 @@ class SiteKitLoader implements ResourceLoader
     private function createLangLocaleMap(): array
     {
         $map = [];
-        $resourceChannel = $this->resourceChannelFactory->create();
         foreach (
-            $resourceChannel->translationLocales as $availableLocale
+            $this->resourceChannel->translationLocales as $availableLocale
         ) {
             $primaryLang = Locale::getPrimaryLanguage($availableLocale);
             $map[$primaryLang] = $availableLocale;

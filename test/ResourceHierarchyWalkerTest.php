@@ -409,11 +409,9 @@ class ResourceHierarchyWalkerTest extends TestCase
         $this->walker->next();
     }
 
-    public function testWalk(): void
+    public function testWalkWithResource(): void
     {
         $root = $this->loader->load('/root.php');
-        $this->walker->init($root);
-
         $idList = [];
         $this->walker->walk($root, function ($resource) use (&$idList) {
             $idList[] = $resource->getId();
@@ -435,4 +433,29 @@ class ResourceHierarchyWalkerTest extends TestCase
             'unexpected id list'
         );
     }
+
+    public function testWalkWithLocationString(): void
+    {
+        $idList = [];
+        $this->walker->walk('/root.php', function ($resource) use (&$idList) {
+            $idList[] = $resource->getId();
+        });
+
+        $expected = [
+            'root',
+            '1',
+            '1-1',
+            '1-1-1',
+            '1-1-1-1',
+            '2',
+            '2-1',
+            '2-2',
+        ];
+        $this->assertEquals(
+            $expected,
+            $idList,
+            'unexpected id list'
+        );
+    }
+
 }

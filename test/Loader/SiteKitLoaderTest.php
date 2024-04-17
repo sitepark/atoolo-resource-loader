@@ -21,7 +21,7 @@ class SiteKitLoaderTest extends TestCase
 
     protected function setUp(): void
     {
-        $base = realpath(__DIR__ . '/../resources/Loader/SiteKitLoader');
+        $resourceDir = realpath(__DIR__ . '/../resources/Loader/SiteKitLoader');
         $channel = new ResourceChannel(
             '1',
             'Test Channel',
@@ -30,16 +30,12 @@ class SiteKitLoaderTest extends TestCase
             false,
             'internet',
             'de_DE',
-            'UTF-8',
+            '',
+            $resourceDir,
             'test-www',
             ['en_US']
         );
-        $channelFactory = $this->createStub(ResourceChannelFactory::class);
-        $channelFactory->method('create')->willReturn($channel);
-        $this->loader = new SiteKitLoader(
-            new StaticResourceBaseLocator($base),
-            $channelFactory
-        );
+        $this->loader = new SiteKitLoader($channel);
     }
 
     public function testExists(): void
