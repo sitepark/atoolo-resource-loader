@@ -29,7 +29,7 @@ class ResourceLanguageTest extends TestCase
         $this->assertSame('en', $language->code);
     }
 
-    public function testOfWithISO_639_1(): void
+    public function testOfWithISO639part1(): void
     {
         $language = ResourceLanguage::of('de-at');
         $this->assertSame('de', $language->code);
@@ -47,9 +47,8 @@ class ResourceLanguageTest extends TestCase
         $this->assertSame('', $language->code);
     }
 
-
     /*
-    public function testOfWithISO_639_2(): void
+    public function testOfWithISO639part2(): void
     {
         $language = ResourceLanguage::of('ger');
         $this->assertSame('de', $language->code);

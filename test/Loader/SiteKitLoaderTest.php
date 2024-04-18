@@ -137,25 +137,33 @@ class SiteKitLoaderTest extends TestCase
     public function testLoadWithMissingObjectType(): void
     {
         $this->expectException(InvalidResourceException::class);
-        $this->loader->load(ResourceLocation::of('missingObjectTypeResource.php'));
+        $this->loader->load(
+            ResourceLocation::of('missingObjectTypeResource.php')
+        );
     }
 
     public function testLoadWithNonStringObjectType(): void
     {
         $this->expectException(InvalidResourceException::class);
-        $this->loader->load(ResourceLocation::of('nonStringObjectTypeResource.php'));
+        $this->loader->load(
+            ResourceLocation::of('nonStringObjectTypeResource.php')
+        );
     }
 
     public function testLoadWithMissingLocale(): void
     {
         $this->expectException(InvalidResourceException::class);
-        $this->loader->load(ResourceLocation::of('missingLocaleResource.php'));
+        $this->loader->load(
+            ResourceLocation::of('missingLocaleResource.php')
+        );
     }
 
     public function testLoadWithNonStringLocale(): void
     {
         $this->expectException(InvalidResourceException::class);
-        $this->loader->load(ResourceLocation::of('nonStringLocaleResource.php'));
+        $this->loader->load(
+            ResourceLocation::of('nonStringLocaleResource.php')
+        );
     }
 
     public function testLoadWithNonArrayReturned(): void

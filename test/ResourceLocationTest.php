@@ -58,5 +58,4 @@ class ResourceLocationTest extends TestCase
             'unexpected string'
         );
     }
-
 }
