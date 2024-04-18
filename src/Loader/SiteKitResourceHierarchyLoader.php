@@ -122,10 +122,7 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
         $parentLocation = $this->getPrimaryParentLocation($resource);
         if ($parentLocation === null) {
             throw new InvalidResourceException(
-                ResourceLocation::of(
-                    $resource->location,
-                    $resource->lang
-                ),
+                $resource->toLocation(),
                 'the resources should have a parent'
             );
         }

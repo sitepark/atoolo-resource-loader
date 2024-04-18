@@ -75,8 +75,7 @@ class ResourceHierarchyWalker
     public function init(Resource|ResourceLocation $base): Resource
     {
         if ($base instanceof ResourceLocation) {
-            $this->lang = $base->lang;
-            $base = $this->load($base->location);
+            $base = $this->hierarchyLoader->load($base);
         }
         $this->current = $base;
         $this->lang = $base->lang;
