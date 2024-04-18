@@ -7,6 +7,7 @@ namespace Atoolo\Resource\Test;
 use Atoolo\Resource\Loader\SiteKitResourceHierarchyLoader;
 use Atoolo\Resource\ResourceHierarchyFinder;
 use Atoolo\Resource\ResourceLoader;
+use Atoolo\Resource\ResourceLocation;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -30,7 +31,7 @@ class ResourceHierarchyFinderTest extends TestCase
             ->willReturnCallback(static function ($location) use (
                 $resourceBaseDir
             ) {
-                return include $resourceBaseDir . $location;
+                return include $resourceBaseDir . $location->location;
             });
 
         $hierarchyLoader = new SiteKitResourceHierarchyLoader(
@@ -45,15 +46,15 @@ class ResourceHierarchyFinderTest extends TestCase
     public function testFindFirst(): void
     {
         $resource = $this->finder->findFirst(
-            '/a.php',
+            ResourceLocation::of('/a.php'),
             static function ($resource) {
-                return $resource->getId() === 'c';
+                return $resource->id === 'c';
             }
         );
 
         $this->assertEquals(
             'c',
-            $resource->getId(),
+            $resource->id,
             'Resource c should be found'
         );
     }
@@ -61,15 +62,15 @@ class ResourceHierarchyFinderTest extends TestCase
     public function testFindFirstFindBase(): void
     {
         $resource = $this->finder->findFirst(
-            '/a.php',
+            ResourceLocation::of('/a.php'),
             static function ($resource) {
-                return $resource->getId() === 'a';
+                return $resource->id === 'a';
             }
         );
 
         $this->assertEquals(
             'a',
-            $resource->getId(),
+            $resource->id,
             'Resource a should be found'
         );
     }
@@ -77,9 +78,9 @@ class ResourceHierarchyFinderTest extends TestCase
     public function testFindFirstNotFound(): void
     {
         $resource = $this->finder->findFirst(
-            '/a.php',
+            ResourceLocation::of('/a.php'),
             static function ($resource) {
-                return $resource->getId() === 'x';
+                return $resource->id === 'x';
             }
         );
 

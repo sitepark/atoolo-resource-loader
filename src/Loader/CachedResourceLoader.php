@@ -8,10 +8,12 @@ use Atoolo\Resource\Exception\InvalidResourceException;
 use Atoolo\Resource\Exception\ResourceNotFoundException;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceLoader;
+use Atoolo\Resource\ResourceLocation;
 
 /**
  * The CachedResourceLoader class is used to load resources
  * from a given location and cache them for future use.
+ * The cache is stored in memory and is not persistent.
  */
 class CachedResourceLoader implements ResourceLoader
 {
@@ -28,20 +30,18 @@ class CachedResourceLoader implements ResourceLoader
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
-    public function load(string $location): Resource
+    public function load(ResourceLocation $location): Resource
     {
-        if (isset($this->cache[$location])) {
-            return $this->cache[$location];
-        }
-
-        $resource = $this->resourceLoader->load($location);
-        $this->cache[$location] = $resource;
-        return $resource;
+        $key = $location->__toString();
+        return $this->cache[$key] ??= $this->resourceLoader->load(
+            $location
+        );
     }
 
-    public function exists(string $location): bool
+    public function exists(ResourceLocation $location): bool
     {
-        if (isset($this->cache[$location])) {
+        $key = $location->__toString();
+        if (isset($this->cache[$key])) {
             return true;
         }
         return $this->resourceLoader->exists($location);

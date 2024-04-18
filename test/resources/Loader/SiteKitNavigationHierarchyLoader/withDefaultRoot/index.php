@@ -5,9 +5,8 @@ return new \Atoolo\Resource\Resource(
     'root',
     'root',
     '',
-    [
-        'init' => [
-            'home' => true
-        ]
-    ]
+    \Atoolo\Resource\ResourceLanguage::of('de_DE'),
+    new \Atoolo\Resource\DataBag([
+        'home' => true
+    ])
 );

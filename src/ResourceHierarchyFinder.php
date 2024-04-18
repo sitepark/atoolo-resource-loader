@@ -25,18 +25,21 @@ class ResourceHierarchyFinder
      * The callable function should return true if the current resource is the
      * one we are looking for.
      *
+     *
+     * @param Resource|ResourceLocation $base The resource to be used initially.
+     *   If `$base` is a ResourceLocation the resource is loaded.
      * @param callable(Resource): bool $fn
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
-    public function findFirst(Resource|string $base, callable $fn): ?Resource
-    {
+    public function findFirst(
+        Resource|ResourceLocation $base,
+        callable $fn
+    ): ?Resource {
 
         $walker = new ResourceHierarchyWalker($this->loader);
 
-        $walker->init($base);
-
-        $current = $walker->getCurrent();
+        $current = $walker->init($base);
 
         if ($fn($current) === true) {
             return $current;

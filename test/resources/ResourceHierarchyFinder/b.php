@@ -2,28 +2,28 @@
 
 declare(strict_types=1);
 
-return new \Atoolo\Resource\Resource(
-    '/b.php',
-    'b',
-    'b',
-    '',
-    [
-        'base' => [
-            'trees' => [
-                'category' => [
-                    'parents' => [
-                        'a' => [
-                            'url' => '/a.php'
-                        ]
-                    ],
-                    'children' => [
-                        'c' => [
-                            'id' => 'c',
-                            'url' => '/c.php'
-                        ]
+use Atoolo\Resource\Test\TestResourceFactory;
+
+return TestResourceFactory::create([
+    'url' => '/b.php',
+    'id' => 'b',
+    'name' => 'b',
+    'locale' => 'en_US',
+    'base' => [
+        'trees' => [
+            'category' => [
+                'parents' => [
+                    'a' => [
+                        'url' => '/a.php'
+                    ]
+                ],
+                'children' => [
+                    'c' => [
+                        'id' => 'c',
+                        'url' => '/c.php'
                     ]
                 ]
             ]
         ]
     ]
-);
+]);

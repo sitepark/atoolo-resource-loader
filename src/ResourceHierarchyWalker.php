@@ -33,11 +33,13 @@ class ResourceHierarchyWalker
 {
     private ?Resource $current = null;
 
+    private ResourceLanguage $lang;
+
     /**
      * Contains the children and all parent children
      *  of the levels that have been traversed up to this point.
      *
-     * @var array<array<string>>
+     * @var array<array<ResourceLocation>>
      */
     private array $childrenStack = [];
 
@@ -67,19 +69,21 @@ class ResourceHierarchyWalker
      *
      * If the walker has already worked, it is reset.
      *
-     * @param Resource|string $base The resource to be used initially.
-     *  If `$base` is a string it is assumed that it is a location and
-     *  the resource is loaded.
+     * @param Resource|ResourceLocation $base The resource to be used initially.
+     * *   If `$base` is a ResourceLocation the resource is loaded.
      */
-    public function init(Resource|string $base): void
+    public function init(Resource|ResourceLocation $base): Resource
     {
-        if (is_string($base)) {
-            $base = $this->load($base);
+        if ($base instanceof ResourceLocation) {
+            $base = $this->hierarchyLoader->load($base);
         }
         $this->current = $base;
+        $this->lang = $base->lang;
         $this->childrenStack = [];
         $this->childrenStackPointer = [];
         $this->parentPath = [];
+
+        return $this->current;
     }
 
     /**
@@ -112,7 +116,7 @@ class ResourceHierarchyWalker
         }
 
         $this->init($this->load(
-            $primaryParentLocation
+            $primaryParentLocation->location
         ));
 
         return $this->getCurrent();
@@ -148,7 +152,7 @@ class ResourceHierarchyWalker
         }
 
         $this->init($this->load(
-            $secondaryParentLocation
+            $secondaryParentLocation->location
         ));
 
         return $this->getCurrent();
@@ -224,7 +228,7 @@ class ResourceHierarchyWalker
         }
 
         $childLocation = $children[$pointer];
-        $child = $this->load($childLocation);
+        $child = $this->load($childLocation->location);
 
         $this->childrenStackPointer[$topStackIndex] = $pointer;
         $this->current = $child;
@@ -262,7 +266,7 @@ class ResourceHierarchyWalker
 
         //
         $childLocation = $children[$pointer];
-        $child = $this->load($childLocation);
+        $child = $this->load($childLocation->location);
 
         $this->childrenStackPointer[$topStackIndex] = $pointer;
         $this->current = $child;
@@ -324,7 +328,7 @@ class ResourceHierarchyWalker
         }
 
         $this->parentPath[] = $this->current;
-        $this->current = $this->load($children[0]);
+        $this->current = $this->load($children[0]->location);
 
         $this->childrenStack[] = array_values($children);
         $this->childrenStackPointer[count($this->childrenStack) - 1] = 0;
@@ -368,7 +372,7 @@ class ResourceHierarchyWalker
         $children = array_values($childrenLocations);
 
         $this->parentPath[] = $this->current;
-        $this->current = $this->load($children[$childPointer]);
+        $this->current = $this->load($children[$childPointer]->location);
 
         $this->childrenStack[] = array_values($children);
         $this->childrenStackPointer[count($this->childrenStack) - 1] =
@@ -414,22 +418,23 @@ class ResourceHierarchyWalker
      * In the method, `init($base)` is called, which resets the walker
      * if necessary. Here `next()` is used to traverse the hierarchy.
      *
-     * @param Resource $base The resource from which the hierarchy is to
-     *  be traversed.
+     * @param Resource|ResourceLocation $base The resource to be used initially.
+     * *   If `$base` is a ResourceLocation the resource is loaded.
      * @param callable(Resource): void $fn The method to be called for each
      *  resource.
      */
-    public function walk(Resource $base, callable $fn): void
+    public function walk(Resource|ResourceLocation $base, callable $fn): void
     {
-        $this->init($base);
-        $fn($base);
+        $current = $this->init($base);
+        $fn($current);
         while ($current = $this->next()) {
             $fn($current);
         }
     }
 
-    private function load(string $location): Resource
+    private function load(string $path): Resource
     {
+        $location = ResourceLocation::of($path, $this->lang);
         return $this->hierarchyLoader->load($location);
     }
 }

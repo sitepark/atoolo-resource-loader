@@ -4,23 +4,38 @@ declare(strict_types=1);
 
 namespace Atoolo\Resource\Loader;
 
+use Atoolo\Resource\DataBag;
 use Atoolo\Resource\Exception\InvalidResourceException;
 use Atoolo\Resource\Exception\ResourceNotFoundException;
 use Atoolo\Resource\Loader\SiteKit\ContextStub;
 use Atoolo\Resource\Loader\SiteKit\LifecylceStub;
 use Atoolo\Resource\Resource;
-use Atoolo\Resource\ResourceBaseLocator;
+use Atoolo\Resource\ResourceChannel;
+use Atoolo\Resource\ResourceLanguage;
 use Atoolo\Resource\ResourceLoader;
+use Atoolo\Resource\ResourceLocation;
+use Error;
+use Locale;
+use ParseError;
 
 /**
  * ResourceLoader that loads resources created with SiteKit aggregators.
- * @phpstan-type InitData array{id: int, name: string, objectType: string}
- * @phpstan-type ResourceData array{init: InitData}
+ * @phpstan-type ResourceData array{
+ *     id: int,
+ *     name: string,
+ *     objectType: string,
+ *     locale: string
+ * }
  */
 class SiteKitLoader implements ResourceLoader
 {
+    /**
+     * @var ?array<string, string> $langLocaleMap
+     */
+    private ?array $langLocaleMap = null;
+
     public function __construct(
-        private readonly ResourceBaseLocator $baseLocator
+        private readonly ResourceChannel $resourceChannel
     ) {
     }
 
@@ -28,45 +43,56 @@ class SiteKitLoader implements ResourceLoader
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
-    public function load(string $location): Resource
+    public function load(ResourceLocation $location): Resource
     {
         $data = $this->loadRaw($location);
 
-        $this->validateData($location, $data);
+        $data = $this->validateData($location, $data);
 
-        $init = $data['init'];
+        $resourceLang = ResourceLanguage::of($data['locale']);
 
         return new Resource(
-            $location,
-            (string)$init['id'],
-            $init['name'],
-            $init['objectType'],
-            $data
+            $location->location,
+            (string)$data['id'],
+            $data['name'],
+            $data['objectType'],
+            $resourceLang,
+            new DataBag($data)
         );
     }
 
-    public function exists(string $location): bool
+    public function exists(ResourceLocation $location): bool
     {
         return file_exists(
-            $this->baseLocator->locate()
-                . DIRECTORY_SEPARATOR
-                . $location
+            $this->locationToFile($location)
         );
+    }
+
+    private function locationToFile(ResourceLocation $location): string
+    {
+        $file = $this->resourceChannel->resourceDir . '/' .
+            $location->location;
+        $locale = $this->langToLocale($location->lang);
+        if (empty($locale)) {
+            return $file;
+        }
+
+        return $file . '.translations/' . $locale . '.php';
     }
 
     /**
-     * @return array<string, mixed> $data
+     * @return array<string,mixed>
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
-    private function loadRaw(string $location): array
+    private function loadRaw(ResourceLocation $location): array
     {
-        $file = $this->baseLocator->locate() . '/' . $location;
+        $file = $this->locationToFile($location);
 
         /**
          * $context and $lifecycle must be defined here, because for the SiteKit
-         * resource PHP files these variables must be provided for the require
-         * call.
+         * resource PHP files these variables must be provided for the
+         * requirement call.
          */
         $context = new ContextStub();
         $lifecycle = new LifecylceStub();
@@ -83,15 +109,16 @@ class SiteKitLoader implements ResourceLoader
                         'The resource should return an array'
                     );
             }
+            /** @var ResourceData $data */
             return $data;
-        } catch (\ParseError $e) {
+        } catch (ParseError $e) {
             throw new InvalidResourceException(
                 $location,
                 $e->getMessage(),
                 0,
                 $e
             );
-        } catch (\Error $e) {
+        } catch (Error $e) {
             if (!file_exists($file)) {
                 throw new ResourceNotFoundException(
                     $location,
@@ -112,62 +139,92 @@ class SiteKitLoader implements ResourceLoader
         }
     }
 
-    /**
-     * @param array<string, mixed> $data
-     * @return ($data is ResourceData ? void : never)
-     * @throws InvalidResourceException
-     */
-    private function validateData(string $location, array $data): void
+    private function langToLocale(ResourceLanguage $lang): string
     {
-
-        /*
-         * Cannot be passed because this case cannot occur here. This would
-         * already lead to an error in ResourceStub. But is still included,
-         * that so no phpstan errors arise.
-         */
-        // @codeCoverageIgnoreStart
-        if (!isset($data['init']) || !is_array($data['init'])) {
-            throw new InvalidResourceException($location, 'init field missing');
+        if ($lang === ResourceLanguage::default()) {
+            return '';
         }
-        // @codeCoverageIgnoreEnd
 
-        $init = $data['init'];
+        $this->langLocaleMap ??= $this->createLangLocaleMap();
 
-        if (!isset($init['id'])) {
+        return $this->langLocaleMap[$lang->code] ?? '';
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function createLangLocaleMap(): array
+    {
+        $map = [];
+        foreach (
+            $this->resourceChannel->translationLocales as $availableLocale
+        ) {
+            $primaryLang = Locale::getPrimaryLanguage($availableLocale);
+            $map[$primaryLang] = $availableLocale;
+        }
+        return $map;
+    }
+
+    /**
+     * @param ResourceLocation $location
+     * @param array<string,mixed> $data
+     * @return ResourceData
+     */
+    private function validateData(
+        ResourceLocation $location,
+        array $data
+    ): array {
+
+        if (!isset($data['id'])) {
             throw new InvalidResourceException(
                 $location,
                 'id field missing'
             );
         }
-        if (!is_int($init['id'])) {
+        if (!is_int($data['id'])) {
             throw new InvalidResourceException(
                 $location,
                 'id field not an int'
             );
         }
-        if (!isset($init['name'])) {
+        if (!isset($data['name'])) {
             throw new InvalidResourceException(
                 $location,
                 'name field missing'
             );
         }
-        if (!is_string($init['name'])) {
+        if (!is_string($data['name'])) {
             throw new InvalidResourceException(
                 $location,
                 'name field not a string'
             );
         }
-        if (!isset($init['objectType'])) {
+        if (!isset($data['objectType'])) {
             throw new InvalidResourceException(
                 $location,
                 'objectType field missing'
             );
         }
-        if (!is_string($init['objectType'])) {
+        if (!is_string($data['objectType'])) {
             throw new InvalidResourceException(
                 $location,
                 'objectType field not a string'
             );
         }
+        if (!isset($data['locale'])) {
+            throw new InvalidResourceException(
+                $location,
+                'locale field missing'
+            );
+        }
+        if (!is_string($data['locale'])) {
+            throw new InvalidResourceException(
+                $location,
+                'locale field not a string'
+            );
+        }
+
+        /** @var ResourceData $data */
+        return $data;
     }
 }

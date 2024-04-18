@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-return new \Atoolo\Resource\Resource(
-    '/primaryParentWithoutUrl.php',
-    'primaryParentWithoutUrl',
-    'primaryParentWithoutUrl',
-    '',
-    [
-        'base' => [
-            'trees' => [
-                'category' => [
-                    'parents' => [
-                        'a' => 'invalid'
-                    ]
+use Atoolo\Resource\Test\TestResourceFactory;
+
+return TestResourceFactory::create([
+    'url' => '/primaryParentWithInvalidData.php',
+    'id' => 'primaryParentWithInvalidData',
+    'name' => 'primaryParentWithInvalidData',
+    'locale' => 'en_US',
+    'base' => [
+        'trees' => [
+            'category' => [
+                'parents' => [
+                    'a' => 'invalid'
                 ]
             ]
         ]
     ]
-);
+]);

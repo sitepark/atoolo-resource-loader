@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Atoolo\Resource\Exception;
 
+use Atoolo\Resource\ResourceLocation;
+
 /**
  * This exception is used when a resource is invalid. This can have the
  * following reasons:
@@ -14,19 +16,19 @@ namespace Atoolo\Resource\Exception;
 class InvalidResourceException extends \RuntimeException
 {
     public function __construct(
-        private readonly string $location,
+        private readonly ResourceLocation $location,
         string $message = "",
         int $code = 0,
         ?\Throwable $previous = null
     ) {
         parent::__construct(
-            $location . ': ' . $message,
+            $location->__toString() . ': ' . $message,
             $code,
             $previous
         );
     }
 
-    public function getLocation(): string
+    public function getLocation(): ResourceLocation
     {
         return $this->location;
     }

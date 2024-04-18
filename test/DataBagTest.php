@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Atoolo\Resource\Test;
 
 use Atoolo\Resource\DataBag;
-use Atoolo\Resource\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

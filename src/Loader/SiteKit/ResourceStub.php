@@ -20,7 +20,7 @@ class ResourceStub
      */
     public function init(array $data): void
     {
-        $this->data['init'] = $data;
+        $this->data = array_merge($this->data, $data);
     }
 
     /**

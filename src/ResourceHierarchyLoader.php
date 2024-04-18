@@ -20,7 +20,9 @@ interface ResourceHierarchyLoader extends ResourceLoader
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
-    public function loadRoot(string $location): Resource;
+    public function loadRoot(
+        ResourceLocation $location
+    ): Resource;
 
     /**
      * Determines the primary parent resource via the parent links
@@ -28,7 +30,9 @@ interface ResourceHierarchyLoader extends ResourceLoader
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
-    public function loadPrimaryParent(string $location): ?Resource;
+    public function loadPrimaryParent(
+        ResourceLocation $location
+    ): ?Resource;
 
     /**
      * Determines the path to the root resource via the primary parent links
@@ -39,7 +43,9 @@ interface ResourceHierarchyLoader extends ResourceLoader
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
-    public function loadPrimaryPath(string $location): array;
+    public function loadPrimaryPath(
+        ResourceLocation $location
+    ): array;
 
     /**
      * Determines the children resources via the children links contained in the
@@ -48,7 +54,9 @@ interface ResourceHierarchyLoader extends ResourceLoader
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
-    public function loadChildren(string $location): array;
+    public function loadChildren(
+        ResourceLocation $location
+    ): array;
 
     /**
      * Indicates whether the passed resource is a root resource.
@@ -62,7 +70,7 @@ interface ResourceHierarchyLoader extends ResourceLoader
      * Determines the children locations via the children links contained in the
      * resource data.
      *
-     * @return string[]
+     * @return ResourceLocation[]
      */
     public function getChildrenLocations(Resource $resource): array;
 
@@ -70,7 +78,9 @@ interface ResourceHierarchyLoader extends ResourceLoader
      * Determines the primary parent location via the parent links contained in
      * the resource data.
      */
-    public function getPrimaryParentLocation(Resource $resource): ?string;
+    public function getPrimaryParentLocation(
+        Resource $resource
+    ): ?ResourceLocation;
 
     /**
      * Determines the secondary parent location via the parent links contained
@@ -80,5 +90,5 @@ interface ResourceHierarchyLoader extends ResourceLoader
     public function getParentLocation(
         Resource $resource,
         string $parentId
-    ): ?string;
+    ): ?ResourceLocation;
 }
