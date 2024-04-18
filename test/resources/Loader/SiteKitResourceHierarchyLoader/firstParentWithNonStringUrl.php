@@ -2,23 +2,22 @@
 
 declare(strict_types=1);
 
-return new \Atoolo\Resource\Resource(
-    '/primaryParentWithoutUrl.php',
-    'primaryParentWithoutUrl',
-    'primaryParentWithoutUrl',
-    '',
-    \Atoolo\Resource\ResourceLanguage::of('en'),
-    new \Atoolo\Resource\DataBag([
-        'base' => [
-            'trees' => [
-                'category' => [
-                    'parents' => [
-                        'a' => [
-                            'url' => false
-                        ]
+use Atoolo\Resource\Test\TestResourceFactory;
+
+return TestResourceFactory::create([
+    'url' => '/firstParentWithNonStringUrl.php',
+    'id' => 'firstParentWithNonStringUrl',
+    'name' => 'firstParentWithNonStringUrl',
+    'locale' => 'en_US',
+    'base' => [
+        'trees' => [
+            'category' => [
+                'parents' => [
+                    'a' => [
+                        'url' => false
                     ]
                 ]
             ]
         ]
-    ])
-);
+    ]
+]);

@@ -395,14 +395,7 @@ class ResourceHierarchyWalkerTest extends TestCase
         $walker = new ResourceHierarchyWalker(
             $hierarchyLoader
         );
-        $base = new Resource(
-            '',
-            '',
-            '',
-            '',
-            \Atoolo\Resource\ResourceLanguage::default(),
-            new \Atoolo\Resource\DataBag([])
-        );
+        $base = TestResourceFactory::create([]);
 
         $walker->init($base);
 

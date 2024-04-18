@@ -9,6 +9,7 @@ use Atoolo\Resource\Loader\SiteKitResourceHierarchyLoader;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceLoader;
 use Atoolo\Resource\ResourceLocation;
+use Atoolo\Resource\Test\TestResourceFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
@@ -103,6 +104,17 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
             'a',
             $root->id,
             'unexpected root'
+        );
+    }
+
+    public function testIsRoot(): void
+    {
+        $root = TestResourceFactory::create([]);
+        $isRoot = $this->hierarchyLoader->isRoot($root);
+
+        $this->assertTrue(
+            $isRoot,
+            'should be root'
         );
     }
 
@@ -261,14 +273,7 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
 
     public function testGetParentLocationWithoutParents(): void
     {
-        $resource = new Resource(
-            '',
-            '',
-            '',
-            '',
-            \Atoolo\Resource\ResourceLanguage::default(),
-            new \Atoolo\Resource\DataBag([])
-        );
+        $resource = TestResourceFactory::create([]);
         $parent = $this->hierarchyLoader->getParentLocation(
             $resource,
             'x'
@@ -281,24 +286,17 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
 
     public function testGetParentLocationWithInvalidData(): void
     {
-        $resource = new Resource(
-            '',
-            '',
-            '',
-            '',
-            \Atoolo\Resource\ResourceLanguage::default(),
-            new \Atoolo\Resource\DataBag([
-                'base' => [
-                    'trees' => [
-                        'category' => [
-                            'parents' => [
-                                'a' => 'invalid'
-                            ]
+        $resource = TestResourceFactory::create([
+            'base' => [
+                'trees' => [
+                    'category' => [
+                        'parents' => [
+                            'a' => 'invalid'
                         ]
                     ]
                 ]
-            ])
-        );
+            ]
+        ]);
 
         $this->expectException(InvalidResourceException::class);
         $this->hierarchyLoader->getParentLocation(
@@ -309,27 +307,20 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
 
     public function testGetParentLocationWithParentIdNotFound(): void
     {
-        $resource = new Resource(
-            '',
-            '',
-            '',
-            '',
-            \Atoolo\Resource\ResourceLanguage::default(),
-            new \Atoolo\Resource\DataBag([
-                'base' => [
-                    'trees' => [
-                        'category' => [
-                            'parents' => [
-                                'a' => [
-                                    'id' => 'a',
-                                    'url' => '/a.php'
-                                ]
+        $resource = TestResourceFactory::create([
+            'base' => [
+                'trees' => [
+                    'category' => [
+                        'parents' => [
+                            'a' => [
+                                'id' => 'a',
+                                'url' => '/a.php'
                             ]
                         ]
                     ]
                 ]
-            ])
-        );
+            ]
+        ]);
 
         $parent = $this->hierarchyLoader->getParentLocation(
             $resource,

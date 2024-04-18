@@ -1,10 +1,12 @@
 <?php
 
-return new \Atoolo\Resource\Resource(
-    '/dir/index.php',
-    'dir-index',
-    'dir-index',
-    '',
-    \Atoolo\Resource\ResourceLanguage::of('de_DE'),
-    new \Atoolo\Resource\DataBag([])
-);
+declare(strict_types=1);
+
+use Atoolo\Resource\Test\TestResourceFactory;
+
+return TestResourceFactory::create([
+    'url' => '/dir/index.php',
+    'id' => 'dir-index',
+    'name' => 'dir-index',
+    'locale' => 'en_US',
+]);

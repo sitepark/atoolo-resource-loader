@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\Resource\Test;
 
-use Atoolo\Resource\DataBag;
 use Atoolo\Resource\Resource;
-use Atoolo\Resource\ResourceLanguage;
 use Atoolo\Resource\ResourceLocation;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -16,14 +14,10 @@ class ResourceTest extends TestCase
 {
     public function testToLocation(): void
     {
-        $resource = new Resource(
-            'path',
-            '',
-            '',
-            '',
-            \Atoolo\Resource\ResourceLanguage::of('en'),
-            new \Atoolo\Resource\DataBag([])
-        );
+        $resource = TestResourceFactory::create([
+            'url' => 'path',
+            'locale' => 'en_US'
+        ]);
         $this->assertEquals(
             ResourceLocation::of(
                 'path',

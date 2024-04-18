@@ -2,29 +2,28 @@
 
 declare(strict_types=1);
 
-return new \Atoolo\Resource\Resource(
-    '/1/1/1.php',
-    '1-1-1',
-    '1-1-1',
-    '',
-    \Atoolo\Resource\ResourceLanguage::of('en'),
-    new \Atoolo\Resource\DataBag([
-        'base' => [
-            'trees' => [
-                'category' => [
-                    'parents' => [
-                        '1-1' => [
-                            'url' => '/1/1.php'
-                        ]
-                    ],
-                    'children' => [
-                        '1-1-1-1' => [
-                            'id' => '1-1-1-1',
-                            'url' => '/1/1/1/1.php'
-                        ]
+use Atoolo\Resource\Test\TestResourceFactory;
+
+return TestResourceFactory::create([
+    'url' => '/1/1/1.php',
+    'id' => '1-1-1',
+    'name' => '1-1-1',
+    'locale' => 'en_US',
+    'base' => [
+        'trees' => [
+            'category' => [
+                'parents' => [
+                    '1-1' => [
+                        'url' => '/1/1.php'
+                    ]
+                ],
+                'children' => [
+                    '1-1-1-1' => [
+                        'id' => '1-1-1-1',
+                        'url' => '/1/1/1/1.php'
                     ]
                 ]
             ]
         ]
-    ])
-);
+    ]
+]);

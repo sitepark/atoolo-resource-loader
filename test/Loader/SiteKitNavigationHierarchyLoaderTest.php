@@ -4,17 +4,32 @@ declare(strict_types=1);
 
 namespace Atoolo\Resource\Test\Loader;
 
-use Atoolo\Resource\Exception\InvalidResourceException;
 use Atoolo\Resource\Exception\RootMissingException;
 use Atoolo\Resource\Loader\SiteKitNavigationHierarchyLoader;
 use Atoolo\Resource\ResourceLoader;
 use Atoolo\Resource\ResourceLocation;
+use Atoolo\Resource\Test\TestResourceFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(SiteKitNavigationHierarchyLoader::class)]
 class SiteKitNavigationHierarchyLoaderTest extends TestCase
 {
+    public function testIsRoot(): void
+    {
+        $treeLoader = $this->createTreeLoader('');
+
+        $root = TestResourceFactory::create([
+            'home' => true
+        ]);
+
+        $isRoot = $treeLoader->isRoot($root);
+        $this->assertTrue(
+            $isRoot,
+            'should be root'
+        );
+    }
+
     public function testLoadRootResourceWithHomeFlag(): void
     {
         $treeLoader = $this->createTreeLoader(

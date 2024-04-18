@@ -1,26 +1,27 @@
 <?php
 
-return new \Atoolo\Resource\Resource(
-    '/c.php',
-    'c',
-    'c',
-    '',
-    \Atoolo\Resource\ResourceLanguage::of('de_DE'),
-    new \Atoolo\Resource\DataBag([
-        'base' => [
-            'trees' => [
-                'navigation' => [
-                    'parents' => [
-                        'b' => [
-                            'isPrimary' => true,
-                            'url' => '/b.php'
-                        ],
-                        'a' => [
-                            'url' => '/a.php'
-                        ]
+declare(strict_types=1);
+
+use Atoolo\Resource\Test\TestResourceFactory;
+
+return TestResourceFactory::create([
+    'url' => '/c.php',
+    'id' => 'c',
+    'name' => 'c',
+    'locale' => 'en_US',
+    'base' => [
+        'trees' => [
+            'navigation' => [
+                'parents' => [
+                    'b' => [
+                        'isPrimary' => true,
+                        'url' => '/b.php'
+                    ],
+                    'a' => [
+                        'url' => '/a.php'
                     ]
                 ]
             ]
         ]
-    ])
-);
+    ]
+]);
