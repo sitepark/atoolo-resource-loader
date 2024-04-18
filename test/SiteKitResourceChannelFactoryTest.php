@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Atoolo\Resource\Test;
 
-use Atoolo\Resource\ResourceBaseLocator;
 use Atoolo\Resource\ResourceChannel;
 use Atoolo\Resource\SiteKitResourceChannelFactory;
 use PHPUnit\Framework\Attributes\CoversClass;

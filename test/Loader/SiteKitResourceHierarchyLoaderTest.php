@@ -8,6 +8,7 @@ use Atoolo\Resource\Exception\InvalidResourceException;
 use Atoolo\Resource\Loader\SiteKitResourceHierarchyLoader;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceLoader;
+use Atoolo\Resource\ResourceLocation;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
@@ -37,7 +38,9 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
             ->willReturnCallback(static function ($location) use (
                 $resourceBaseDir
             ) {
-                return include $resourceBaseDir . $location;
+                $resource =  include $resourceBaseDir . $location->location;
+                $error = error_get_last();
+                return $resource;
             });
 
         return new $className(
@@ -60,7 +63,7 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
         $resourceLoader->expects($this->once())
             ->method('load');
 
-        $hierarchyLoader->load('/a.php');
+        $hierarchyLoader->load(ResourceLocation::of('/a.php'));
     }
 
     /**
@@ -77,7 +80,7 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
         $resourceLoader->expects($this->once())
             ->method('exists');
 
-        $hierarchyLoader->exists('/a.php');
+        $hierarchyLoader->exists(ResourceLocation::of('/a.php'));
     }
 
     public function testLoadPrimaryParentResourceWithoutParent(): void
@@ -87,37 +90,43 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
             TestSiteKitResourceHierarchyLoader::class
         );
         $this->expectException(InvalidResourceException::class);
-        $loader->loadRoot('/a.php');
+        $loader->loadRoot(ResourceLocation::of('/a.php'));
     }
 
     public function testLoadRoot(): void
     {
-        $root = $this->hierarchyLoader->loadRoot('/c.php');
+        $root = $this->hierarchyLoader->loadRoot(
+            ResourceLocation::of('/c.php')
+        );
 
         $this->assertEquals(
             'a',
-            $root->getId(),
+            $root->id,
             'unexpected root'
         );
     }
 
     public function testLoadPrimaryParent(): void
     {
-        $parent = $this->hierarchyLoader->loadPrimaryParent('/c.php');
+        $parent = $this->hierarchyLoader->loadPrimaryParent(
+            ResourceLocation::of('/c.php')
+        );
 
         $this->assertEquals(
             'b',
-            $parent->getId(),
+            $parent->id,
             'unexpected parent'
         );
     }
 
     public function testLoadChildren(): void
     {
-        $children = $this->hierarchyLoader->loadChildren('/b.php');
+        $children = $this->hierarchyLoader->loadChildren(
+            ResourceLocation::of('/b.php')
+        );
 
         $childrenIdList = array_map(function ($child) {
-            return $child->getId();
+            return $child->id;
         }, $children);
 
         $this->assertEquals(
@@ -130,14 +139,16 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
     public function testLoadChildrenWithInvalidData(): void
     {
         $this->expectException(InvalidResourceException::class);
-        $children = $this->hierarchyLoader->loadChildren(
-            '/childrenWithInvalidData.php'
+        $this->hierarchyLoader->loadChildren(
+            ResourceLocation::of('/childrenWithInvalidData.php')
         );
     }
 
     public function testLoadWithoutChildren(): void
     {
-        $children = $this->hierarchyLoader->loadChildren('/c.php');
+        $children = $this->hierarchyLoader->loadChildren(
+            ResourceLocation::of('/c.php')
+        );
 
         $this->assertCount(
             0,
@@ -148,10 +159,12 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
 
     public function testLoadPrimaryPath(): void
     {
-        $path = $this->hierarchyLoader->loadPrimaryPath('/c.php');
+        $path = $this->hierarchyLoader->loadPrimaryPath(
+            ResourceLocation::of('/c.php')
+        );
 
         $pathIdList = array_map(function ($resource) {
-            return $resource->getId();
+            return $resource->id;
         }, $path);
 
         $this->assertEquals(
@@ -163,7 +176,9 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
 
     public function testLoadPrimaryParentWithoutParent(): void
     {
-        $parent = $this->hierarchyLoader->loadPrimaryParent('/a.php');
+        $parent = $this->hierarchyLoader->loadPrimaryParent(
+            ResourceLocation::of('/a.php')
+        );
         $this->assertNull($parent, 'parent should be null');
     }
 
@@ -171,7 +186,7 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
     {
         $this->expectException(InvalidResourceException::class);
         $this->hierarchyLoader->loadPrimaryParent(
-            '/primaryParentWithoutUrl.php'
+            ResourceLocation::of('/primaryParentWithoutUrl.php')
         );
     }
 
@@ -179,7 +194,7 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
     {
         $this->expectException(InvalidResourceException::class);
         $this->hierarchyLoader->loadPrimaryParent(
-            '/primaryParentWithInvalidData.php'
+            ResourceLocation::of('/primaryParentWithInvalidData.php')
         );
     }
 
@@ -187,7 +202,7 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
     {
         $this->expectException(InvalidResourceException::class);
         $this->hierarchyLoader->loadPrimaryParent(
-            '/primaryParentWithNonStringUrl.php'
+            ResourceLocation::of('/primaryParentWithNonStringUrl.php')
         );
     }
 
@@ -195,7 +210,7 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
     {
         $this->expectException(InvalidResourceException::class);
         $this->hierarchyLoader->loadPrimaryParent(
-            '/firstParentWithoutUrl.php'
+            ResourceLocation::of('/firstParentWithoutUrl.php')
         );
     }
 
@@ -203,19 +218,19 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
     {
         $this->expectException(InvalidResourceException::class);
         $this->hierarchyLoader->loadPrimaryParent(
-            '/firstParentWithNonStringUrl.php'
+            ResourceLocation::of('/firstParentWithNonStringUrl.php')
         );
     }
 
     public function testLoadParent(): void
     {
         $parent = $this->hierarchyLoader->loadParent(
-            '/b.php',
+            ResourceLocation::of('/b.php'),
             'a'
         );
         $this->assertEquals(
             'a',
-            $parent->getId(),
+            $parent->id,
             'unexpected parent'
         );
     }
@@ -223,7 +238,7 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
     public function testLoadParentIdNotFound(): void
     {
         $parent = $this->hierarchyLoader->loadParent(
-            '/b.php',
+            ResourceLocation::of('/b.php'),
             'x'
         );
         $this->assertNull(
@@ -235,7 +250,7 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
     public function testLoadParentOfRoot(): void
     {
         $parent = $this->hierarchyLoader->loadParent(
-            '/a.php',
+            ResourceLocation::of('/a.php'),
             'x'
         );
         $this->assertNull(
@@ -251,8 +266,8 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
             '',
             '',
             '',
-            '',
-            []
+            \Atoolo\Resource\ResourceLanguage::default(),
+            new \Atoolo\Resource\DataBag([])
         );
         $parent = $this->hierarchyLoader->getParentLocation(
             $resource,
@@ -271,8 +286,8 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
             '',
             '',
             '',
-            '',
-            [
+            \Atoolo\Resource\ResourceLanguage::default(),
+            new \Atoolo\Resource\DataBag([
                 'base' => [
                     'trees' => [
                         'category' => [
@@ -282,7 +297,7 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
                         ]
                     ]
                 ]
-            ]
+            ])
         );
 
         $this->expectException(InvalidResourceException::class);
@@ -299,8 +314,8 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
             '',
             '',
             '',
-            '',
-            [
+            \Atoolo\Resource\ResourceLanguage::default(),
+            new \Atoolo\Resource\DataBag([
                 'base' => [
                     'trees' => [
                         'category' => [
@@ -313,7 +328,7 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
                         ]
                     ]
                 ]
-            ]
+            ])
         );
 
         $parent = $this->hierarchyLoader->getParentLocation(

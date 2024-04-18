@@ -7,8 +7,8 @@ return new \Atoolo\Resource\Resource(
     'root',
     'root',
     '',
-    '',
-    [
+    \Atoolo\Resource\ResourceLanguage::of('en'),
+    new \Atoolo\Resource\DataBag([
         'base' => [
             'trees' => [
                 'category' => [
@@ -25,5 +25,5 @@ return new \Atoolo\Resource\Resource(
                 ]
             ]
         ]
-    ]
+    ])
 );

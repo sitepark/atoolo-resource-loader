@@ -5,6 +5,6 @@ return new \Atoolo\Resource\Resource(
     'dir-index',
     'dir-index',
     '',
-    'de_DE',
-    []
+    \Atoolo\Resource\ResourceLanguage::of('de_DE'),
+    new \Atoolo\Resource\DataBag([])
 );

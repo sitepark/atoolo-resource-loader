@@ -5,10 +5,10 @@ return new \Atoolo\Resource\Resource(
     'root',
     'root',
     '',
-    'de_DE',
-    [
+    \Atoolo\Resource\ResourceLanguage::of('de_DE'),
+    new \Atoolo\Resource\DataBag([
         'init' => [
             'home' => true
         ]
-    ]
+    ])
 );

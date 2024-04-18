@@ -7,7 +7,9 @@ namespace Atoolo\Resource\Loader;
 use Atoolo\Resource\Exception\InvalidResourceException;
 use Atoolo\Resource\Exception\ResourceNotFoundException;
 use Atoolo\Resource\Resource;
+use Atoolo\Resource\ResourceLanguage;
 use Atoolo\Resource\ResourceLoader;
+use Atoolo\Resource\ResourceLocation;
 
 /**
  * The CachedResourceLoader class is used to load resources
@@ -29,26 +31,20 @@ class CachedResourceLoader implements ResourceLoader
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException
      */
-    public function load(string $location, string $lang = ''): Resource
+    public function load(ResourceLocation $location): Resource
     {
-        $key = $this->getKey($location, $lang);
+        $key = $location->__toString();
         return $this->cache[$key] ??= $this->resourceLoader->load(
-            $location,
-            $lang
+            $location
         );
     }
 
-    public function exists(string $location, string $lang = ''): bool
+    public function exists(ResourceLocation $location): bool
     {
-        $key = $this->getKey($location, $lang);
+        $key = $location->__toString();
         if (isset($this->cache[$key])) {
             return true;
         }
-        return $this->resourceLoader->exists($location, $lang);
-    }
-
-    private function getKey(string $location, string $lang): string
-    {
-        return $lang . ':' . $location;
+        return $this->resourceLoader->exists($location);
     }
 }

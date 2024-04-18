@@ -5,8 +5,8 @@ return new \Atoolo\Resource\Resource(
     'b',
     'b',
     '',
-    'de_DE',
-    [
+    \Atoolo\Resource\ResourceLanguage::of('de_DE'),
+    new \Atoolo\Resource\DataBag([
         'base' => [
             'trees' => [
                 'navigation' => [
@@ -18,5 +18,5 @@ return new \Atoolo\Resource\Resource(
                 ]
             ]
         ]
-    ]
+    ])
 );

@@ -10,48 +10,18 @@ namespace Atoolo\Resource;
  */
 class Resource
 {
-    private readonly DataBag $data;
-    /**
-     * @param array<string, mixed> $data
-     */
     public function __construct(
-        private readonly string $location,
-        private readonly string $id,
-        private readonly string $name,
-        private readonly string $objectType,
-        private readonly string $lang,
-        array $data,
+        public readonly string $location,
+        public readonly string $id,
+        public readonly string $name,
+        public readonly string $objectType,
+        public readonly ResourceLanguage $lang,
+        public readonly DataBag $data,
     ) {
-        $this->data = new DataBag($data);
     }
 
-    public function getLocation(): string
+    public function toLocation(): ResourceLocation
     {
-        return $this->location;
-    }
-
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getObjectType(): string
-    {
-        return $this->objectType;
-    }
-
-    public function getLang(): string
-    {
-        return $this->lang;
-    }
-
-    public function getData(): DataBag
-    {
-        return $this->data;
+        return ResourceLocation::of($this->location, $this->lang);
     }
 }

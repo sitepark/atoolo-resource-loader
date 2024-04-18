@@ -5,6 +5,6 @@ return new \Atoolo\Resource\Resource(
     'a',
     'a',
     '',
-    'de_DE',
-    []
+    \Atoolo\Resource\ResourceLanguage::of('de_DE'),
+    new \Atoolo\Resource\DataBag([])
 );

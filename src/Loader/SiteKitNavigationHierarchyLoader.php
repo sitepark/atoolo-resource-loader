@@ -9,6 +9,7 @@ use Atoolo\Resource\Exception\ResourceNotFoundException;
 use Atoolo\Resource\Exception\RootMissingException;
 use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceLoader;
+use Atoolo\Resource\ResourceLocation;
 
 class SiteKitNavigationHierarchyLoader extends SiteKitResourceHierarchyLoader
 {
@@ -19,7 +20,7 @@ class SiteKitNavigationHierarchyLoader extends SiteKitResourceHierarchyLoader
 
     public function isRoot(Resource $resource): bool
     {
-        return $resource->getData()->getBool('init.home');
+        return $resource->data->getBool('init.home');
     }
 
     /**
@@ -42,17 +43,19 @@ class SiteKitNavigationHierarchyLoader extends SiteKitResourceHierarchyLoader
      */
     private function loadDefaultRootResource(Resource $resource): Resource
     {
-        $location = $resource->getLocation();
+        $path = $resource->location;
         do {
-            $dir = dirname($location);
-            if (str_ends_with($location, '/index.php')) {
+            $dir = dirname($path);
+            if (str_ends_with($path, '/index.php')) {
                 $dir = dirname($dir);
             }
             if ($dir === '/' || $dir === '\\') {
-                $location = '/index.php';
+                $path = '/index.php';
             } else {
-                $location = $dir . '/index.php';
+                $path = $dir . '/index.php';
             }
+
+            $location = ResourceLocation::of($path, $resource->lang);
             if ($this->exists($location)) {
                 $root = $this->load($location);
                 if ($this->isRoot($root)) {
@@ -62,7 +65,7 @@ class SiteKitNavigationHierarchyLoader extends SiteKitResourceHierarchyLoader
         } while ($dir !== '/' && $dir !== '\\' && $dir !== '');
 
         throw new RootMissingException(
-            $resource->getLocation(),
+            $resource->location,
             'No default root could be determined for the resource'
         );
     }
