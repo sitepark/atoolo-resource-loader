@@ -20,8 +20,9 @@ class ResourceLanguageTest extends TestCase
     public function testEqualsDefault(): void
     {
         $lang = ResourceLanguage::of('');
-        $this->assertTrue(
-            ResourceLanguage::default() === $lang,
+        $this->assertSame(
+            ResourceLanguage::default(),
+            $lang,
             'empty lang should be equals to default lang'
         );
     }
