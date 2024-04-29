@@ -23,7 +23,7 @@ class ResourceLanguage
     public static function of(?string $str): self
     {
         if ($str === null || empty($str)) {
-            return new self('');
+            return self::default();
         }
         $code = Locale::getPrimaryLanguage($str);
         return new self($code);
