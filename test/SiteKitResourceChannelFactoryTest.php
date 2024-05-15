@@ -18,6 +18,7 @@ class SiteKitResourceChannelFactoryTest extends TestCase
             '/resources/SiteKitResourceChannelFactory' .
             '/resourceLayout';
         $resourceDir = $baseDir . '/objects';
+        $configDir = $baseDir . '/configs';
 
         $factory = new SiteKitResourceChannelFactory($baseDir);
         $channel = $factory->create();
@@ -32,6 +33,7 @@ class SiteKitResourceChannelFactoryTest extends TestCase
             'de_DE',
             $baseDir,
             $resourceDir,
+            $configDir,
             'test',
             []
         );
@@ -48,6 +50,7 @@ class SiteKitResourceChannelFactoryTest extends TestCase
             '/resources/SiteKitResourceChannelFactory' .
             '/documentRootLayout';
         $resourceDir = $baseDir;
+        $configDir = $baseDir;
 
         $factory = new SiteKitResourceChannelFactory($baseDir);
         $channel = $factory->create();
@@ -62,6 +65,7 @@ class SiteKitResourceChannelFactoryTest extends TestCase
             'de_DE',
             $baseDir,
             $resourceDir,
+            $configDir,
             'test',
             []
         );

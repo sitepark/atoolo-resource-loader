@@ -28,6 +28,7 @@ class ResourceChannel
         public readonly string $locale,
         public readonly string $baseDir,
         public readonly string $resourceDir,
+        public readonly string $configDir,
         public readonly string $searchIndex,
         public readonly array $translationLocales
     ) {

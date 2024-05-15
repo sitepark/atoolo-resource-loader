@@ -31,6 +31,7 @@ class SiteKitLoaderTest extends TestCase
             'de_DE',
             '',
             $resourceDir,
+            '',
             'test-www',
             ['en_US']
         );

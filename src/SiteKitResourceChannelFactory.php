@@ -27,6 +27,8 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
 
     private string $resourceDir;
 
+    private string $configDir;
+
     public function __construct(
         private readonly string $baseDir
     ) {
@@ -54,6 +56,7 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
             $data['publisher']['locale'] ?? 'de_DE',
             $this->baseDir,
             $this->resourceDir,
+            $this->configDir,
             $searchIndex,
             $data['publisher']['translationLocales'] ?? [],
         );
@@ -82,6 +85,7 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
         if (file_exists($resourceLayoutContextPhpFile)) {
             $this->contextPhpFile = $resourceLayoutContextPhpFile;
             $this->resourceDir = $this->baseDir . '/objects';
+            $this->configDir = $this->baseDir . '/configs';
             return;
         }
 
@@ -98,5 +102,6 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
 
         $this->contextPhpFile = $documentRootLayoutContextPhpFile;
         $this->resourceDir = $this->baseDir;
+        $this->configDir = $this->baseDir;
     }
 }
