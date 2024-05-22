@@ -1,5 +1,5 @@
 {
-    "name": "atoolo/resource",
+    "name": "atoolo/resource-bundle",
     "description": "Handle pre-produced data",
     "license": "MIT",
     "type": "symfony-bundle",
