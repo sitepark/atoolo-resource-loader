@@ -4,8 +4,8 @@
 ![php](https://img.shields.io/badge/PHP-8.2-blue)
 ![php](https://img.shields.io/badge/PHP-8.3-blue)
 
-# Atoolo resource
+# Atoolo resource bundle
 
 In the Atoolo context, resources from IES (Sitepark's content management system) are aggregated data that can be handled through this library.
 
-[Documentation](https://sitepark.github.io/atoolo-docs/develop/components/resource/)
+[Documentation](https://sitepark.github.io/atoolo-docs/develop/bundles/resource/)
