@@ -1,0 +1,29 @@
+parameters:
+  atoolo_resource.resource_root: '%env(RESOURCE_ROOT)%'
+
+services:
+
+  atoolo_resource.resource_channel_factory:
+    class: Atoolo\Resource\SiteKitResourceChannelFactory
+    arguments:
+      - '%atoolo_resource.resource_root%'
+
+  atoolo_resource.resource_channel:
+    class: Atoolo\Resource\ResourceChannel
+    factory: ['@atoolo_resource.resource_channel_factory', 'create']
+
+  atoolo_resource.resource_loader:
+    class: Atoolo\Resource\Loader\SiteKitLoader
+    arguments:
+      - '@atoolo_resource.resource_channel'
+
+  atoolo_resource.navigation_hierarchy_loader:
+    class: Atoolo\Resource\Loader\SiteKitNavigationHierarchyLoader
+    arguments:
+      - '@atoolo_resource.resource_loader'
+
+  atoolo_resource.category_hierarchy_loader:
+    class: Atoolo\Resource\Loader\SiteKitResourceHierarchyLoader
+    arguments:
+      - '@atoolo_resource.resource_loader'
+      - 'category'
