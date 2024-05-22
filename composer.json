@@ -2,7 +2,7 @@
     "name": "atoolo/resource",
     "description": "Handle pre-produced data",
     "license": "MIT",
-	"type": "symfony-bundle",
+    "type": "symfony-bundle",
     "authors": [
         {
             "name": "veltrup",
