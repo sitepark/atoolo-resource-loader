@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Atoolo\Resource\Env;
 
 use Symfony\Component\DependencyInjection\EnvVarLoaderInterface;
-use Symfony\Component\Dotenv\Dotenv;
 
 class EnvVarLoader implements EnvVarLoaderInterface
 {
