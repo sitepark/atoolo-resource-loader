@@ -21,13 +21,18 @@ services:
     arguments:
       - '@atoolo_resource.resource_channel'
 
+  atoolo_resource.cached_resource_loader:
+    class: Atoolo\Resource\Loader\CachedResourceLoader
+    arguments:
+      - '@atoolo_resource.resource_loader'
+
   atoolo_resource.navigation_hierarchy_loader:
     class: Atoolo\Resource\Loader\SiteKitNavigationHierarchyLoader
     arguments:
-      - '@atoolo_resource.resource_loader'
+      - '@atoolo_resource.cached_resource_loader'
 
   atoolo_resource.category_hierarchy_loader:
     class: Atoolo\Resource\Loader\SiteKitResourceHierarchyLoader
     arguments:
-      - '@atoolo_resource.resource_loader'
+      - '@atoolo_resource.cached_resource_loader'
       - 'category'
