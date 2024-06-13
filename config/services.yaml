@@ -1,5 +1,6 @@
 parameters:
   atoolo_resource.resource_root: '%env(RESOURCE_ROOT)%'
+  atoolo_resource.resource_host: '%env(RESOURCE_HOST)%'
 
 services:
 

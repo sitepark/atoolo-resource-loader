@@ -34,6 +34,12 @@ class EnvVarLoader implements EnvVarLoaderInterface
                 $_SERVER['RESOURCE_ROOT'] = $resourceRoot;
             }
         }
+        if (!empty($resourceRoot)) {
+            $env['RESOURCE_HOST'] = $this->getResourceHost($resourceRoot);
+            // other EnvVarLoader needs this value
+            $_SERVER['RESOURCE_HOST'] = $env['RESOURCE_HOST'];
+        }
+
         return $env;
     }
 
@@ -80,6 +86,32 @@ class EnvVarLoader implements EnvVarLoaderInterface
             }
         }
 
+        return null;
+    }
+
+    private function getResourceHost(string $resourceRoot): string
+    {
+        $contextFile = $this->getContextFile($resourceRoot);
+        if ($contextFile === null) {
+            return '';
+        }
+
+        $context = require $contextFile;
+        if (!is_array($context)) {
+            return '';
+        }
+
+        return $context['publisher']['serverName'] ?? '';
+    }
+
+    private function getContextFile(string $resourceRoot): ?string
+    {
+        if (is_file($resourceRoot . '/context.php')) {
+            return $resourceRoot . '/context.php';
+        }
+        if (is_file($resourceRoot . '/WEB-IES/context.php')) {
+            return $resourceRoot . '/WEB-IES/context.php';
+        }
         return null;
     }
 }
