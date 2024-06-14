@@ -7,6 +7,7 @@ namespace Atoolo\Resource\Test\Env;
 use Atoolo\Resource\Env\EnvVarLoader;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 #[CoversClass(EnvVarLoader::class)]
 class EnvVarLoaderTest extends TestCase
@@ -63,11 +64,22 @@ class EnvVarLoaderTest extends TestCase
     {
         $loader = new EnvVarLoader($this->baseDir . '/hostDir');
         $env = $loader->loadEnvVars();
+        $expected = [
+            'RESOURCE_ROOT' => realpath($this->baseDir . '/hostDir/resources'),
+            'RESOURCE_HOST' => 'www.example.com'
+        ];
         $this->assertEquals(
-            $this->baseDir . '/hostDir/resources',
-            isset($env['RESOURCE_ROOT']),
-            'unexpected RESOURCE_ROOT'
+            $expected,
+            $env,
+            'unexpected env'
         );
+    }
+
+    public function testDetermineResourceRootInHostDirInvalidContext(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $loader = new EnvVarLoader($this->baseDir . '/hostDir-invalid-context');
+        $loader->loadEnvVars();
     }
 
     public function testDetermineResourceRootInResourceDir(): void

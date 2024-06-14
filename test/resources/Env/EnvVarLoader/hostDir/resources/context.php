@@ -2,4 +2,8 @@
 
 declare(strict_types=1);
 
-return [];
+return [
+    'publisher' => [
+        'serverName' => 'www.example.com'
+    ]
+];

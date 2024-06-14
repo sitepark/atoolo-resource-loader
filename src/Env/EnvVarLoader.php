@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Atoolo\Resource\Env;
 
+use RuntimeException;
 use Symfony\Component\DependencyInjection\EnvVarLoaderInterface;
 
 class EnvVarLoader implements EnvVarLoaderInterface
@@ -98,7 +99,7 @@ class EnvVarLoader implements EnvVarLoaderInterface
 
         $context = require $contextFile;
         if (!is_array($context)) {
-            return '';
+            throw new RuntimeException('invalid context.php: ' . $contextFile);
         }
 
         return $context['publisher']['serverName'] ?? '';
