@@ -32,6 +32,11 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
     public function __construct(
         private readonly string $baseDir
     ) {
+        if (empty($this->baseDir)) {
+            throw new RuntimeException(
+                'RESOURCE_ROOT not set'
+            );
+        }
     }
 
     public function create(): ResourceChannel

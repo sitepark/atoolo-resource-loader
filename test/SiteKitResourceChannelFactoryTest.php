@@ -99,4 +99,10 @@ class SiteKitResourceChannelFactoryTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $factory->create();
     }
+
+    public function testEmptyBaseDIr(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        new SiteKitResourceChannelFactory('');
+    }
 }

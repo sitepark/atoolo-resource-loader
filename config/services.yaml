@@ -1,6 +1,6 @@
 parameters:
-  atoolo_resource.resource_root: '%env(RESOURCE_ROOT)%'
-  atoolo_resource.resource_host: '%env(RESOURCE_HOST)%'
+  atoolo_resource.resource_root: '%env(default::string:RESOURCE_ROOT)%'
+  atoolo_resource.resource_host: '%env(default::string:RESOURCE_HOST)%'
 
 services:
 
