@@ -81,6 +81,12 @@ class SiteKitLoaderTest extends TestCase
         );
     }
 
+    public function testCleanup(): void
+    {
+        $this->expectNotToPerformAssertions();
+        $this->loader->cleanup();
+    }
+
     public function testLoadMissingLocation(): void
     {
         $this->expectException(ResourceNotFoundException::class);

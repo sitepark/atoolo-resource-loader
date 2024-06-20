@@ -33,6 +33,11 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
         return $this->resourceLoader->exists($location);
     }
 
+    public function cleanup(): void
+    {
+        $this->resourceLoader->cleanup();
+    }
+
     /**
      * @throws InvalidResourceException
      * @throws ResourceNotFoundException

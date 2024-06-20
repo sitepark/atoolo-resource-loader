@@ -68,6 +68,11 @@ class SiteKitLoader implements ResourceLoader
         );
     }
 
+    public function cleanup(): void
+    {
+        $this->langLocaleMap = null;
+    }
+
     private function locationToFile(ResourceLocation $location): string
     {
         $file = $this->resourceChannel->resourceDir . '/' .

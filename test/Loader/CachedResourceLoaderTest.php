@@ -74,4 +74,29 @@ class CachedResourceLoaderTest extends TestCase
             'Resource should be test from cache'
         );
     }
+
+    public function testCleanup(): void
+    {
+
+        $location = ResourceLocation::of('test');
+        $resource = $this->createStub(Resource::class);
+        $loader = $this->createMock(ResourceLoader::class);
+        $loader->expects($this->once())
+            ->method('load')
+            ->with($location)
+            ->willReturn($resource);
+        $loader->expects($this->exactly(1))
+            ->method('exists')
+            ->with($location)
+            ->willReturn(false);
+
+        $cachedLoader = new CachedResourceLoader($loader);
+        $cachedLoader->load($location); // cache warmup
+        $cachedLoader->cleanup();
+
+        $this->assertFalse(
+            $cachedLoader->exists($location),
+            'Resource should be test from cache'
+        );
+    }
 }

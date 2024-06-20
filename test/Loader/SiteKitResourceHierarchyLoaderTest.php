@@ -84,6 +84,20 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
         $hierarchyLoader->exists(ResourceLocation::of('/a.php'));
     }
 
+    public function testCleanUp(): void
+    {
+        $resourceLoader = $this->createMock(ResourceLoader::class);
+        $hierarchyLoader = new SiteKitResourceHierarchyLoader(
+            $resourceLoader,
+            'category'
+        );
+
+        $resourceLoader->expects($this->once())
+            ->method('cleanup');
+
+        $hierarchyLoader->cleanup();
+    }
+
     public function testLoadPrimaryParentResourceWithoutParent(): void
     {
 

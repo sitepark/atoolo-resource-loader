@@ -46,4 +46,10 @@ class CachedResourceLoader implements ResourceLoader
         }
         return $this->resourceLoader->exists($location);
     }
+
+    public function cleanup(): void
+    {
+        $this->resourceLoader->cleanup();
+        $this->cache = [];
+    }
 }

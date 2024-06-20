@@ -20,4 +20,10 @@ interface ResourceLoader
     public function load(ResourceLocation $location): Resource;
 
     public function exists(ResourceLocation $location): bool;
+
+    /**
+     * Can be used, for example, to clear the loader's
+     * cache if the loader uses a cache.
+     */
+    public function cleanup(): void;
 }
