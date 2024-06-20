@@ -82,7 +82,12 @@ class SiteKitLoader implements ResourceLoader
             return $file;
         }
 
-        return $file . '.translations/' . $locale . '.php';
+        $translated = $file . '.translations/' . $locale . '.php';
+        if (!file_exists($translated)) {
+            return $file;
+        }
+
+        return $translated;
     }
 
     /**

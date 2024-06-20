@@ -33,7 +33,7 @@ class SiteKitLoaderTest extends TestCase
             $resourceDir,
             '',
             'test-www',
-            ['en_US']
+            ['en_US', 'it_IT']
         );
         $this->loader = new SiteKitLoader($channel);
     }
@@ -75,9 +75,24 @@ class SiteKitLoaderTest extends TestCase
             )
         );
         $this->assertEquals(
-            '1118',
-            $resource->id,
-            'unexpected id'
+            ResourceLanguage::of('en'),
+            $resource->lang,
+            'should load en'
+        );
+    }
+
+    public function testLoadValidResourceWithLangAndFallback(): void
+    {
+        $resource = $this->loader->load(
+            ResourceLocation::of(
+                'validResource.php',
+                ResourceLanguage::of('it')
+            )
+        );
+        $this->assertEquals(
+            ResourceLanguage::of('de'),
+            $resource->lang,
+            'should fallback to de'
         );
     }
 
