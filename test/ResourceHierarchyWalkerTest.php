@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Atoolo\Resource\Test;
 
 use Atoolo\Resource\Loader\SiteKitResourceHierarchyLoader;
-use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceHierarchyLoader;
 use Atoolo\Resource\ResourceHierarchyWalker;
 use Atoolo\Resource\ResourceLoader;

@@ -6,7 +6,6 @@ namespace Atoolo\Resource\Test\Loader;
 
 use Atoolo\Resource\Exception\InvalidResourceException;
 use Atoolo\Resource\Loader\SiteKitResourceHierarchyLoader;
-use Atoolo\Resource\Resource;
 use Atoolo\Resource\ResourceLoader;
 use Atoolo\Resource\ResourceLocation;
 use Atoolo\Resource\Test\TestResourceFactory;
