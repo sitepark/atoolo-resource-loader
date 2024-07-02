@@ -18,19 +18,19 @@ class ResourceLocationTest extends TestCase
         $this->assertEquals(
             '/path',
             $location->location,
-            'unexpected location'
+            'unexpected location',
         );
     }
     public function testOfWithLang(): void
     {
         $location = ResourceLocation::of(
             '',
-            ResourceLanguage::of('en')
+            ResourceLanguage::of('en'),
         );
         $this->assertEquals(
             ResourceLanguage::of('en'),
             $location->lang,
-            'unexpected lang'
+            'unexpected lang',
         );
     }
 
@@ -42,7 +42,7 @@ class ResourceLocationTest extends TestCase
         $this->assertEquals(
             '/path',
             $location->__toString(),
-            'unexpected string'
+            'unexpected string',
         );
     }
 
@@ -50,12 +50,12 @@ class ResourceLocationTest extends TestCase
     {
         $location = ResourceLocation::of(
             '/path',
-            ResourceLanguage::of('en')
+            ResourceLanguage::of('en'),
         );
         $this->assertEquals(
             '/path:en',
             $location->__toString(),
-            'unexpected string'
+            'unexpected string',
         );
     }
 }

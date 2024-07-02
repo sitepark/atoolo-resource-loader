@@ -32,9 +32,7 @@ class DataBag
     /**
      * @param array<string, mixed> $data
      */
-    public function __construct(private readonly array $data)
-    {
-    }
+    public function __construct(private readonly array $data) {}
 
     /**
      * @return array<string, mixed>
@@ -57,7 +55,7 @@ class DataBag
     {
         $data = $this->findData($this->data, $name);
         if (is_array($data)) {
-            return (array)$data;
+            return (array) $data;
         }
         return $default;
     }
@@ -68,11 +66,11 @@ class DataBag
      */
     public function getAssociativeArray(
         string $name,
-        array $default = []
+        array $default = [],
     ): array {
         $data = $this->findData($this->data, $name);
         if (is_array($data)) {
-            return (array)$data;
+            return (array) $data;
         }
         return $default;
     }
@@ -81,7 +79,7 @@ class DataBag
     {
         $data = $this->findData($this->data, $name);
         if (is_string($data)) {
-            return (string)$data;
+            return (string) $data;
         }
         return $default;
     }
@@ -90,7 +88,7 @@ class DataBag
     {
         $data = $this->findData($this->data, $name);
         if (is_int($data)) {
-            return (int)$data;
+            return (int) $data;
         }
         return $default;
     }
@@ -99,7 +97,7 @@ class DataBag
     {
         $data = $this->findData($this->data, $name);
         if (is_float($data)) {
-            return (float)$data;
+            return (float) $data;
         }
         return $default;
     }
@@ -108,7 +106,7 @@ class DataBag
     {
         $data = $this->findData($this->data, $name);
         if (is_bool($data)) {
-            return (bool)$data;
+            return (bool) $data;
         }
         return $default;
     }

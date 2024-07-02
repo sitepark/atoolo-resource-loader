@@ -16,15 +16,15 @@ class ResourceTest extends TestCase
     {
         $resource = TestResourceFactory::create([
             'url' => 'path',
-            'locale' => 'en_US'
+            'locale' => 'en_US',
         ]);
         $this->assertEquals(
             ResourceLocation::of(
                 'path',
-                \Atoolo\Resource\ResourceLanguage::of('en')
+                \Atoolo\Resource\ResourceLanguage::of('en'),
             ),
             $resource->toLocation(),
-            'unexpected data value'
+            'unexpected data value',
         );
     }
 }

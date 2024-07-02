@@ -10,5 +10,5 @@ return [
         'nature' => 'internet',
         'locale' => null,
         'encoding' => null,
-    ]
+    ],
 ];

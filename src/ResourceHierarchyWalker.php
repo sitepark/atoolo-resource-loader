@@ -59,8 +59,7 @@ class ResourceHierarchyWalker
 
     public function __construct(
         private readonly ResourceHierarchyLoader $hierarchyLoader,
-    ) {
-    }
+    ) {}
 
     /**
      * Defines the resource that the walker should initially use.
@@ -116,7 +115,7 @@ class ResourceHierarchyWalker
         }
 
         $this->init($this->load(
-            $primaryParentLocation->location
+            $primaryParentLocation->location,
         ));
 
         return $this->getCurrent();
@@ -152,7 +151,7 @@ class ResourceHierarchyWalker
         }
 
         $this->init($this->load(
-            $secondaryParentLocation->location
+            $secondaryParentLocation->location,
         ));
 
         return $this->getCurrent();
@@ -319,7 +318,7 @@ class ResourceHierarchyWalker
         }
 
         $childrenLocations = $this->hierarchyLoader->getChildrenLocations(
-            $this->current
+            $this->current,
         );
         $children = array_values($childrenLocations);
 
@@ -352,7 +351,7 @@ class ResourceHierarchyWalker
         }
 
         $childrenLocations = $this->hierarchyLoader->getChildrenLocations(
-            $this->current
+            $this->current,
         );
 
         if (empty($childrenLocations)) {
@@ -360,9 +359,9 @@ class ResourceHierarchyWalker
         }
 
         $childPointer = array_search(
-            (int)$childId,
+            (int) $childId,
             array_keys($childrenLocations),
-            true
+            true,
         );
 
         if ($childPointer === false) {

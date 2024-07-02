@@ -30,7 +30,7 @@ class CachedResourceLoaderTest extends TestCase
         $this->assertEquals(
             $resource,
             $cachedLoader->load($location),
-            'Resource should be loaded from cache'
+            'Resource should be loaded from cache',
         );
     }
 
@@ -47,7 +47,7 @@ class CachedResourceLoaderTest extends TestCase
 
         $this->assertTrue(
             $cachedLoader->exists($location),
-            'Resource should be test from cache'
+            'Resource should be test from cache',
         );
     }
 
@@ -71,7 +71,7 @@ class CachedResourceLoaderTest extends TestCase
 
         $this->assertTrue(
             $cachedLoader->exists($location),
-            'Resource should be test from cache'
+            'Resource should be test from cache',
         );
     }
 
@@ -96,7 +96,7 @@ class CachedResourceLoaderTest extends TestCase
 
         $this->assertFalse(
             $cachedLoader->exists($location),
-            'Resource should be test from cache'
+            'Resource should be test from cache',
         );
     }
 }

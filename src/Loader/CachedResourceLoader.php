@@ -23,8 +23,7 @@ class CachedResourceLoader implements ResourceLoader
     private array $cache = [];
     public function __construct(
         private readonly ResourceLoader $resourceLoader,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws InvalidResourceException
@@ -34,7 +33,7 @@ class CachedResourceLoader implements ResourceLoader
     {
         $key = $location->__toString();
         return $this->cache[$key] ??= $this->resourceLoader->load(
-            $location
+            $location,
         );
     }
 

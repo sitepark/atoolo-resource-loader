@@ -35,9 +35,8 @@ class SiteKitLoader implements ResourceLoader
     private ?array $langLocaleMap = null;
 
     public function __construct(
-        private readonly ResourceChannel $resourceChannel
-    ) {
-    }
+        private readonly ResourceChannel $resourceChannel,
+    ) {}
 
     /**
      * @throws InvalidResourceException
@@ -53,18 +52,18 @@ class SiteKitLoader implements ResourceLoader
 
         return new Resource(
             $location->location,
-            (string)$data['id'],
+            (string) $data['id'],
             $data['name'],
             $data['objectType'],
             $resourceLang,
-            new DataBag($data)
+            new DataBag($data),
         );
     }
 
     public function exists(ResourceLocation $location): bool
     {
         return file_exists(
-            $this->locationToFile($location)
+            $this->locationToFile($location),
         );
     }
 
@@ -114,10 +113,10 @@ class SiteKitLoader implements ResourceLoader
             ob_start();
             $data = require $file;
             if (!is_array($data)) {
-                    throw new InvalidResourceException(
-                        $location,
-                        'The resource should return an array'
-                    );
+                throw new InvalidResourceException(
+                    $location,
+                    'The resource should return an array',
+                );
             }
             /** @var ResourceData $data */
             return $data;
@@ -126,7 +125,7 @@ class SiteKitLoader implements ResourceLoader
                 $location,
                 $e->getMessage(),
                 0,
-                $e
+                $e,
             );
         } catch (Error $e) {
             if (!file_exists($file)) {
@@ -134,14 +133,14 @@ class SiteKitLoader implements ResourceLoader
                     $location,
                     $e->getMessage(),
                     0,
-                    $e
+                    $e,
                 );
             }
             throw new InvalidResourceException(
                 $location,
                 $e->getMessage(),
                 0,
-                $e
+                $e,
             );
         } finally {
             ob_end_clean();
@@ -182,55 +181,55 @@ class SiteKitLoader implements ResourceLoader
      */
     private function validateData(
         ResourceLocation $location,
-        array $data
+        array $data,
     ): array {
 
         if (!isset($data['id'])) {
             throw new InvalidResourceException(
                 $location,
-                'id field missing'
+                'id field missing',
             );
         }
         if (!is_int($data['id'])) {
             throw new InvalidResourceException(
                 $location,
-                'id field not an int'
+                'id field not an int',
             );
         }
         if (!isset($data['name'])) {
             throw new InvalidResourceException(
                 $location,
-                'name field missing'
+                'name field missing',
             );
         }
         if (!is_string($data['name'])) {
             throw new InvalidResourceException(
                 $location,
-                'name field not a string'
+                'name field not a string',
             );
         }
         if (!isset($data['objectType'])) {
             throw new InvalidResourceException(
                 $location,
-                'objectType field missing'
+                'objectType field missing',
             );
         }
         if (!is_string($data['objectType'])) {
             throw new InvalidResourceException(
                 $location,
-                'objectType field not a string'
+                'objectType field not a string',
             );
         }
         if (!isset($data['locale'])) {
             throw new InvalidResourceException(
                 $location,
-                'locale field missing'
+                'locale field missing',
             );
         }
         if (!is_string($data['locale'])) {
             throw new InvalidResourceException(
                 $location,
-                'locale field not a string'
+                'locale field not a string',
             );
         }
 

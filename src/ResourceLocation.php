@@ -8,17 +8,16 @@ class ResourceLocation
 {
     private function __construct(
         public readonly string $location,
-        public readonly ResourceLanguage $lang
-    ) {
-    }
+        public readonly ResourceLanguage $lang,
+    ) {}
 
     public static function of(
         string $location,
-        ?ResourceLanguage $lang = null
+        ?ResourceLanguage $lang = null,
     ): self {
         return new self(
             $location,
-            $lang ?? ResourceLanguage::default()
+            $lang ?? ResourceLanguage::default(),
         );
     }
 

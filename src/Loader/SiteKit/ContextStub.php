@@ -12,7 +12,7 @@ class ContextStub
 {
     public function redirectToTranslation(
         LifecylceStub $lifecylce,
-        string $path
+        string $path,
     ): mixed {
         return null;
     }

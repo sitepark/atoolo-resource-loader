@@ -21,7 +21,7 @@ interface ResourceHierarchyLoader extends ResourceLoader
      * @throws ResourceNotFoundException
      */
     public function loadRoot(
-        ResourceLocation $location
+        ResourceLocation $location,
     ): Resource;
 
     /**
@@ -31,7 +31,7 @@ interface ResourceHierarchyLoader extends ResourceLoader
      * @throws ResourceNotFoundException
      */
     public function loadPrimaryParent(
-        ResourceLocation $location
+        ResourceLocation $location,
     ): ?Resource;
 
     /**
@@ -44,7 +44,7 @@ interface ResourceHierarchyLoader extends ResourceLoader
      * @throws ResourceNotFoundException
      */
     public function loadPrimaryPath(
-        ResourceLocation $location
+        ResourceLocation $location,
     ): array;
 
     /**
@@ -55,7 +55,7 @@ interface ResourceHierarchyLoader extends ResourceLoader
      * @throws ResourceNotFoundException
      */
     public function loadChildren(
-        ResourceLocation $location
+        ResourceLocation $location,
     ): array;
 
     /**
@@ -79,7 +79,7 @@ interface ResourceHierarchyLoader extends ResourceLoader
      * the resource data.
      */
     public function getPrimaryParentLocation(
-        Resource $resource
+        Resource $resource,
     ): ?ResourceLocation;
 
     /**
@@ -89,6 +89,6 @@ interface ResourceHierarchyLoader extends ResourceLoader
      */
     public function getParentLocation(
         Resource $resource,
-        string $parentId
+        string $parentId,
     ): ?ResourceLocation;
 }

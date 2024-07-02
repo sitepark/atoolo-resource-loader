@@ -28,10 +28,10 @@ class ResourceHierarchyWalkerTest extends TestCase
     {
         $resourceBaseDir = realpath(
             __DIR__ . '/resources/' .
-            'ResourceHierarchyWalker'
+            'ResourceHierarchyWalker',
         );
         $this->loader = $this->createStub(
-            ResourceLoader::class
+            ResourceLoader::class,
         );
         $this->loader->method('load')
             ->willReturnCallback(static function ($location) use (
@@ -42,11 +42,11 @@ class ResourceHierarchyWalkerTest extends TestCase
 
         $hierarchyLoader = new SiteKitResourceHierarchyLoader(
             $this->loader,
-            'category'
+            'category',
         );
 
         $this->walker = new ResourceHierarchyWalker(
-            $hierarchyLoader
+            $hierarchyLoader,
         );
     }
 
@@ -57,7 +57,7 @@ class ResourceHierarchyWalkerTest extends TestCase
         $this->assertEquals(
             '1',
             $this->walker->getCurrent()->id,
-            'base resource should be found'
+            'base resource should be found',
         );
     }
 
@@ -75,7 +75,7 @@ class ResourceHierarchyWalkerTest extends TestCase
         $this->assertEquals(
             '1',
             $this->walker->getCurrent()->id,
-            'base resource should be found'
+            'base resource should be found',
         );
     }
 
@@ -89,7 +89,7 @@ class ResourceHierarchyWalkerTest extends TestCase
         $this->assertEquals(
             '1',
             $this->walker->getCurrent()->id,
-            'unexpected primary parent'
+            'unexpected primary parent',
         );
     }
 
@@ -106,7 +106,7 @@ class ResourceHierarchyWalkerTest extends TestCase
 
         $this->assertNull(
             $this->walker->primaryParent(),
-            'root should not have a primary parent'
+            'root should not have a primary parent',
         );
     }
 
@@ -116,13 +116,13 @@ class ResourceHierarchyWalkerTest extends TestCase
     public function testPrimaryParentWithoutPrimaryParent(): void
     {
         $hierarchyLoader = $this->createStub(
-            ResourceHierarchyLoader::class
+            ResourceHierarchyLoader::class,
         );
         $hierarchyLoader->method('getPrimaryParentLocation')
             ->willReturn(null);
 
         $walker = new ResourceHierarchyWalker(
-            $hierarchyLoader
+            $hierarchyLoader,
         );
         $base = new \Atoolo\Resource\Resource(
             '',
@@ -130,14 +130,14 @@ class ResourceHierarchyWalkerTest extends TestCase
             '',
             '',
             \Atoolo\Resource\ResourceLanguage::default(),
-            new \Atoolo\Resource\DataBag([])
+            new \Atoolo\Resource\DataBag([]),
         );
 
         $walker->init($base);
 
         $this->assertNull(
             $walker->primaryParent(),
-            'root should not have a primary parent'
+            'root should not have a primary parent',
         );
     }
 
@@ -151,7 +151,7 @@ class ResourceHierarchyWalkerTest extends TestCase
         $this->assertEquals(
             '2',
             $this->walker->getCurrent()->id,
-            'unexpected secondary parent'
+            'unexpected secondary parent',
         );
     }
 
@@ -168,7 +168,7 @@ class ResourceHierarchyWalkerTest extends TestCase
 
         $this->assertNull(
             $this->walker->parent('1'),
-            'root should not have a primary parent'
+            'root should not have a primary parent',
         );
     }
 
@@ -178,13 +178,13 @@ class ResourceHierarchyWalkerTest extends TestCase
     public function testParentWithoutPrimaryParent(): void
     {
         $hierarchyLoader = $this->createStub(
-            ResourceHierarchyLoader::class
+            ResourceHierarchyLoader::class,
         );
         $hierarchyLoader->method('getPrimaryParentLocation')
             ->willReturn(null);
 
         $walker = new ResourceHierarchyWalker(
-            $hierarchyLoader
+            $hierarchyLoader,
         );
         $base = new \Atoolo\Resource\Resource(
             '',
@@ -192,14 +192,14 @@ class ResourceHierarchyWalkerTest extends TestCase
             '',
             '',
             \Atoolo\Resource\ResourceLanguage::default(),
-            new \Atoolo\Resource\DataBag([])
+            new \Atoolo\Resource\DataBag([]),
         );
 
         $walker->init($base);
 
         $this->assertNull(
             $walker->parent('1'),
-            'root should not have a primary parent'
+            'root should not have a primary parent',
         );
     }
 
@@ -212,7 +212,7 @@ class ResourceHierarchyWalkerTest extends TestCase
         $this->assertEquals(
             1,
             $this->walker->getLevel(),
-            'level should be 1'
+            'level should be 1',
         );
     }
 
@@ -228,9 +228,9 @@ class ResourceHierarchyWalkerTest extends TestCase
             $expected,
             array_map(
                 static fn($resource) => $resource->id,
-                $this->walker->getPath()
+                $this->walker->getPath(),
             ),
-            'unexpected path'
+            'unexpected path',
         );
     }
 
@@ -238,7 +238,7 @@ class ResourceHierarchyWalkerTest extends TestCase
     {
         $this->assertEmpty(
             $this->walker->getPath(),
-            'path should be empty'
+            'path should be empty',
         );
     }
 
@@ -252,7 +252,7 @@ class ResourceHierarchyWalkerTest extends TestCase
         $this->assertEquals(
             '2',
             $this->walker->getCurrent()->id,
-            'unexpected sibling'
+            'unexpected sibling',
         );
     }
 
@@ -260,7 +260,7 @@ class ResourceHierarchyWalkerTest extends TestCase
     {
         $this->assertNull(
             $this->walker->nextSibling(),
-            'nextSibling should be null'
+            'nextSibling should be null',
         );
     }
 
@@ -275,7 +275,7 @@ class ResourceHierarchyWalkerTest extends TestCase
         $this->assertEquals(
             '1',
             $this->walker->getCurrent()->id,
-            'unexpected sibling'
+            'unexpected sibling',
         );
     }
 
@@ -283,7 +283,7 @@ class ResourceHierarchyWalkerTest extends TestCase
     {
         $this->assertNull(
             $this->walker->previousSibling(),
-            'previousSibling should be null'
+            'previousSibling should be null',
         );
     }
 
@@ -296,7 +296,7 @@ class ResourceHierarchyWalkerTest extends TestCase
 
         $this->assertNull(
             $this->walker->previousSibling(),
-            'previousSibling should be null'
+            'previousSibling should be null',
         );
     }
 
@@ -310,7 +310,7 @@ class ResourceHierarchyWalkerTest extends TestCase
         $this->assertEquals(
             'root',
             $this->walker->getCurrent()->id,
-            'unexpected current resource'
+            'unexpected current resource',
         );
     }
 
@@ -327,7 +327,7 @@ class ResourceHierarchyWalkerTest extends TestCase
 
         $this->assertNull(
             $this->walker->up(),
-            'up should be null'
+            'up should be null',
         );
     }
 
@@ -340,7 +340,7 @@ class ResourceHierarchyWalkerTest extends TestCase
         $this->assertEquals(
             '1',
             $this->walker->getCurrent()->id,
-            'unexpected current resource'
+            'unexpected current resource',
         );
     }
 
@@ -359,7 +359,7 @@ class ResourceHierarchyWalkerTest extends TestCase
         $this->assertEquals(
             '2',
             $this->walker->getCurrent()->id,
-            'unexpected current resource'
+            'unexpected current resource',
         );
     }
 
@@ -370,7 +370,7 @@ class ResourceHierarchyWalkerTest extends TestCase
 
         $this->assertNull(
             $this->walker->child('7'),
-            'child should be null'
+            'child should be null',
         );
     }
 
@@ -386,13 +386,13 @@ class ResourceHierarchyWalkerTest extends TestCase
     public function testChildWithoutChildren(): void
     {
         $hierarchyLoader = $this->createStub(
-            ResourceHierarchyLoader::class
+            ResourceHierarchyLoader::class,
         );
         $hierarchyLoader->method('getChildrenLocations')
             ->willReturn([]);
 
         $walker = new ResourceHierarchyWalker(
-            $hierarchyLoader
+            $hierarchyLoader,
         );
         $base = TestResourceFactory::create([]);
 
@@ -400,7 +400,7 @@ class ResourceHierarchyWalkerTest extends TestCase
 
         $this->assertNull(
             $walker->child('1'),
-            'child should be null'
+            'child should be null',
         );
     }
 
@@ -413,7 +413,7 @@ class ResourceHierarchyWalkerTest extends TestCase
         $this->assertEquals(
             '1',
             $this->walker->getCurrent()->id,
-            'unexpected current resource'
+            'unexpected current resource',
         );
     }
 
@@ -444,7 +444,7 @@ class ResourceHierarchyWalkerTest extends TestCase
         $this->assertEquals(
             $expected,
             $idList,
-            'unexpected id list'
+            'unexpected id list',
         );
     }
 
@@ -455,7 +455,7 @@ class ResourceHierarchyWalkerTest extends TestCase
             ResourceLocation::of('/root.php'),
             function ($resource) use (&$idList) {
                 $idList[] = $resource->id;
-            }
+            },
         );
 
         $expected = [
@@ -471,7 +471,7 @@ class ResourceHierarchyWalkerTest extends TestCase
         $this->assertEquals(
             $expected,
             $idList,
-            'unexpected id list'
+            'unexpected id list',
         );
     }
 }

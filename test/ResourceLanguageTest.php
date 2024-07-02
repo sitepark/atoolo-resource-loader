@@ -23,7 +23,7 @@ class ResourceLanguageTest extends TestCase
         $this->assertSame(
             ResourceLanguage::default(),
             $lang,
-            'empty lang should be equals to default lang'
+            'empty lang should be equals to default lang',
         );
     }
 

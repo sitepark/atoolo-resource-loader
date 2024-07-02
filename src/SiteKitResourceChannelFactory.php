@@ -30,11 +30,11 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
     private string $configDir;
 
     public function __construct(
-        private readonly string $baseDir
+        private readonly string $baseDir,
     ) {
         if (empty($this->baseDir)) {
             throw new RuntimeException(
-                'RESOURCE_ROOT not set'
+                'RESOURCE_ROOT not set',
             );
         }
     }
@@ -49,10 +49,10 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
         $searchIndex = str_replace(
             '.',
             '-',
-            $data['publisher']['anchor']
+            $data['publisher']['anchor'],
         );
         return new ResourceChannel(
-            (string)$data['publisher']['id'],
+            (string) $data['publisher']['id'],
             $data['publisher']['name'],
             $data['publisher']['anchor'],
             $data['publisher']['serverName'],
@@ -75,7 +75,7 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
         $context = require $this->contextPhpFile;
         if (!is_array($context)) {
             throw new RuntimeException(
-                'context.php must return an array'
+                'context.php must return an array',
             );
         }
 
@@ -101,7 +101,7 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
             throw new RuntimeException(
                 'context.php does not exists: ' .
                 $resourceLayoutContextPhpFile . ' or ' .
-                $documentRootLayoutContextPhpFile
+                $documentRootLayoutContextPhpFile,
             );
         }
 

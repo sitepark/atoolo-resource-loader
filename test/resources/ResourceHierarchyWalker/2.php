@@ -14,20 +14,20 @@ return TestResourceFactory::create([
             'category' => [
                 'parents' => [
                     'root' => [
-                        'url' => '/root.php'
-                    ]
+                        'url' => '/root.php',
+                    ],
                 ],
                 'children' => [
                     '2-1' => [
                         'id' => '2-1',
-                        'url' => '/2/1.php'
+                        'url' => '/2/1.php',
                     ],
                     '2-2' => [
                         'id' => '2-2',
-                        'url' => '/2/2.php'
-                    ]
-                ]
-            ]
-        ]
-    ]
+                        'url' => '/2/2.php',
+                    ],
+                ],
+            ],
+        ],
+    ],
 ]);
