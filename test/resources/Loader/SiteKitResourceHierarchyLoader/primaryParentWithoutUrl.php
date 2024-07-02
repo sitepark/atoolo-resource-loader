@@ -15,9 +15,9 @@ return TestResourceFactory::create([
                 'parents' => [
                     'a' => [
                         'isPrimary' => true,
-                    ]
-                ]
-            ]
-        ]
-    ]
+                    ],
+                ],
+            ],
+        ],
+    ],
 ]);

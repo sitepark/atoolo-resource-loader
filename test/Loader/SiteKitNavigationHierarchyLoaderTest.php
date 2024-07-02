@@ -20,13 +20,13 @@ class SiteKitNavigationHierarchyLoaderTest extends TestCase
         $treeLoader = $this->createTreeLoader('');
 
         $root = TestResourceFactory::create([
-            'home' => true
+            'home' => true,
         ]);
 
         $isRoot = $treeLoader->isRoot($root);
         $this->assertTrue(
             $isRoot,
-            'should be root'
+            'should be root',
         );
     }
 
@@ -35,8 +35,8 @@ class SiteKitNavigationHierarchyLoaderTest extends TestCase
         $treeLoader = $this->createTreeLoader(
             realpath(
                 __DIR__ . '/../resources/' .
-                'Loader/SiteKitNavigationHierarchyLoader/withHomeFlag'
-            )
+                'Loader/SiteKitNavigationHierarchyLoader/withHomeFlag',
+            ),
         );
 
         $root = $treeLoader->loadRoot(ResourceLocation::of('/c.php'));
@@ -44,7 +44,7 @@ class SiteKitNavigationHierarchyLoaderTest extends TestCase
         $this->assertEquals(
             'a',
             $root->id,
-            'unexpected root'
+            'unexpected root',
         );
     }
 
@@ -53,18 +53,18 @@ class SiteKitNavigationHierarchyLoaderTest extends TestCase
         $treeLoader = $this->createTreeLoader(
             realpath(
                 __DIR__ . '/../resources/' .
-                'Loader/SiteKitNavigationHierarchyLoader/withDefaultRoot'
-            )
+                'Loader/SiteKitNavigationHierarchyLoader/withDefaultRoot',
+            ),
         );
 
         $root = $treeLoader->loadRoot(
-            ResourceLocation::of('/dir/c.php')
+            ResourceLocation::of('/dir/c.php'),
         );
 
         $this->assertEquals(
             'root',
             $root->id,
-            'unexpected root'
+            'unexpected root',
         );
     }
 
@@ -73,8 +73,8 @@ class SiteKitNavigationHierarchyLoaderTest extends TestCase
         $treeLoader = $this->createTreeLoader(
             realpath(
                 __DIR__ . '/../resources/' .
-                'Loader/SiteKitNavigationHierarchyLoader/withoutRoot'
-            )
+                'Loader/SiteKitNavigationHierarchyLoader/withoutRoot',
+            ),
         );
 
         $this->expectException(RootMissingException::class);
@@ -82,10 +82,10 @@ class SiteKitNavigationHierarchyLoaderTest extends TestCase
     }
 
     private function createTreeLoader(
-        string $resourceBaseDir
+        string $resourceBaseDir,
     ): SiteKitNavigationHierarchyLoader {
         $resourceLoader = $this->createStub(
-            ResourceLoader::class
+            ResourceLoader::class,
         );
         $resourceLoader->method('load')
             ->willReturnCallback(static function ($location) use (
@@ -100,7 +100,7 @@ class SiteKitNavigationHierarchyLoaderTest extends TestCase
                 return file_exists($resourceBaseDir . $location->location);
             });
         return new SiteKitNavigationHierarchyLoader(
-            $resourceLoader
+            $resourceLoader,
         );
     }
 }

@@ -33,7 +33,7 @@ class SiteKitLoaderTest extends TestCase
             $resourceDir,
             '',
             'test-www',
-            ['en_US', 'it_IT']
+            ['en_US', 'it_IT'],
         );
         $this->loader = new SiteKitLoader($channel);
     }
@@ -41,7 +41,7 @@ class SiteKitLoaderTest extends TestCase
     public function testExists(): void
     {
         $exists = $this->loader->exists(
-            ResourceLocation::of('validResource.php')
+            ResourceLocation::of('validResource.php'),
         );
         $this->assertTrue($exists, 'resource should exist');
     }
@@ -49,7 +49,7 @@ class SiteKitLoaderTest extends TestCase
     public function testExistsWithLang(): void
     {
         $exists = $this->loader->exists(
-            ResourceLocation::of('validResource.php')
+            ResourceLocation::of('validResource.php'),
         );
         $this->assertTrue($exists, 'resource should exist');
     }
@@ -57,12 +57,12 @@ class SiteKitLoaderTest extends TestCase
     public function testLoadValidResource(): void
     {
         $resource = $this->loader->load(
-            ResourceLocation::of('validResource.php')
+            ResourceLocation::of('validResource.php'),
         );
         $this->assertEquals(
             '1118',
             $resource->id,
-            'unexpected id'
+            'unexpected id',
         );
     }
 
@@ -71,13 +71,13 @@ class SiteKitLoaderTest extends TestCase
         $resource = $this->loader->load(
             ResourceLocation::of(
                 'validResource.php',
-                ResourceLanguage::of('en')
-            )
+                ResourceLanguage::of('en'),
+            ),
         );
         $this->assertEquals(
             ResourceLanguage::of('en'),
             $resource->lang,
-            'should load en'
+            'should load en',
         );
     }
 
@@ -86,13 +86,13 @@ class SiteKitLoaderTest extends TestCase
         $resource = $this->loader->load(
             ResourceLocation::of(
                 'validResource.php',
-                ResourceLanguage::of('it')
-            )
+                ResourceLanguage::of('it'),
+            ),
         );
         $this->assertEquals(
             ResourceLanguage::of('de'),
             $resource->lang,
-            'should fallback to de'
+            'should fallback to de',
         );
     }
 
@@ -160,7 +160,7 @@ class SiteKitLoaderTest extends TestCase
     {
         $this->expectException(InvalidResourceException::class);
         $this->loader->load(
-            ResourceLocation::of('missingObjectTypeResource.php')
+            ResourceLocation::of('missingObjectTypeResource.php'),
         );
     }
 
@@ -168,7 +168,7 @@ class SiteKitLoaderTest extends TestCase
     {
         $this->expectException(InvalidResourceException::class);
         $this->loader->load(
-            ResourceLocation::of('nonStringObjectTypeResource.php')
+            ResourceLocation::of('nonStringObjectTypeResource.php'),
         );
     }
 
@@ -176,7 +176,7 @@ class SiteKitLoaderTest extends TestCase
     {
         $this->expectException(InvalidResourceException::class);
         $this->loader->load(
-            ResourceLocation::of('missingLocaleResource.php')
+            ResourceLocation::of('missingLocaleResource.php'),
         );
     }
 
@@ -184,7 +184,7 @@ class SiteKitLoaderTest extends TestCase
     {
         $this->expectException(InvalidResourceException::class);
         $this->loader->load(
-            ResourceLocation::of('nonStringLocaleResource.php')
+            ResourceLocation::of('nonStringLocaleResource.php'),
         );
     }
 

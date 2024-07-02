@@ -10,5 +10,5 @@ return [
         'nature' => 'internet',
         'locale' => 'de_DE',
         'encoding' => 'UTF-8',
-    ]
+    ],
 ];

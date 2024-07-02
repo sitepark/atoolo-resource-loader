@@ -14,10 +14,10 @@ return TestResourceFactory::create([
             'navigation' => [
                 'parents' => [
                     'a' => [
-                        'url' => '/dir/a.php'
-                    ]
-                ]
-            ]
-        ]
-    ]
+                        'url' => '/dir/a.php',
+                    ],
+                ],
+            ],
+        ],
+    ],
 ]);

@@ -12,7 +12,7 @@ class EnvVarLoader implements EnvVarLoaderInterface
     private readonly string $baseDir;
 
     public function __construct(
-        string $baseDir = null
+        string $baseDir = null,
     ) {
         $this->baseDir = $baseDir ?? (getcwd() ?: '');
     }
@@ -59,7 +59,7 @@ class EnvVarLoader implements EnvVarLoaderInterface
     {
         /** @var string[] $directories */
         $directories = [
-            $this->baseDir
+            $this->baseDir,
         ];
 
         $filename = $_SERVER['SCRIPT_FILENAME'] ?? null;

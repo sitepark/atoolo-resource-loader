@@ -14,10 +14,10 @@ return TestResourceFactory::create([
             'category' => [
                 'parents' => [
                     '1-1-1' => [
-                        'url' => '/1/1/1.php'
-                    ]
+                        'url' => '/1/1/1.php',
+                    ],
                 ],
-            ]
-        ]
-    ]
+            ],
+        ],
+    ],
 ]);

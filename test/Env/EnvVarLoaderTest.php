@@ -33,7 +33,7 @@ class EnvVarLoaderTest extends TestCase
         $env = $loader->loadEnvVars();
         $this->assertFalse(
             isset($env['RESOURCE_ROOT']),
-            'RESOURCE_ROOT should no set'
+            'RESOURCE_ROOT should no set',
         );
     }
 
@@ -43,7 +43,7 @@ class EnvVarLoaderTest extends TestCase
         $env = $loader->loadEnvVars();
         $this->assertFalse(
             isset($env['RESOURCE_ROOT']),
-            'RESOURCE_ROOT should no set'
+            'RESOURCE_ROOT should no set',
         );
     }
 
@@ -56,7 +56,7 @@ class EnvVarLoaderTest extends TestCase
         $this->assertEquals(
             $this->baseDir . '/hostDir/resources',
             isset($env['RESOURCE_ROOT']),
-            'unexpected RESOURCE_ROOT'
+            'unexpected RESOURCE_ROOT',
         );
     }
 
@@ -66,12 +66,12 @@ class EnvVarLoaderTest extends TestCase
         $env = $loader->loadEnvVars();
         $expected = [
             'RESOURCE_ROOT' => realpath($this->baseDir . '/hostDir/resources'),
-            'RESOURCE_HOST' => 'www.example.com'
+            'RESOURCE_HOST' => 'www.example.com',
         ];
         $this->assertEquals(
             $expected,
             $env,
-            'unexpected env'
+            'unexpected env',
         );
     }
 
@@ -89,7 +89,7 @@ class EnvVarLoaderTest extends TestCase
         $this->assertEquals(
             $this->baseDir . '/hostDir/resources',
             isset($env['RESOURCE_ROOT']),
-            'unexpected RESOURCE_ROOT'
+            'unexpected RESOURCE_ROOT',
         );
     }
 
@@ -100,7 +100,7 @@ class EnvVarLoaderTest extends TestCase
         $this->assertEquals(
             $this->baseDir . '/documentRootLayout',
             isset($env['RESOURCE_ROOT']),
-            'unexpected RESOURCE_ROOT'
+            'unexpected RESOURCE_ROOT',
         );
     }
 }

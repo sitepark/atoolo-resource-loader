@@ -22,10 +22,10 @@ class ResourceHierarchyFinderTest extends TestCase
     {
         $resourceBaseDir = realpath(
             __DIR__ . '/resources/' .
-            'ResourceHierarchyFinder'
+            'ResourceHierarchyFinder',
         );
         $this->loader = $this->createStub(
-            ResourceLoader::class
+            ResourceLoader::class,
         );
         $this->loader->method('load')
             ->willReturnCallback(static function ($location) use (
@@ -36,10 +36,10 @@ class ResourceHierarchyFinderTest extends TestCase
 
         $hierarchyLoader = new SiteKitResourceHierarchyLoader(
             $this->loader,
-            'category'
+            'category',
         );
         $this->finder = new ResourceHierarchyFinder(
-            $hierarchyLoader
+            $hierarchyLoader,
         );
     }
 
@@ -49,13 +49,13 @@ class ResourceHierarchyFinderTest extends TestCase
             ResourceLocation::of('/a.php'),
             static function ($resource) {
                 return $resource->id === 'c';
-            }
+            },
         );
 
         $this->assertEquals(
             'c',
             $resource->id,
-            'Resource c should be found'
+            'Resource c should be found',
         );
     }
 
@@ -65,13 +65,13 @@ class ResourceHierarchyFinderTest extends TestCase
             ResourceLocation::of('/a.php'),
             static function ($resource) {
                 return $resource->id === 'a';
-            }
+            },
         );
 
         $this->assertEquals(
             'a',
             $resource->id,
-            'Resource a should be found'
+            'Resource a should be found',
         );
     }
 
@@ -81,12 +81,12 @@ class ResourceHierarchyFinderTest extends TestCase
             ResourceLocation::of('/a.php'),
             static function ($resource) {
                 return $resource->id === 'x';
-            }
+            },
         );
 
         $this->assertNull(
             $resource,
-            'Resource should not be found'
+            'Resource should not be found',
         );
     }
 }

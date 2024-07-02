@@ -15,13 +15,13 @@ return TestResourceFactory::create([
                 'parents' => [
                     'b' => [
                         'isPrimary' => true,
-                        'url' => '/b.php'
+                        'url' => '/b.php',
                     ],
                     'a' => [
-                        'url' => '/a.php'
-                    ]
-                ]
-            ]
-        ]
-    ]
+                        'url' => '/a.php',
+                    ],
+                ],
+            ],
+        ],
+    ],
 ]);

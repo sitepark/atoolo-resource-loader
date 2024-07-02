@@ -66,7 +66,7 @@ class SiteKitNavigationHierarchyLoader extends SiteKitResourceHierarchyLoader
 
         throw new RootMissingException(
             $resource->location,
-            'No default root could be determined for the resource'
+            'No default root could be determined for the resource',
         );
     }
 }

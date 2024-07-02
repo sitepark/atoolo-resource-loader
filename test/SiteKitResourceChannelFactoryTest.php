@@ -35,12 +35,12 @@ class SiteKitResourceChannelFactoryTest extends TestCase
             $resourceDir,
             $configDir,
             'test',
-            []
+            [],
         );
         $this->assertEquals(
             $expected,
             $channel,
-            'ResourceChannel does not match expected values'
+            'ResourceChannel does not match expected values',
         );
     }
 
@@ -67,12 +67,12 @@ class SiteKitResourceChannelFactoryTest extends TestCase
             $resourceDir,
             $configDir,
             'test',
-            []
+            [],
         );
         $this->assertEquals(
             $expected,
             $channel,
-            'ResourceChannel does not match expected values'
+            'ResourceChannel does not match expected values',
         );
     }
 

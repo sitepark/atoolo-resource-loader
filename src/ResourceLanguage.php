@@ -12,8 +12,7 @@ class ResourceLanguage
 
     private function __construct(
         public readonly string $code,
-    ) {
-    }
+    ) {}
 
     public static function default(): self
     {

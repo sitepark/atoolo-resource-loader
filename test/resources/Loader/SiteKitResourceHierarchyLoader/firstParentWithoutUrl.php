@@ -14,9 +14,9 @@ return TestResourceFactory::create([
             'category' => [
                 'parents' => [
                     'a' => [
-                    ]
-                ]
-            ]
-        ]
-    ]
+                    ],
+                ],
+            ],
+        ],
+    ],
 ]);

@@ -15,14 +15,14 @@ return TestResourceFactory::create([
                 'children' => [
                     '1 1' => [
                         'id' => '1',
-                        'url' => '/1.php'
+                        'url' => '/1.php',
                     ],
                     '2' => [
                         'id' => '2',
-                        'url' => '/2.php'
-                    ]
-                ]
-            ]
-        ]
-    ]
+                        'url' => '/2.php',
+                    ],
+                ],
+            ],
+        ],
+    ],
 ]);

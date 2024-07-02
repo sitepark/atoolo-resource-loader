@@ -14,12 +14,12 @@ class RootMissingException extends \RuntimeException
         private readonly string $location,
         string $message = "",
         int $code = 0,
-        ?\Throwable $previous = null
+        ?\Throwable $previous = null,
     ) {
         parent::__construct(
             $location . ': ' . $message,
             $code,
-            $previous
+            $previous,
         );
     }
 

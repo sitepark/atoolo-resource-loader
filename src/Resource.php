@@ -17,8 +17,7 @@ class Resource
         public readonly string $objectType,
         public readonly ResourceLanguage $lang,
         public readonly DataBag $data,
-    ) {
-    }
+    ) {}
 
     public function toLocation(): ResourceLocation
     {

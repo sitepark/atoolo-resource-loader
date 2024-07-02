@@ -17,7 +17,7 @@ class RootMissingExceptionTest extends TestCase
         $this->assertEquals(
             'abc',
             $e->getLocation(),
-            'unexpected location'
+            'unexpected location',
         );
     }
 }

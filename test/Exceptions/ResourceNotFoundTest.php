@@ -18,7 +18,7 @@ class ResourceNotFoundTest extends TestCase
         $this->assertEquals(
             'abc',
             $e->getLocation()->location,
-            'unexpected location'
+            'unexpected location',
         );
     }
 }

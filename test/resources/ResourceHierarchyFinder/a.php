@@ -15,10 +15,10 @@ return TestResourceFactory::create([
                 'children' => [
                     'b' => [
                         'id' => 'b',
-                        'url' => '/b.php'
-                    ]
-                ]
-            ]
-        ]
-    ]
+                        'url' => '/b.php',
+                    ],
+                ],
+            ],
+        ],
+    ],
 ]);

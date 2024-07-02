@@ -26,8 +26,8 @@ class AtooloResourceBundle extends Bundle
             new LoaderResolver(
                 [
                     new YamlFileLoader($container, $locator),
-                ]
-            )
+                ],
+            ),
         );
 
         $loader->load('services.yaml');

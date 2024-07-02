@@ -13,9 +13,9 @@ return TestResourceFactory::create([
         'trees' => [
             'category' => [
                 'parents' => [
-                    'a' => 'invalid'
-                ]
-            ]
-        ]
-    ]
+                    'a' => 'invalid',
+                ],
+            ],
+        ],
+    ],
 ]);

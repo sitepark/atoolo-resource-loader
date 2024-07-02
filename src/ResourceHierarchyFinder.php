@@ -10,9 +10,8 @@ use Atoolo\Resource\Exception\ResourceNotFoundException;
 class ResourceHierarchyFinder
 {
     public function __construct(
-        private readonly ResourceHierarchyLoader $loader
-    ) {
-    }
+        private readonly ResourceHierarchyLoader $loader,
+    ) {}
 
     /**
      * Walks the tree of resources starting from the given resource and calls
@@ -34,7 +33,7 @@ class ResourceHierarchyFinder
      */
     public function findFirst(
         Resource|ResourceLocation $base,
-        callable $fn
+        callable $fn,
     ): ?Resource {
 
         $walker = new ResourceHierarchyWalker($this->loader);

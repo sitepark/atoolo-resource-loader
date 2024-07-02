@@ -15,10 +15,10 @@ return TestResourceFactory::create([
                 'parents' => [
                     'a' => [
                         'isPrimary' => true,
-                        'url' => false
-                    ]
-                ]
-            ]
-        ]
-    ]
+                        'url' => false,
+                    ],
+                ],
+            ],
+        ],
+    ],
 ]);
