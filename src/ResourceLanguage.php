@@ -25,6 +25,6 @@ class ResourceLanguage
             return self::default();
         }
         $code = Locale::getPrimaryLanguage($str);
-        return new self($code);
+        return new self($code ?? '');
     }
 }
