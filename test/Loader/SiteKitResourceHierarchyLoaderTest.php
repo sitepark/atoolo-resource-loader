@@ -199,6 +199,22 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
         );
     }
 
+    public function testLoadPrimaryPathWithSelfRecursion(): void
+    {
+        $this->expectException(InvalidResourceException::class);
+        $this->hierarchyLoader->loadPrimaryPath(
+            ResourceLocation::of('/withSelfRecursion.php'),
+        );
+    }
+
+    public function testLoadPrimaryPathWithRecursion(): void
+    {
+        $this->expectException(InvalidResourceException::class);
+        $this->hierarchyLoader->loadPrimaryPath(
+            ResourceLocation::of('/withRecursionA.php'),
+        );
+    }
+
     public function testLoadPrimaryParentWithoutParent(): void
     {
         $parent = $this->hierarchyLoader->loadPrimaryParent(
