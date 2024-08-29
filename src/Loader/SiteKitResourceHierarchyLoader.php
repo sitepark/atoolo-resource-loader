@@ -89,10 +89,19 @@ class SiteKitResourceHierarchyLoader implements ResourceHierarchyLoader
     {
         $resource = $this->resourceLoader->load($location);
         $path = [$resource];
+        $loaded = [$resource->location];
         while (!$this->isRoot($resource)) {
             $parent = $this->loadPrimaryParentResource($resource);
+            if (in_array($parent->location, $loaded, true)) {
+                $loaded[] = $parent->location;
+                throw new InvalidResourceException(
+                    $resource->toLocation(),
+                    'circular parent reference detected: ' . implode(' -> ', $loaded),
+                );
+            }
             array_unshift($path, $parent);
             $resource = $parent;
+            $loaded[] = $resource->location;
         }
         return $path;
     }
