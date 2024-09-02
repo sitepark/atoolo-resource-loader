@@ -120,6 +120,22 @@ class SiteKitResourceHierarchyLoaderTest extends TestCase
         );
     }
 
+    public function testLoadRootWithSelfRecursion(): void
+    {
+        $this->expectException(InvalidResourceException::class);
+        $this->hierarchyLoader->loadRoot(
+            ResourceLocation::of('/withSelfRecursion.php'),
+        );
+    }
+
+    public function testLoadRootWithRecursion(): void
+    {
+        $this->expectException(InvalidResourceException::class);
+        $this->hierarchyLoader->loadRoot(
+            ResourceLocation::of('/withRecursionA.php'),
+        );
+    }
+
     public function testIsRoot(): void
     {
         $root = TestResourceFactory::create([]);
