@@ -57,7 +57,7 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
             $data['publisher']['anchor'],
             $data['publisher']['serverName'],
             $data['publisher']['preview'],
-            $data['publisher']['nature'],
+            $data['publisher']['nature'] ?? 'internet',
             $data['publisher']['locale'] ?? 'de_DE',
             $this->baseDir,
             $this->resourceDir,
