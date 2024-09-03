@@ -14,7 +14,7 @@ use RuntimeException;
  *          anchor: string,
  *          serverName: string,
  *          preview: bool,
- *          nature: string,
+ *          nature: ?string,
  *          locale: ?string,
  *          encoding: ?string,
  *          translationLocales: ?string[]
