@@ -64,6 +64,17 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
             $this->configDir,
             $searchIndex,
             $data['publisher']['translationLocales'] ?? [],
+            $this->createTenant($data['tanent'] ?? $data['client'] /* deprecated */ ?? []),
+        );
+    }
+
+    private function createTenant(array $data): ResourceTenant
+    {
+        return new ResourceTenant(
+            (string) $data['id'],
+            $data['name'],
+            $data['anchor'],
+            new DataBag($data['attributes']),
         );
     }
 

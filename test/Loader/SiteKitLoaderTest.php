@@ -10,6 +10,7 @@ use Atoolo\Resource\Loader\SiteKitLoader;
 use Atoolo\Resource\ResourceChannel;
 use Atoolo\Resource\ResourceLanguage;
 use Atoolo\Resource\ResourceLocation;
+use Atoolo\Resource\ResourceTenant;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -34,6 +35,7 @@ class SiteKitLoaderTest extends TestCase
             '',
             'test-www',
             ['en_US', 'it_IT'],
+            $this->createStub(ResourceTenant::class),
         );
         $this->loader = new SiteKitLoader($channel);
     }
