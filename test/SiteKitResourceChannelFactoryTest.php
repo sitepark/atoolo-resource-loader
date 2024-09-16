@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Atoolo\Resource\Test;
 
+use Atoolo\Resource\DataBag;
 use Atoolo\Resource\ResourceChannel;
+use Atoolo\Resource\ResourceTenant;
 use Atoolo\Resource\SiteKitResourceChannelFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -36,6 +38,14 @@ class SiteKitResourceChannelFactoryTest extends TestCase
             $configDir,
             'test',
             [],
+            new ResourceTenant(
+                '2',
+                'Test-Tanent',
+                'test-tanent',
+                new DataBag([
+                    'abc' => 'cde',
+                ]),
+            ),
         );
         $this->assertEquals(
             $expected,
@@ -68,6 +78,14 @@ class SiteKitResourceChannelFactoryTest extends TestCase
             $configDir,
             'test',
             [],
+            new ResourceTenant(
+                '2',
+                'Test-Tanent',
+                'test-tanent',
+                new DataBag([
+                    'abc' => 'cde',
+                ]),
+            ),
         );
         $this->assertEquals(
             $expected,

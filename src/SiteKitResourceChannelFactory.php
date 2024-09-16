@@ -8,6 +8,12 @@ use RuntimeException;
 
 /**
  * @phpstan-type ContextPhp array{
+ *     tenant: array{
+ *         id: string,
+ *         name: string,
+ *         anchor: string,
+ *         attributes: array<string, mixed>
+ *     },
  *     publisher: array{
  *          id: int,
  *          name: string,
@@ -17,7 +23,7 @@ use RuntimeException;
  *          nature: ?string,
  *          locale: ?string,
  *          encoding: ?string,
- *          translationLocales: ?string[]
+ *          translationLocales: ?string[],
  *     }
  * }
  */
@@ -64,6 +70,26 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
             $this->configDir,
             $searchIndex,
             $data['publisher']['translationLocales'] ?? [],
+            $this->createTenant($data['tenant']),
+        );
+    }
+
+    /**
+     * @param array{
+     *     id: string,
+     *     name: string,
+     *     anchor: string,
+     *     attributes: array<string, mixed>,
+     * } $data
+     * @return ResourceTenant
+     */
+    private function createTenant(array $data): ResourceTenant
+    {
+        return new ResourceTenant(
+            (string) $data['id'],
+            $data['name'],
+            $data['anchor'],
+            new DataBag($data['attributes']),
         );
     }
 
@@ -77,6 +103,11 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
             throw new RuntimeException(
                 'context.php must return an array',
             );
+        }
+
+        if (isset($context['client'])) {
+            $context['tenant'] = $context['client'];
+            unset($context['client']);
         }
 
         /** @var ContextPhp $context */
