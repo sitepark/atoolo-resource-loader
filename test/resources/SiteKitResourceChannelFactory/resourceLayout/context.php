@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'tanent' => [
+    'tenant' => [
         'id' => '2',
         'name' => 'Test-Tanent',
         'anchor' => 'test-tanent',
