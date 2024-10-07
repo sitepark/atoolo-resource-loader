@@ -52,11 +52,8 @@ class SiteKitResourceChannelFactory implements ResourceChannelFactory
 
         $data = $this->loadContextPhpFile();
 
-        $searchIndex = str_replace(
-            '.',
-            '-',
-            $data['publisher']['anchor'],
-        );
+        $searchIndex = $data['publisher']['anchor'];
+
         return new ResourceChannel(
             (string) $data['publisher']['id'],
             $data['publisher']['name'],
